@@ -1,0 +1,100 @@
+simulation:
+  total_time_steps: 800
+  time_step_ms: 10
+  seed: 42
+
+spectrum:
+  min_frequency_hz: 100000000
+  max_frequency_hz: 1000000000
+
+receiver:
+  instantaneous_bandwidth_hz: 25000000
+  sensitivity_dbm: -90
+  noise_floor_dbm: -100
+  detection_threshold_db: 6
+
+detector:
+  p_detection: 0.9
+  p_false_alarm: 0.02
+
+scheduler:
+  type: ucb1
+
+emitters:
+  - id: E01
+    type: radar
+    frequency_behavior:
+      type: fixed
+      frequency_hz: 300000000
+    time_behavior:
+      type: continuous
+    power_dbm: -20
+    bandwidth_hz: 2000000
+
+  - id: E02
+    type: radar
+    frequency_behavior:
+      type: sweep
+      start_hz: 400000000
+      end_hz: 700000000
+      step_hz: 20000000
+      direction: up
+    time_behavior:
+      type: periodic
+      on_duration: 6
+      off_duration: 10
+    power_dbm: -18
+    bandwidth_hz: 2000000
+
+  - id: E03
+    type: radar
+    frequency_behavior:
+      type: hopping
+      frequencies_hz: [180000000, 260000000, 510000000]
+      mode: sequential
+      dwell_steps: 2
+    time_behavior:
+      type: burst
+      burst_duration: 3
+      interval: 18
+    power_dbm: -21
+    bandwidth_hz: 1500000
+
+  - id: E04
+    type: communication
+    frequency_behavior:
+      type: fixed
+      frequency_hz: 220000000
+    time_behavior:
+      type: periodic
+      on_duration: 5
+      off_duration: 5
+    power_dbm: -30
+    bandwidth_hz: 1000000
+
+  - id: E05
+    type: communication
+    frequency_behavior:
+      type: hopping
+      frequencies_hz: [330000000, 430000000, 630000000]
+      mode: random
+      dwell_steps: 4
+    time_behavior:
+      type: burst
+      burst_duration: 6
+      interval: 24
+    power_dbm: -27
+    bandwidth_hz: 1000000
+
+  - id: E06
+    type: communication
+    frequency_behavior:
+      type: random
+      min_frequency_hz: 100000000
+      max_frequency_hz: 900000000
+      quantization_hz: 25000000
+    time_behavior:
+      type: intermittent
+      p_transmit: 0.25
+    power_dbm: -32
+    bandwidth_hz: 2000000

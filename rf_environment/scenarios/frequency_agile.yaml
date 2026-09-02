@@ -1,0 +1,62 @@
+simulation:
+  total_time_steps: 500
+  time_step_ms: 10
+  seed: 11
+
+spectrum:
+  min_frequency_hz: 100000000
+  max_frequency_hz: 800000000
+
+receiver:
+  instantaneous_bandwidth_hz: 20000000
+  sensitivity_dbm: -90
+  noise_floor_dbm: -100
+  detection_threshold_db: 6
+
+detector:
+  p_detection: 0.85
+  p_false_alarm: 0.03
+
+scheduler:
+  type: thompson_sampling
+
+emitters:
+  - id: E01
+    type: radar
+    frequency_behavior:
+      type: hopping
+      frequencies_hz: [120000000, 220000000, 320000000, 420000000]
+      mode: pseudo_random
+      dwell_steps: 3
+    time_behavior:
+      type: burst
+      burst_duration: 4
+      interval: 15
+    power_dbm: -16
+    bandwidth_hz: 3000000
+
+  - id: E02
+    type: communication
+    frequency_behavior:
+      type: random
+      frequencies_hz: [150000000, 350000000, 550000000]
+      dwell_steps: 5
+    time_behavior:
+      type: intermittent
+      p_transmit: 0.4
+    power_dbm: -28
+    bandwidth_hz: 1000000
+
+  - id: E03
+    type: radar
+    frequency_behavior:
+      type: sweep
+      start_hz: 200000000
+      end_hz: 600000000
+      step_hz: 50000000
+      direction: bidirectional
+      wrap_around: true
+    time_behavior:
+      type: continuous
+    power_dbm: -22
+    bandwidth_hz: 2000000

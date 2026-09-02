@@ -1,0 +1,52 @@
+simulation:
+  total_time_steps: 400
+  time_step_ms: 10
+  seed: 7
+
+spectrum:
+  min_frequency_hz: 100000000
+  max_frequency_hz: 500000000
+
+receiver:
+  instantaneous_bandwidth_hz: 10000000
+  sensitivity_dbm: -90
+  noise_floor_dbm: -100
+  detection_threshold_db: 6
+
+detector:
+  p_detection: 0.9
+  p_false_alarm: 0.01
+
+scheduler:
+  type: sequential
+
+emitters:
+  - id: E01
+    type: radar
+    frequency_behavior:
+      type: sweep
+      start_hz: 100000000
+      end_hz: 400000000
+      step_hz: 25000000
+      direction: up
+      wrap_around: true
+    time_behavior:
+      type: periodic
+      on_duration: 4
+      off_duration: 4
+      phase: 0
+    power_dbm: -18
+    bandwidth_hz: 2000000
+
+  - id: E02
+    type: communication
+    frequency_behavior:
+      type: fixed
+      frequency_hz: 250000000
+    time_behavior:
+      type: periodic
+      on_duration: 8
+      off_duration: 12
+      phase: 3
+    power_dbm: -25
+    bandwidth_hz: 1000000

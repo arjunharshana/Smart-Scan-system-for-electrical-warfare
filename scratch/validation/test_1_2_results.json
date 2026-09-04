@@ -1,0 +1,310 @@
+{
+  "summary": [
+    {
+      "scheduler": "SEQUENTIAL",
+      "actual_overlap_rate_mean": 0.20580000000000004,
+      "actual_overlap_rate_std": 0.010254754994635414,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.20580000000000004,
+      "opportunity_coverage_std": 0.010254754994635414,
+      "interception_ratio_mean": 0.20580000000000004,
+      "interception_ratio_std": 0.010254754994635414,
+      "cumulative_reward_mean": 195.80000000000172,
+      "cumulative_reward_std": 10.254754994635652
+    },
+    {
+      "scheduler": "RANDOM",
+      "actual_overlap_rate_mean": 0.20060000000000003,
+      "actual_overlap_rate_std": 0.010442221985765289,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.20060000000000003,
+      "opportunity_coverage_std": 0.010442221985765289,
+      "interception_ratio_mean": 0.20060000000000003,
+      "interception_ratio_std": 0.010442221985765289,
+      "cumulative_reward_mean": 190.60000000000173,
+      "cumulative_reward_std": 10.442221985765478
+    },
+    {
+      "scheduler": "UCB1",
+      "actual_overlap_rate_mean": 0.19740000000000002,
+      "actual_overlap_rate_std": 0.006483826030978929,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.19740000000000002,
+      "opportunity_coverage_std": 0.006483826030978929,
+      "interception_ratio_mean": 0.19740000000000002,
+      "interception_ratio_std": 0.006483826030978929,
+      "cumulative_reward_mean": 187.4000000000012,
+      "cumulative_reward_std": 6.483826030979239
+    },
+    {
+      "scheduler": "THOMPSON",
+      "actual_overlap_rate_mean": 0.20139999999999997,
+      "actual_overlap_rate_std": 0.010725670142233537,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.20139999999999997,
+      "opportunity_coverage_std": 0.010725670142233537,
+      "interception_ratio_mean": 0.20139999999999997,
+      "interception_ratio_std": 0.010725670142233537,
+      "cumulative_reward_mean": 191.4000000000013,
+      "cumulative_reward_std": 10.725670142233866
+    },
+    {
+      "scheduler": "SW_UCB",
+      "actual_overlap_rate_mean": 0.20450000000000004,
+      "actual_overlap_rate_std": 0.010828203913853853,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.20450000000000004,
+      "opportunity_coverage_std": 0.010828203913853853,
+      "interception_ratio_mean": 0.20450000000000004,
+      "interception_ratio_std": 0.010828203913853853,
+      "cumulative_reward_mean": 194.50000000000153,
+      "cumulative_reward_std": 10.828203913854232
+    },
+    {
+      "scheduler": "DISCOUNTED_THOMPSON",
+      "actual_overlap_rate_mean": 0.19219999999999998,
+      "actual_overlap_rate_std": 0.015484185480676727,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.19219999999999998,
+      "opportunity_coverage_std": 0.015484185480676727,
+      "interception_ratio_mean": 0.19219999999999998,
+      "interception_ratio_std": 0.015484185480676727,
+      "cumulative_reward_mean": 182.2000000000011,
+      "cumulative_reward_std": 15.484185480677242
+    },
+    {
+      "scheduler": "CONTEXT_AWARE",
+      "actual_overlap_rate_mean": 0.1984,
+      "actual_overlap_rate_std": 0.011029052543169791,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.1984,
+      "opportunity_coverage_std": 0.011029052543169791,
+      "interception_ratio_mean": 0.1984,
+      "interception_ratio_std": 0.011029052543169791,
+      "cumulative_reward_mean": 188.40000000000137,
+      "cumulative_reward_std": 11.029052543170202
+    },
+    {
+      "scheduler": "ORACLE \u2014 EVALUATION UPPER BOUND",
+      "actual_overlap_rate_mean": 0.9995,
+      "actual_overlap_rate_std": 0.0005000000000000004,
+      "actual_detection_rate_mean": 1.0,
+      "actual_detection_rate_std": 0.0,
+      "opportunity_coverage_mean": 0.9995,
+      "opportunity_coverage_std": 0.0005000000000000004,
+      "interception_ratio_mean": 0.9995,
+      "interception_ratio_std": 0.0005000000000000004,
+      "cumulative_reward_mean": 989.5000000000076,
+      "cumulative_reward_std": 0.5
+    }
+  ],
+  "sample_timesteps": [
+    {
+      "t": 0,
+      "emitter_frequency": 500000000.0,
+      "receiver_frequency": 600000000.0,
+      "receiver_window": "[590.0, 610.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 1,
+      "emitter_frequency": 500000000.0,
+      "receiver_frequency": 500000000.0,
+      "receiver_window": "[490.0, 510.0]",
+      "overlap": true,
+      "detection": true,
+      "interception": true,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 2,
+      "emitter_frequency": 600000000.0,
+      "receiver_frequency": 300000000.0,
+      "receiver_window": "[290.0, 310.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 3,
+      "emitter_frequency": 400000000.0,
+      "receiver_frequency": 300000000.0,
+      "receiver_window": "[290.0, 310.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 4,
+      "emitter_frequency": 200000000.0,
+      "receiver_frequency": 600000000.0,
+      "receiver_window": "[590.0, 610.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 5,
+      "emitter_frequency": 200000000.0,
+      "receiver_frequency": 500000000.0,
+      "receiver_window": "[490.0, 510.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 6,
+      "emitter_frequency": 500000000.0,
+      "receiver_frequency": 500000000.0,
+      "receiver_window": "[490.0, 510.0]",
+      "overlap": true,
+      "detection": true,
+      "interception": true,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 7,
+      "emitter_frequency": 200000000.0,
+      "receiver_frequency": 500000000.0,
+      "receiver_window": "[490.0, 510.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 8,
+      "emitter_frequency": 200000000.0,
+      "receiver_frequency": 400000000.0,
+      "receiver_window": "[390.0, 410.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 9,
+      "emitter_frequency": 500000000.0,
+      "receiver_frequency": 600000000.0,
+      "receiver_window": "[590.0, 610.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 10,
+      "emitter_frequency": 200000000.0,
+      "receiver_frequency": 300000000.0,
+      "receiver_window": "[290.0, 310.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 11,
+      "emitter_frequency": 500000000.0,
+      "receiver_frequency": 300000000.0,
+      "receiver_window": "[290.0, 310.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 12,
+      "emitter_frequency": 600000000.0,
+      "receiver_frequency": 600000000.0,
+      "receiver_window": "[590.0, 610.0]",
+      "overlap": true,
+      "detection": true,
+      "interception": true,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 13,
+      "emitter_frequency": 600000000.0,
+      "receiver_frequency": 600000000.0,
+      "receiver_window": "[590.0, 610.0]",
+      "overlap": true,
+      "detection": true,
+      "interception": true,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 14,
+      "emitter_frequency": 300000000.0,
+      "receiver_frequency": 200000000.0,
+      "receiver_window": "[190.0, 210.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 15,
+      "emitter_frequency": 200000000.0,
+      "receiver_frequency": 400000000.0,
+      "receiver_window": "[390.0, 410.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 16,
+      "emitter_frequency": 400000000.0,
+      "receiver_frequency": 200000000.0,
+      "receiver_window": "[190.0, 210.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 17,
+      "emitter_frequency": 400000000.0,
+      "receiver_frequency": 300000000.0,
+      "receiver_window": "[290.0, 310.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 18,
+      "emitter_frequency": 600000000.0,
+      "receiver_frequency": 300000000.0,
+      "receiver_window": "[290.0, 310.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    },
+    {
+      "t": 19,
+      "emitter_frequency": 300000000.0,
+      "receiver_frequency": 400000000.0,
+      "receiver_window": "[390.0, 410.0]",
+      "overlap": false,
+      "detection": false,
+      "interception": false,
+      "opportunity_id": "E_RAND_HOP_HOP_0001"
+    }
+  ]
+}

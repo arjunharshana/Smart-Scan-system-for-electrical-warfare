@@ -24,6 +24,10 @@ class Receiver:
         self.tuner = Tuner(time_step_ms=time_step_ms, tuning_time_ms=tuning_time_ms)
         self.tuner.center_frequency_hz = float(center_frequency_hz)
 
+    @property
+    def center_frequency_hz(self) -> float:
+        return self.tuner.center_frequency_hz or 0.0
+
     def tune(self, frequency_hz: float) -> None:
         self.tuner.request_tune(frequency_hz)
 

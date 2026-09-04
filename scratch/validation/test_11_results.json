@@ -1,0 +1,224 @@
+{
+  "phase_sweep_period_20": [
+    {
+      "phase": 0,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 1,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 2,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 3,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 4,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 5,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 1.0,
+      "interception_ratio": 1.0,
+      "total_hits": 15,
+      "first_intercept_delay": 0.0,
+      "outcome_verdict": "INTERCEPTED"
+    },
+    {
+      "phase": 6,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 1.0,
+      "interception_ratio": 1.0,
+      "total_hits": 30,
+      "first_intercept_delay": 0.0,
+      "outcome_verdict": "INTERCEPTED"
+    },
+    {
+      "phase": 7,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 1.0,
+      "interception_ratio": 1.0,
+      "total_hits": 30,
+      "first_intercept_delay": 1.0,
+      "outcome_verdict": "INTERCEPTED"
+    },
+    {
+      "phase": 8,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 1.0,
+      "interception_ratio": 1.0,
+      "total_hits": 30,
+      "first_intercept_delay": 2.0,
+      "outcome_verdict": "INTERCEPTED"
+    },
+    {
+      "phase": 9,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 1.0,
+      "interception_ratio": 1.0,
+      "total_hits": 30,
+      "first_intercept_delay": 3.0,
+      "outcome_verdict": "INTERCEPTED"
+    },
+    {
+      "phase": 10,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 1.0,
+      "interception_ratio": 1.0,
+      "total_hits": 15,
+      "first_intercept_delay": 4.0,
+      "outcome_verdict": "INTERCEPTED"
+    },
+    {
+      "phase": 11,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 12,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 13,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 14,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 15,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 16,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 17,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 18,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    },
+    {
+      "phase": 19,
+      "sweep_period": 20,
+      "emitter_period": 20,
+      "opportunity_coverage": 0.0,
+      "interception_ratio": 0.0,
+      "total_hits": 0,
+      "first_intercept_delay": null,
+      "outcome_verdict": "BLIND (0% Intercept)"
+    }
+  ],
+  "non_harmonic_comparison": [
+    {
+      "configuration": "Period 19 (Prime / Coprime)",
+      "scan_cycle_length": 19,
+      "emitter_period": 20,
+      "mean_opportunity_coverage": 0.26374999999999993,
+      "mean_hits": 4.0,
+      "blind_phases_count": 0,
+      "blind_phases_fraction": "0/20 (0.0%)"
+    },
+    {
+      "configuration": "Period 21 (Coprime)",
+      "scan_cycle_length": 21,
+      "emitter_period": 20,
+      "mean_opportunity_coverage": 0.22916666666666666,
+      "mean_hits": 3.5,
+      "blind_phases_count": 2,
+      "blind_phases_fraction": "2/20 (10.0%)"
+    }
+  ]
+}

@@ -1,0 +1,310 @@
+{
+  "summary": [
+    {
+      "scheduler": "ORACLE \u2014 EVALUATION UPPER BOUND",
+      "actual_overlap_rate_mean": 1.0,
+      "actual_overlap_rate_std": 0.0,
+      "step_coverage_mean": 1.0,
+      "step_coverage_std": 0.0,
+      "prediction_accuracy_mean": 1.0,
+      "prediction_accuracy_std": 0.0,
+      "first_intercept_delay_mean": 0.0,
+      "first_intercept_delay_std": 0.0,
+      "total_hits_mean": 1000.0,
+      "total_hits_std": 0.0
+    },
+    {
+      "scheduler": "SEQUENTIAL",
+      "actual_overlap_rate_mean": 0.2,
+      "actual_overlap_rate_std": 0.0,
+      "step_coverage_mean": 0.2,
+      "step_coverage_std": 0.0,
+      "prediction_accuracy_mean": 0.32663316582914576,
+      "prediction_accuracy_std": 0.0,
+      "first_intercept_delay_mean": 0.0,
+      "first_intercept_delay_std": 0.0,
+      "total_hits_mean": 200.0,
+      "total_hits_std": 0.0
+    },
+    {
+      "scheduler": "RANDOM",
+      "actual_overlap_rate_mean": 0.1953,
+      "actual_overlap_rate_std": 0.016211415730897776,
+      "step_coverage_mean": 0.1953,
+      "step_coverage_std": 0.016211415730897776,
+      "prediction_accuracy_mean": 0.355346145172286,
+      "prediction_accuracy_std": 0.056438195593402775,
+      "first_intercept_delay_mean": 3.6,
+      "first_intercept_delay_std": 5.425863986500215,
+      "total_hits_mean": 195.3,
+      "total_hits_std": 16.21141573089778
+    },
+    {
+      "scheduler": "UCB1",
+      "actual_overlap_rate_mean": 0.23599999999999993,
+      "actual_overlap_rate_std": 5.551115123125783e-17,
+      "step_coverage_mean": 0.23599999999999993,
+      "step_coverage_std": 5.551115123125783e-17,
+      "prediction_accuracy_mean": 0.004366812227074235,
+      "prediction_accuracy_std": 8.673617379884035e-19,
+      "first_intercept_delay_mean": 0.0,
+      "first_intercept_delay_std": 0.0,
+      "total_hits_mean": 236.0,
+      "total_hits_std": 0.0
+    },
+    {
+      "scheduler": "THOMPSON",
+      "actual_overlap_rate_mean": 0.3129,
+      "actual_overlap_rate_std": 0.011852847759083057,
+      "step_coverage_mean": 0.3129,
+      "step_coverage_std": 0.011852847759083057,
+      "prediction_accuracy_mean": 0.22707524403189622,
+      "prediction_accuracy_std": 0.09481792716522465,
+      "first_intercept_delay_mean": 3.0,
+      "first_intercept_delay_std": 2.1447610589527217,
+      "total_hits_mean": 312.9,
+      "total_hits_std": 11.852847759083046
+    },
+    {
+      "scheduler": "SW_UCB",
+      "actual_overlap_rate_mean": 0.007000000000000001,
+      "actual_overlap_rate_std": 8.673617379884035e-19,
+      "step_coverage_mean": 0.007000000000000001,
+      "step_coverage_std": 8.673617379884035e-19,
+      "prediction_accuracy_mean": 0.14285714285714285,
+      "prediction_accuracy_std": 0.0,
+      "first_intercept_delay_mean": 0.0,
+      "first_intercept_delay_std": 0.0,
+      "total_hits_mean": 7.0,
+      "total_hits_std": 0.0
+    },
+    {
+      "scheduler": "DISCOUNTED_THOMPSON",
+      "actual_overlap_rate_mean": 0.22890000000000002,
+      "actual_overlap_rate_std": 0.010024470060806208,
+      "step_coverage_mean": 0.22890000000000002,
+      "step_coverage_std": 0.010024470060806208,
+      "prediction_accuracy_mean": 0.25061299212646837,
+      "prediction_accuracy_std": 0.050058564733919765,
+      "first_intercept_delay_mean": 2.9,
+      "first_intercept_delay_std": 2.118962010041709,
+      "total_hits_mean": 228.9,
+      "total_hits_std": 10.024470060806207
+    },
+    {
+      "scheduler": "CONTEXT_AWARE",
+      "actual_overlap_rate_mean": 0.5288,
+      "actual_overlap_rate_std": 0.16049224280319593,
+      "step_coverage_mean": 0.5288,
+      "step_coverage_std": 0.16049224280319593,
+      "prediction_accuracy_mean": 0.29924080503802447,
+      "prediction_accuracy_std": 0.24432949025124373,
+      "first_intercept_delay_mean": 2.9,
+      "first_intercept_delay_std": 2.6999999999999997,
+      "total_hits_mean": 528.8,
+      "total_hits_std": 160.49224280319595
+    }
+  ],
+  "warmup_windows": [
+    {
+      "window": "0-50",
+      "w_start": 0,
+      "w_end": 50,
+      "step_coverage": 0.52,
+      "window_hits": 26,
+      "window_prediction_accuracy": 0.46153846153846156,
+      "cumulative_prediction_accuracy": 0.46153846153846156,
+      "predictions_count": 26
+    },
+    {
+      "window": "50-100",
+      "w_start": 50,
+      "w_end": 100,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4915254237288136,
+      "predictions_count": 33
+    },
+    {
+      "window": "100-150",
+      "w_start": 100,
+      "w_end": 150,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.48484848484848486,
+      "cumulative_prediction_accuracy": 0.4891304347826087,
+      "predictions_count": 33
+    },
+    {
+      "window": "150-200",
+      "w_start": 150,
+      "w_end": 200,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.5,
+      "cumulative_prediction_accuracy": 0.49206349206349204,
+      "predictions_count": 34
+    },
+    {
+      "window": "200-250",
+      "w_start": 200,
+      "w_end": 250,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4968553459119497,
+      "predictions_count": 33
+    },
+    {
+      "window": "250-300",
+      "w_start": 250,
+      "w_end": 300,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.48484848484848486,
+      "cumulative_prediction_accuracy": 0.4947916666666667,
+      "predictions_count": 33
+    },
+    {
+      "window": "300-350",
+      "w_start": 300,
+      "w_end": 350,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.5,
+      "cumulative_prediction_accuracy": 0.49557522123893805,
+      "predictions_count": 34
+    },
+    {
+      "window": "350-400",
+      "w_start": 350,
+      "w_end": 400,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4980694980694981,
+      "predictions_count": 33
+    },
+    {
+      "window": "400-450",
+      "w_start": 400,
+      "w_end": 450,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.48484848484848486,
+      "cumulative_prediction_accuracy": 0.4965753424657534,
+      "predictions_count": 33
+    },
+    {
+      "window": "450-500",
+      "w_start": 450,
+      "w_end": 500,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.5,
+      "cumulative_prediction_accuracy": 0.49693251533742333,
+      "predictions_count": 34
+    },
+    {
+      "window": "500-550",
+      "w_start": 500,
+      "w_end": 550,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4986072423398329,
+      "predictions_count": 33
+    },
+    {
+      "window": "550-600",
+      "w_start": 550,
+      "w_end": 600,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.48484848484848486,
+      "cumulative_prediction_accuracy": 0.49744897959183676,
+      "predictions_count": 33
+    },
+    {
+      "window": "600-650",
+      "w_start": 600,
+      "w_end": 650,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.5,
+      "cumulative_prediction_accuracy": 0.49765258215962443,
+      "predictions_count": 34
+    },
+    {
+      "window": "650-700",
+      "w_start": 650,
+      "w_end": 700,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4989106753812636,
+      "predictions_count": 33
+    },
+    {
+      "window": "700-750",
+      "w_start": 700,
+      "w_end": 750,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.48484848484848486,
+      "cumulative_prediction_accuracy": 0.49796747967479676,
+      "predictions_count": 33
+    },
+    {
+      "window": "750-800",
+      "w_start": 750,
+      "w_end": 800,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.5,
+      "cumulative_prediction_accuracy": 0.49809885931558934,
+      "predictions_count": 34
+    },
+    {
+      "window": "800-850",
+      "w_start": 800,
+      "w_end": 850,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4991055456171735,
+      "predictions_count": 33
+    },
+    {
+      "window": "850-900",
+      "w_start": 850,
+      "w_end": 900,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.48484848484848486,
+      "cumulative_prediction_accuracy": 0.4983108108108108,
+      "predictions_count": 33
+    },
+    {
+      "window": "900-950",
+      "w_start": 900,
+      "w_end": 950,
+      "step_coverage": 0.66,
+      "window_hits": 33,
+      "window_prediction_accuracy": 0.5,
+      "cumulative_prediction_accuracy": 0.4984025559105431,
+      "predictions_count": 34
+    },
+    {
+      "window": "950-1000",
+      "w_start": 950,
+      "w_end": 1000,
+      "step_coverage": 0.68,
+      "window_hits": 34,
+      "window_prediction_accuracy": 0.5151515151515151,
+      "cumulative_prediction_accuracy": 0.4992412746585736,
+      "predictions_count": 33
+    }
+  ]
+}

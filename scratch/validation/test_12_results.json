@@ -1,0 +1,66 @@
+[
+  {
+    "bandwidth_label": "1 Channel (20 MHz)",
+    "bandwidth_mhz": 20.0,
+    "hopper_type": "RANDOM",
+    "empirical_overlap_rate_mean": 0.0666,
+    "empirical_overlap_rate_std": 0.005161395160225575,
+    "total_hits_mean": 66.6
+  },
+  {
+    "bandwidth_label": "1 Channel (20 MHz)",
+    "bandwidth_mhz": 20.0,
+    "hopper_type": "SEQUENTIAL",
+    "empirical_overlap_rate_mean": 0.062,
+    "empirical_overlap_rate_std": 0.005176871642217915,
+    "total_hits_mean": 62.0
+  },
+  {
+    "bandwidth_label": "2 Channels (40 MHz)",
+    "bandwidth_mhz": 40.0,
+    "hopper_type": "RANDOM",
+    "empirical_overlap_rate_mean": 0.09259999999999999,
+    "empirical_overlap_rate_std": 0.00682934843158555,
+    "total_hits_mean": 92.6
+  },
+  {
+    "bandwidth_label": "2 Channels (40 MHz)",
+    "bandwidth_mhz": 40.0,
+    "hopper_type": "SEQUENTIAL",
+    "empirical_overlap_rate_mean": 0.0934,
+    "empirical_overlap_rate_std": 0.0038262252939418014,
+    "total_hits_mean": 93.4
+  },
+  {
+    "bandwidth_label": "3 Channels (60 MHz)",
+    "bandwidth_mhz": 60.0,
+    "hopper_type": "RANDOM",
+    "empirical_overlap_rate_mean": 0.11739999999999999,
+    "empirical_overlap_rate_std": 0.006621178142898739,
+    "total_hits_mean": 117.4
+  },
+  {
+    "bandwidth_label": "3 Channels (60 MHz)",
+    "bandwidth_mhz": 60.0,
+    "hopper_type": "SEQUENTIAL",
+    "empirical_overlap_rate_mean": 0.1226,
+    "empirical_overlap_rate_std": 0.005043808085167396,
+    "total_hits_mean": 122.6
+  },
+  {
+    "bandwidth_label": "5 Channels (100 MHz)",
+    "bandwidth_mhz": 100.0,
+    "hopper_type": "RANDOM",
+    "empirical_overlap_rate_mean": 0.32920000000000005,
+    "empirical_overlap_rate_std": 0.011303096920755843,
+    "total_hits_mean": 329.2
+  },
+  {
+    "bandwidth_label": "5 Channels (100 MHz)",
+    "bandwidth_mhz": 100.0,
+    "hopper_type": "SEQUENTIAL",
+    "empirical_overlap_rate_mean": 0.34540000000000004,
+    "empirical_overlap_rate_std": 0.01412232275512777,
+    "total_hits_mean": 345.4
+  }
+]

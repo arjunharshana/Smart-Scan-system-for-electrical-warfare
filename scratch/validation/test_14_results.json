@@ -1,0 +1,86 @@
+[
+  {
+    "ablation_case": "A: Hit +1, Miss 0",
+    "scheduler": "UCB1",
+    "hits_mean": 377.0,
+    "opportunity_coverage_mean": 0.13636363636363635,
+    "avg_intercept_delay_mean": 1.6666666666666667
+  },
+  {
+    "ablation_case": "A: Hit +1, Miss 0",
+    "scheduler": "THOMPSON",
+    "hits_mean": 392.0,
+    "opportunity_coverage_mean": 0.10606060606060606,
+    "avg_intercept_delay_mean": 1.777777777777778
+  },
+  {
+    "ablation_case": "A: Hit +1, Miss 0",
+    "scheduler": "CONTEXT_AWARE",
+    "hits_mean": 397.6666666666667,
+    "opportunity_coverage_mean": 0.07575757575757576,
+    "avg_intercept_delay_mean": 2.1666666666666665
+  },
+  {
+    "ablation_case": "B: Hit +1, Miss -1",
+    "scheduler": "UCB1",
+    "hits_mean": 377.0,
+    "opportunity_coverage_mean": 0.13636363636363635,
+    "avg_intercept_delay_mean": 1.6666666666666667
+  },
+  {
+    "ablation_case": "B: Hit +1, Miss -1",
+    "scheduler": "THOMPSON",
+    "hits_mean": 392.0,
+    "opportunity_coverage_mean": 0.10606060606060606,
+    "avg_intercept_delay_mean": 1.777777777777778
+  },
+  {
+    "ablation_case": "B: Hit +1, Miss -1",
+    "scheduler": "CONTEXT_AWARE",
+    "hits_mean": 397.6666666666667,
+    "opportunity_coverage_mean": 0.07575757575757576,
+    "avg_intercept_delay_mean": 2.1666666666666665
+  },
+  {
+    "ablation_case": "C: Hit +1, Miss -0.2, FA -0.1",
+    "scheduler": "UCB1",
+    "hits_mean": 377.0,
+    "opportunity_coverage_mean": 0.13636363636363635,
+    "avg_intercept_delay_mean": 1.6666666666666667
+  },
+  {
+    "ablation_case": "C: Hit +1, Miss -0.2, FA -0.1",
+    "scheduler": "THOMPSON",
+    "hits_mean": 392.0,
+    "opportunity_coverage_mean": 0.10606060606060606,
+    "avg_intercept_delay_mean": 1.777777777777778
+  },
+  {
+    "ablation_case": "C: Hit +1, Miss -0.2, FA -0.1",
+    "scheduler": "CONTEXT_AWARE",
+    "hits_mean": 397.6666666666667,
+    "opportunity_coverage_mean": 0.07575757575757576,
+    "avg_intercept_delay_mean": 2.1666666666666665
+  },
+  {
+    "ablation_case": "D: Delay Penalty (0.02/step)",
+    "scheduler": "UCB1",
+    "hits_mean": 377.0,
+    "opportunity_coverage_mean": 0.13636363636363635,
+    "avg_intercept_delay_mean": 1.6666666666666667
+  },
+  {
+    "ablation_case": "D: Delay Penalty (0.02/step)",
+    "scheduler": "THOMPSON",
+    "hits_mean": 392.0,
+    "opportunity_coverage_mean": 0.10606060606060606,
+    "avg_intercept_delay_mean": 1.777777777777778
+  },
+  {
+    "ablation_case": "D: Delay Penalty (0.02/step)",
+    "scheduler": "CONTEXT_AWARE",
+    "hits_mean": 397.6666666666667,
+    "opportunity_coverage_mean": 0.07575757575757576,
+    "avg_intercept_delay_mean": 2.1666666666666665
+  }
+]

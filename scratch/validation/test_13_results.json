@@ -1,0 +1,56 @@
+[
+  {
+    "reward_config": "Config A: +1 Hit, 0 Miss",
+    "scheduler": "THOMPSON",
+    "e1_continuous_hits_mean": 392.0,
+    "e2_burst_hits_mean": 1.0,
+    "e1_e2_ratio": 392.0,
+    "opportunity_coverage_mean": 0.09090909090909091,
+    "total_reward_mean": 393.0
+  },
+  {
+    "reward_config": "Config A: +1 Hit, 0 Miss",
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "e1_continuous_hits_mean": 357.4,
+    "e2_burst_hits_mean": 3.6,
+    "e1_e2_ratio": 99.27777777777777,
+    "opportunity_coverage_mean": 0.1909090909090909,
+    "total_reward_mean": 361.0
+  },
+  {
+    "reward_config": "Config A: +1 Hit, 0 Miss",
+    "scheduler": "CONTEXT_AWARE",
+    "e1_continuous_hits_mean": 318.2,
+    "e2_burst_hits_mean": 20.4,
+    "e1_e2_ratio": 15.598039215686274,
+    "opportunity_coverage_mean": 0.24545454545454545,
+    "total_reward_mean": 338.6
+  },
+  {
+    "reward_config": "Config B: +1 Hit, -1 Miss",
+    "scheduler": "THOMPSON",
+    "e1_continuous_hits_mean": 392.0,
+    "e2_burst_hits_mean": 1.0,
+    "e1_e2_ratio": 392.0,
+    "opportunity_coverage_mean": 0.09090909090909091,
+    "total_reward_mean": 393.0
+  },
+  {
+    "reward_config": "Config B: +1 Hit, -1 Miss",
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "e1_continuous_hits_mean": 357.4,
+    "e2_burst_hits_mean": 3.6,
+    "e1_e2_ratio": 99.27777777777777,
+    "opportunity_coverage_mean": 0.1909090909090909,
+    "total_reward_mean": 361.0
+  },
+  {
+    "reward_config": "Config B: +1 Hit, -1 Miss",
+    "scheduler": "CONTEXT_AWARE",
+    "e1_continuous_hits_mean": 318.2,
+    "e2_burst_hits_mean": 20.4,
+    "e1_e2_ratio": 15.598039215686274,
+    "opportunity_coverage_mean": 0.24545454545454545,
+    "total_reward_mean": 338.6
+  }
+]

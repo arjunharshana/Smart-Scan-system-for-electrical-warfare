@@ -3,73 +3,98 @@ from __future__ import annotations
 from typing import Any
 import streamlit as st
 import pandas as pd
-from dashboard.simulation_runner import run_benchmark_comparison, AVAILABLE_ALGORITHMS
+from dashboard.simulation_runner import (
+    run_benchmark_comparison,
+    AVAILABLE_ALGORITHMS,
+    ALGORITHM_DESCRIPTIONS,
+)
 
 
 def render_comparison_view(scenario: dict[str, Any], steps: int, seed: int) -> None:
-    """Renders the Multi-Algorithm Benchmark Comparison suite."""
-    st.subheader("⚔️ Multi-Algorithm Efficiency Benchmark")
+    """Renders Tab 3: Algorithm Comparison - Multi-Seed Benchmark Suite with Mean ± Std."""
+    st.subheader("⚔️ Multi-Algorithm & Multi-Seed Comparative Benchmark")
     st.markdown("""
-    Compare **Sequential**, **Random**, **UCB1**, and **Thompson Sampling** algorithms side-by-side under identical RF scenario conditions and random seed.
+    Evaluates scan schedulers across identical frozen RF environment realizations.
+    Statistical results display **Mean ± Standard Deviation** across runs to avoid single-seed bias.
     """)
 
-    selected_algorithms = st.multiselect(
-        "Select Algorithms to Benchmark",
-        options=AVAILABLE_ALGORITHMS,
-        default=AVAILABLE_ALGORITHMS,
-    )
+    # Controls
+    col_c1, col_c2 = st.columns([3, 1])
+    with col_c1:
+        selected_algorithms = st.multiselect(
+            "Select Algorithms to Benchmark",
+            options=AVAILABLE_ALGORITHMS,
+            default=AVAILABLE_ALGORITHMS,
+            format_func=lambda x: f"{x.upper()} ({ALGORITHM_DESCRIPTIONS.get(x, '').split(':')[0]})",
+        )
+    with col_c2:
+        num_seeds = st.selectbox("Number of Seeds", [1, 3, 5, 10], index=1)
 
     if not selected_algorithms:
-        st.warning("Please select at least one algorithm to run the benchmark.")
+        st.warning("Please select at least one algorithm.")
         return
 
-    if st.button("🚀 Run Full Multi-Algorithm Benchmark", type="primary"):
-        with st.spinner("Executing multi-algorithm benchmarks in parallel..."):
+    benchmark_button = st.button("🚀 Run Multi-Seed Benchmark", type="primary", use_container_width=True)
+
+    seeds_list = list(range(1, num_seeds + 1))
+    bench_cache_key = f"bench_{selected_algorithms}_{num_seeds}_{steps}_{scenario.get('simulation', {}).get('seed')}"
+
+    if benchmark_button:
+        with st.spinner(f"Running benchmark across {num_seeds} seeds for {len(selected_algorithms)} algorithms..."):
             benchmark_data = run_benchmark_comparison(
                 scenario=scenario,
                 algorithms=selected_algorithms,
+                seeds=seeds_list,
                 steps=steps,
-                seed=seed,
             )
-
-        st.session_state["benchmark_data"] = benchmark_data
+            st.session_state["benchmark_data"] = benchmark_data
+            st.session_state["bench_key"] = bench_cache_key
 
     if "benchmark_data" in st.session_state:
         benchmark_data = st.session_state["benchmark_data"]
         summary_df = benchmark_data["summary_df"]
-        trajectory_df = benchmark_data["trajectory_df"]
+        runs_df = benchmark_data["runs_df"]
 
-        # Winner callout
-        winner = summary_df.iloc[0]["Algorithm"]
-        winner_reward = summary_df.iloc[0]["Total Cumulative Reward"]
-        st.success(f"🏆 **Benchmark Winner**: **{winner}** achieved the highest cumulative reward of **{winner_reward:.1f}** over {steps} steps!")
+        st.markdown(f"### 📋 Benchmark Scoreboard ({num_seeds} Seeds × {steps} Steps)")
+        st.caption("Values formatted as Mean ± Std Dev. Best values per metric should be compared scientifically.")
 
-        st.markdown("### 📋 Comparative Performance Scoreboard")
-        st.dataframe(summary_df, use_container_width=True, hide_index=True)
-
-        st.divider()
-
-        # Multi-line Cumulative Reward chart
-        st.markdown("### 📈 Cumulative Reward Trajectory Comparison")
-        st.caption("Illustrates how quickly each algorithm learns and accumulates detections over time.")
-        
-        pivot_rewards = trajectory_df.pivot(index="Time Step", columns="Algorithm", values="Cumulative Reward")
-        st.line_chart(pivot_rewards, use_container_width=True)
-
-        # Rolling hit rate comparison
-        st.markdown("### 🎯 Rolling Hit Rate Comparison (Learning Speed)")
-        st.caption("Shows instantaneous detection consistency and convergence over time.")
-        pivot_hit_rate = trajectory_df.pivot(index="Time Step", columns="Algorithm", values="Rolling Hit Rate")
-        st.line_chart(pivot_hit_rate, use_container_width=True)
+        display_cols = [
+            "Algorithm",
+            "interception_ratio",
+            "opportunity_coverage",
+            "detection_given_coverage",
+            "avg_intercept_time",
+            "prediction_accuracy",
+            "Pd",
+            "Pfa",
+            "avg_reward",
+        ]
+        valid_cols = [c for c in display_cols if c in summary_df.columns]
+        st.dataframe(summary_df[valid_cols], use_container_width=True, hide_index=True)
 
         st.divider()
 
         # Comparative Bar Charts
-        c1, c2 = st.columns(2)
+        st.markdown("### 📊 Side-by-Side Performance Comparison")
+        c1, c2, c3 = st.columns(3)
+
         with c1:
-            st.markdown("#### 🎯 Total Hits Comparison")
-            st.bar_chart(summary_df.set_index("Algorithm")["Hits"], color="#06d6a0", use_container_width=True)
+            st.markdown("#### 🎯 Interception Ratio")
+            st.caption("Opportunity-based interception rate.")
+            chart_df = summary_df.set_index("Algorithm")["interception_ratio_mean"]
+            st.bar_chart(chart_df, color="#118ab2", use_container_width=True)
 
         with c2:
-            st.markdown("#### 📡 Interception Ratio Comparison")
-            st.bar_chart(summary_df.set_index("Algorithm")["Interception Ratio"], color="#118ab2", use_container_width=True)
+            st.markdown("#### 📡 Opportunity Coverage")
+            st.caption("Fraction of episodes where receiver scanned in-band.")
+            chart_df = summary_df.set_index("Algorithm")["opportunity_coverage_mean"]
+            st.bar_chart(chart_df, color="#06d6a0", use_container_width=True)
+
+        with c3:
+            st.markdown("#### ⚡ Average Intercept Delay")
+            st.caption("Steps to first detection (lower is better).")
+            chart_df = summary_df.set_index("Algorithm")["avg_intercept_time_mean"]
+            st.bar_chart(chart_df, color="#ffd166", use_container_width=True)
+
+        with st.expander("🔍 View Raw Per-Seed Benchmark Runs Data"):
+            st.dataframe(runs_df, use_container_width=True, hide_index=True)

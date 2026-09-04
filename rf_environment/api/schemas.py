@@ -22,3 +22,10 @@ class EmitterCreate(BaseModel):
 
 class SchedulerSelect(BaseModel):
     type: str
+
+
+class BenchmarkRequest(BaseModel):
+    algorithms: list[str] = ["sequential", "random", "ucb1", "thompson", "sw_ucb", "discounted_thompson", "context_aware"]
+    seeds: list[int] = [1, 2, 3]
+    steps: int = 200
+    scenario_path: str | None = None

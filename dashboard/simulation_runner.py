@@ -6,6 +6,7 @@ import pandas as pd
 
 from rf_environment.environment.builder import build_environment
 from rf_environment.domain.metrics import MetricSnapshot
+from rf_environment.experiments.runner import BenchmarkRunner
 from dashboard.utils import (
     build_time_series_dataframe,
     build_waterfall_dataframe,
@@ -13,13 +14,24 @@ from dashboard.utils import (
 )
 
 
-AVAILABLE_ALGORITHMS = ["sequential", "random", "ucb1", "thompson"]
+AVAILABLE_ALGORITHMS = [
+    "sequential",
+    "random",
+    "ucb1",
+    "thompson",
+    "sw_ucb",
+    "discounted_thompson",
+    "context_aware",
+]
 
 ALGORITHM_DESCRIPTIONS = {
-    "sequential": "Systematically scans frequency bands in fixed sequential order from lowest to highest frequency.",
-    "random": "Randomly selects a frequency band at each time step uniformly without learning.",
-    "ucb1": "Upper Confidence Bound (UCB1) multi-armed bandit algorithm. Balances exploiting high-reward bands with exploring uncertain bands using statistical confidence bounds.",
-    "thompson": "Thompson Sampling Bayesian bandit. Maintains Beta posterior distributions per band and samples success probabilities to efficiently detect active frequency channels.",
+    "sequential": "Baseline: Cycles systematically through scan bands in deterministic ascending frequency order.",
+    "random": "Baseline: Uniformly random selection across all available channels without learning.",
+    "ucb1": "Stationary Bandit: Upper Confidence Bound (UCB1). Balances empirical mean reward with statistical confidence exploration.",
+    "thompson": "Stationary Bandit: Thompson Sampling with Beta posteriors. Samples success probabilities per channel.",
+    "sw_ucb": "Non-Stationary Bandit: Sliding Window UCB. Retains only the most recent N observations to rapidly adapt to hopping.",
+    "discounted_thompson": "Non-Stationary Bandit: Discounted Thompson Sampling. Applies exponential decay (gamma < 1.0) so recent observations dominate.",
+    "context_aware": "Contextual / Temporal: Learns observed transition matrix P(f_{next} | f_{prev}) from detections, fused with recency and coverage bonuses.",
 }
 
 
@@ -29,7 +41,7 @@ def run_single_simulation(
     steps: int = 200,
     seed: int | None = None,
 ) -> dict[str, Any]:
-    """Runs a single simulation run and packages the full diagnostic payload."""
+    """Runs a single simulation and packages the comprehensive telemetry and diagnostic payload."""
     scenario_copy = copy.deepcopy(scenario)
     if seed is not None:
         if "simulation" not in scenario_copy:
@@ -44,22 +56,57 @@ def run_single_simulation(
     waterfall_df = build_waterfall_dataframe(list(env.waterfall))
     arm_df = build_arm_stats_dataframe(env.scheduler.get_state().to_dict())
 
-    # Compile Emitter Discovery & Stats
+    # Compile Emitter Discovery & Status Table (with clear ground-truth vs observation labels)
     emitter_stats = []
     first_intercepts = snapshot.time_to_first_intercept or {}
     for eid, emitter in env.emitters.items():
         state = emitter.get_state().to_dict() if emitter._state else {}
         first_t = first_intercepts.get(eid)
         emitter_stats.append({
-            "Emitter ID": eid,
-            "Type": state.get("emitter_type", emitter.emitter_type.value),
-            "Freq (MHz)": state.get("frequency_hz", 0.0) / 1e6,
-            "Bandwidth (MHz)": state.get("bandwidth_hz", 0.0) / 1e6,
-            "Power (dBm)": state.get("power_dbm", -30.0),
-            "Modulation": state.get("modulation", "UNKNOWN"),
-            "First Intercept (Step)": f"Step {first_t}" if first_t is not None else "Not Detected",
-            "Detected": "✅ Yes" if first_t is not None else "❌ No",
+            "Emitter ID [Truth]": eid,
+            "Type [Truth]": state.get("emitter_type", emitter.emitter_type.value),
+            "Current Freq (MHz) [Truth]": f"{state.get('frequency_hz', 0.0) / 1e6:.1f}",
+            "Bandwidth (MHz) [Truth]": f"{state.get('bandwidth_hz', 0.0) / 1e6:.1f}",
+            "Power (dBm) [Truth]": f"{state.get('power_dbm', -30.0):.1f}",
+            "First Intercept [Observed]": f"Step {first_t}" if first_t is not None else "Not Detected",
+            "Detection Status [Evaluation]": "🎯 Intercepted" if first_t is not None else "❌ Undetected",
         })
+
+    # Transmission Opportunities Summary
+    opps_summary = env.get_opportunities_summary()
+    opportunities_df = pd.DataFrame(opps_summary) if opps_summary else pd.DataFrame()
+
+    # Observed Transition Matrix
+    transition_matrix_df = env.transition_tracker.get_transition_matrix()
+
+    # Prediction Log
+    predictions_records = []
+    for p in env.transition_tracker.predictions:
+        predictions_records.append({
+            "Step": p.step,
+            "Previous Band (MHz)": f"{p.previous_frequency_hz / 1e6:.0f}",
+            "Predicted Band (MHz)": f"{p.predicted_frequency_hz / 1e6:.0f}",
+            "Observed Band (MHz)": f"{p.actual_observed_frequency_hz / 1e6:.0f}" if p.actual_observed_frequency_hz else "—",
+            "Confidence": f"{p.confidence:.2%}",
+            "Outcome": "✅ Correct" if p.correct else "❌ Incorrect",
+        })
+    predictions_df = pd.DataFrame(predictions_records)
+
+    # "Why Did We Miss?" Diagnostic Records
+    why_missed_records = []
+    for r in results:
+        outcome = r.get("outcome", {}).get("outcome", "")
+        t = r.get("timestamp", 0)
+        rx_f = r.get("receiver", {}).get("center_frequency_hz", 0.0) / 1e6
+        diag = r.get("diagnostic_reason", "")
+        # Highlight misses, false alarms, and off-frequency steps
+        why_missed_records.append({
+            "Step": t,
+            "Receiver Freq (MHz)": rx_f,
+            "Scan Outcome": outcome,
+            "Diagnostic Rationale": diag,
+        })
+    why_missed_df = pd.DataFrame(why_missed_records)
 
     return {
         "env": env,
@@ -69,6 +116,10 @@ def run_single_simulation(
         "waterfall_df": waterfall_df,
         "arm_df": arm_df,
         "emitter_stats_df": pd.DataFrame(emitter_stats),
+        "opportunities_df": opportunities_df,
+        "transition_matrix_df": transition_matrix_df,
+        "predictions_df": predictions_df,
+        "why_missed_df": why_missed_df,
         "scheduler_name": scheduler_name,
         "steps": steps,
         "scenario": scenario_copy,
@@ -78,54 +129,21 @@ def run_single_simulation(
 def run_benchmark_comparison(
     scenario: dict[str, Any],
     algorithms: list[str] | None = None,
+    seeds: list[int] | None = None,
     steps: int = 200,
     seed: int = 42,
 ) -> dict[str, Any]:
-    """Runs a side-by-side benchmark comparing multiple algorithms on the same scenario."""
+    """Runs a multi-seed benchmark comparing all algorithms on identical frozen RF realizations."""
     if algorithms is None:
         algorithms = AVAILABLE_ALGORITHMS
+    if seeds is None:
+        seeds = [seed] if seed is not None else [1, 2, 3]
 
-    runs = {}
-    summary_rows = []
-    combined_rewards = []
-
-    for alg in algorithms:
-        sim_data = run_single_simulation(scenario, scheduler_name=alg, steps=steps, seed=seed)
-        runs[alg] = sim_data
-        snap = sim_data["snapshot"]
-
-        summary_rows.append({
-            "Algorithm": alg.upper(),
-            "Total Scans": snap.total_scans,
-            "Hits": snap.hits,
-            "Misses": snap.misses,
-            "False Alarms": snap.false_alarms,
-            "P(Detection)": snap.probability_of_detection,
-            "Interception Ratio": snap.interception_ratio,
-            "Avg Reward": snap.average_reward,
-            "Total Cumulative Reward": sim_data["time_df"]["Cumulative Reward"].iloc[-1] if not sim_data["time_df"].empty else 0.0,
-            "Unique Detected": snap.unique_emitters_detected,
-            "Avg Intercept Latency": f"{snap.average_intercept_time:.1f} steps" if snap.average_intercept_time is not None else "N/A",
-        })
-
-        # Gather reward trajectories
-        time_df = sim_data["time_df"]
-        for _, row in time_df.iterrows():
-            combined_rewards.append({
-                "Time Step": row["Time Step"],
-                "Cumulative Reward": row["Cumulative Reward"],
-                "Rolling Hit Rate": row["Rolling Hit Rate"],
-                "Algorithm": alg.upper(),
-            })
-
-    summary_df = pd.DataFrame(summary_rows).sort_values(by="Total Cumulative Reward", ascending=False)
-    combined_trajectory_df = pd.DataFrame(combined_rewards)
-
-    return {
-        "runs": runs,
-        "summary_df": summary_df,
-        "trajectory_df": combined_trajectory_df,
-        "algorithms": algorithms,
-        "steps": steps,
-        "seed": seed,
-    }
+    runner = BenchmarkRunner()
+    results = runner.run_benchmark(
+        scenario=scenario,
+        algorithms=algorithms,
+        seeds=seeds,
+        steps=steps,
+    )
+    return results

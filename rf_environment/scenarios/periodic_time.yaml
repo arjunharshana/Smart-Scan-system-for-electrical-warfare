@@ -1,0 +1,36 @@
+simulation:
+  total_time_steps: 300
+  time_step_ms: 10
+  seed: 42
+
+spectrum:
+  min_frequency_hz: 100000000
+  max_frequency_hz: 500000000
+
+receiver:
+  instantaneous_bandwidth_hz: 20000000
+  sensitivity_dbm: -90
+  noise_floor_dbm: -100
+  detection_threshold_db: 6
+  tuning_time_ms: 0
+
+detector:
+  p_detection: 0.95
+  p_false_alarm: 0.02
+
+scheduler:
+  type: ucb1
+
+emitters:
+  - id: E_PERIODIC
+    type: communication
+    frequency_behavior:
+      type: fixed
+      frequency_hz: 400000000
+    time_behavior:
+      type: periodic
+      on_duration: 5
+      off_duration: 15
+      phase: 0
+    power_dbm: -22
+    bandwidth_hz: 2000000

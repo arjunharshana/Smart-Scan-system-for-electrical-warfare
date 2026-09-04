@@ -1,0 +1,227 @@
+[
+  {
+    "dwell": 20,
+    "scheduler": "UCB1",
+    "step_coverage_mean": 0.8366666666666666,
+    "step_coverage_std": 1.1102230246251565e-16,
+    "hits_mean": 502.0,
+    "prediction_accuracy_mean": 0.944,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 20,
+    "scheduler": "THOMPSON",
+    "step_coverage_mean": 0.3333333333333333,
+    "step_coverage_std": 0.015456030825826186,
+    "hits_mean": 200.0,
+    "prediction_accuracy_mean": 0.880071181027561,
+    "intercept_delay_mean": 1.3333333333333333
+  },
+  {
+    "dwell": 20,
+    "scheduler": "SW_UCB",
+    "step_coverage_mean": 0.32666666666666666,
+    "step_coverage_std": 0.0,
+    "hits_mean": 196.0,
+    "prediction_accuracy_mean": 0.8652849740932642,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 20,
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "step_coverage_mean": 0.43222222222222223,
+    "step_coverage_std": 0.01968893905185484,
+    "hits_mean": 259.3333333333333,
+    "prediction_accuracy_mean": 0.8948405268511452,
+    "intercept_delay_mean": 1.3333333333333333
+  },
+  {
+    "dwell": 20,
+    "scheduler": "CONTEXT_AWARE",
+    "step_coverage_mean": 0.32888888888888884,
+    "step_coverage_std": 0.0031426968052735388,
+    "hits_mean": 197.33333333333334,
+    "prediction_accuracy_mean": 0.9493197278911566,
+    "intercept_delay_mean": 2.6666666666666665
+  },
+  {
+    "dwell": 10,
+    "scheduler": "UCB1",
+    "step_coverage_mean": 0.8516666666666667,
+    "step_coverage_std": 0.0,
+    "hits_mean": 511.0,
+    "prediction_accuracy_mean": 0.884313725490196,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 10,
+    "scheduler": "THOMPSON",
+    "step_coverage_mean": 0.3244444444444445,
+    "step_coverage_std": 0.02318737417189913,
+    "hits_mean": 194.66666666666666,
+    "prediction_accuracy_mean": 0.786160166848826,
+    "intercept_delay_mean": 1.3333333333333333
+  },
+  {
+    "dwell": 10,
+    "scheduler": "SW_UCB",
+    "step_coverage_mean": 0.59,
+    "step_coverage_std": 0.0,
+    "hits_mean": 354.0,
+    "prediction_accuracy_mean": 0.8497109826589595,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 10,
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "step_coverage_mean": 0.3161111111111112,
+    "step_coverage_std": 0.010393492741038733,
+    "hits_mean": 189.66666666666666,
+    "prediction_accuracy_mean": 0.7579417677356322,
+    "intercept_delay_mean": 1.3333333333333333
+  },
+  {
+    "dwell": 10,
+    "scheduler": "CONTEXT_AWARE",
+    "step_coverage_mean": 0.32888888888888884,
+    "step_coverage_std": 0.0031426968052735388,
+    "hits_mean": 197.33333333333334,
+    "prediction_accuracy_mean": 0.898639455782313,
+    "intercept_delay_mean": 2.6666666666666665
+  },
+  {
+    "dwell": 5,
+    "scheduler": "UCB1",
+    "step_coverage_mean": 0.44,
+    "step_coverage_std": 0.0,
+    "hits_mean": 264.0,
+    "prediction_accuracy_mean": 0.5916030534351145,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 5,
+    "scheduler": "THOMPSON",
+    "step_coverage_mean": 0.3138888888888889,
+    "step_coverage_std": 0.0077379934873245005,
+    "hits_mean": 188.33333333333334,
+    "prediction_accuracy_mean": 0.6371060501495284,
+    "intercept_delay_mean": 1.3333333333333333
+  },
+  {
+    "dwell": 5,
+    "scheduler": "SW_UCB",
+    "step_coverage_mean": 0.375,
+    "step_coverage_std": 0.0,
+    "hits_mean": 225.0,
+    "prediction_accuracy_mean": 0.5674418604651162,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 5,
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "step_coverage_mean": 0.2594444444444444,
+    "step_coverage_std": 0.011083298524033341,
+    "hits_mean": 155.66666666666666,
+    "prediction_accuracy_mean": 0.5038883702998284,
+    "intercept_delay_mean": 1.3333333333333333
+  },
+  {
+    "dwell": 5,
+    "scheduler": "CONTEXT_AWARE",
+    "step_coverage_mean": 0.2638888888888889,
+    "step_coverage_std": 0.09237938415731049,
+    "hits_mean": 158.33333333333334,
+    "prediction_accuracy_mean": 0.5316239316239316,
+    "intercept_delay_mean": 2.6666666666666665
+  },
+  {
+    "dwell": 3,
+    "scheduler": "UCB1",
+    "step_coverage_mean": 0.2916666666666667,
+    "step_coverage_std": 0.0,
+    "hits_mean": 175.0,
+    "prediction_accuracy_mean": 0.4268292682926829,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 3,
+    "scheduler": "THOMPSON",
+    "step_coverage_mean": 0.30444444444444446,
+    "step_coverage_std": 0.01498970840359116,
+    "hits_mean": 182.66666666666666,
+    "prediction_accuracy_mean": 0.46499320077915396,
+    "intercept_delay_mean": 4.333333333333333
+  },
+  {
+    "dwell": 3,
+    "scheduler": "SW_UCB",
+    "step_coverage_mean": 0.39666666666666667,
+    "step_coverage_std": 0.0,
+    "hits_mean": 238.0,
+    "prediction_accuracy_mean": 0.5666666666666667,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 3,
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "step_coverage_mean": 0.23722222222222222,
+    "step_coverage_std": 0.015051352426826736,
+    "hits_mean": 142.33333333333334,
+    "prediction_accuracy_mean": 0.36569822330529167,
+    "intercept_delay_mean": 4.333333333333333
+  },
+  {
+    "dwell": 3,
+    "scheduler": "CONTEXT_AWARE",
+    "step_coverage_mean": 0.335,
+    "step_coverage_std": 0.0,
+    "hits_mean": 201.0,
+    "prediction_accuracy_mean": 0.668888888888889,
+    "intercept_delay_mean": 2.0
+  },
+  {
+    "dwell": 1,
+    "scheduler": "UCB1",
+    "step_coverage_mean": 0.21,
+    "step_coverage_std": 0.0,
+    "hits_mean": 126.0,
+    "prediction_accuracy_mean": 0.008333333333333333,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 1,
+    "scheduler": "THOMPSON",
+    "step_coverage_mean": 0.31277777777777777,
+    "step_coverage_std": 0.0056655772373253276,
+    "hits_mean": 187.66666666666666,
+    "prediction_accuracy_mean": 0.22799292646074254,
+    "intercept_delay_mean": 1.6666666666666667
+  },
+  {
+    "dwell": 1,
+    "scheduler": "SW_UCB",
+    "step_coverage_mean": 0.011666666666666667,
+    "step_coverage_std": 0.0,
+    "hits_mean": 7.0,
+    "prediction_accuracy_mean": 0.14285714285714285,
+    "intercept_delay_mean": 0.0
+  },
+  {
+    "dwell": 1,
+    "scheduler": "DISCOUNTED_THOMPSON",
+    "step_coverage_mean": 0.22999999999999998,
+    "step_coverage_std": 0.010628403594282769,
+    "hits_mean": 138.0,
+    "prediction_accuracy_mean": 0.2620638209330535,
+    "intercept_delay_mean": 1.6666666666666667
+  },
+  {
+    "dwell": 1,
+    "scheduler": "CONTEXT_AWARE",
+    "step_coverage_mean": 0.6550000000000001,
+    "step_coverage_std": 0.004082482904638634,
+    "hits_mean": 393.0,
+    "prediction_accuracy_mean": 0.4974532081674939,
+    "intercept_delay_mean": 4.666666666666667
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "case": "Case A: High SNR (+80 dB)",
+    "signal_power_dbm": -20.0,
+    "noise_floor_dbm": -100.0,
+    "sensitivity_dbm": -90.0,
+    "threshold_db": 6.0,
+    "expected_snr_db": 80.0,
+    "empirical_Pd": 0.924,
+    "empirical_Pfa": 0.0,
+    "miss_rate": 0.076,
+    "total_scans": 500,
+    "hits": 462,
+    "misses": 38,
+    "in_band_trials": 500
+  },
+  {
+    "case": "Case B: Medium SNR (+20 dB)",
+    "signal_power_dbm": -80.0,
+    "noise_floor_dbm": -100.0,
+    "sensitivity_dbm": -90.0,
+    "threshold_db": 6.0,
+    "expected_snr_db": 20.0,
+    "empirical_Pd": 0.924,
+    "empirical_Pfa": 0.0,
+    "miss_rate": 0.076,
+    "total_scans": 500,
+    "hits": 462,
+    "misses": 38,
+    "in_band_trials": 500
+  },
+  {
+    "case": "Case C: Low SNR (+7 dB)",
+    "signal_power_dbm": -93.0,
+    "noise_floor_dbm": -100.0,
+    "sensitivity_dbm": -90.0,
+    "threshold_db": 6.0,
+    "expected_snr_db": 7.0,
+    "empirical_Pd": 0.054,
+    "empirical_Pfa": 0.0,
+    "miss_rate": 0.946,
+    "total_scans": 500,
+    "hits": 27,
+    "misses": 473,
+    "in_band_trials": 500
+  },
+  {
+    "case": "Case D: Below Sensitivity (-98 dBm < -90 dBm)",
+    "signal_power_dbm": -98.0,
+    "noise_floor_dbm": -100.0,
+    "sensitivity_dbm": -90.0,
+    "threshold_db": 6.0,
+    "expected_snr_db": 2.0,
+    "empirical_Pd": 0.054,
+    "empirical_Pfa": 0.0,
+    "miss_rate": 0.946,
+    "total_scans": 500,
+    "hits": 27,
+    "misses": 473,
+    "in_band_trials": 500
+  }
+]

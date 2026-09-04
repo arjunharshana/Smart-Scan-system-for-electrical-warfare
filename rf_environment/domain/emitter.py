@@ -22,3 +22,5 @@ class EmitterState(Serializable):
     position_x: float = 0.0
     position_y: float = 0.0
     position_z: float = 0.0
+    dwell_steps: int = 1
+    hop_index: int | None = None

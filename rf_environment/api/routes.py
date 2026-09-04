@@ -2,7 +2,12 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 
-from rf_environment.api.schemas import EmitterCreate, SchedulerSelect, SimulationControl
+from rf_environment.api.schemas import (
+    BenchmarkRequest,
+    EmitterCreate,
+    SchedulerSelect,
+    SimulationControl,
+)
 from rf_environment.api.service import SimulationService
 
 router = APIRouter()
@@ -125,11 +130,13 @@ def ground_truth():
 
 
 @router.get("/receiver")
+@router.get("/receiver/state")
 def receiver():
     return service.require_env().receiver.get_state().to_dict()
 
 
 @router.get("/scheduler")
+@router.get("/scheduler/state")
 def scheduler():
     return service.require_env().scheduler.get_state().to_dict()
 
@@ -147,9 +154,69 @@ def metrics():
 
 
 @router.get("/events")
+@router.get("/simulation/events")
 def events(limit: int = 100):
     env = service.require_env()
     return [e.to_dict() for e in env.events.recent(limit)]
+
+
+@router.get("/observations")
+def observations():
+    env = service.require_env()
+    t = env.clock.time_step
+    hist = env.temporal_context.build_history(t).to_dict()
+    return {
+        "time_step": t,
+        "receiver_frequency_hz": env.receiver.center_frequency_hz,
+        "bandwidth_hz": env.receiver.instantaneous_bandwidth_hz,
+        "temporal_history": hist,
+    }
+
+
+@router.get("/opportunities")
+def opportunities():
+    env = service.require_env()
+    return env.get_opportunities_summary()
+
+
+@router.post("/benchmark")
+def benchmark(body: BenchmarkRequest | None = None):
+    from rf_environment.experiments.runner import BenchmarkRunner
+    from rf_environment.environment.scenario import load_scenario
+    from rf_environment.app.config import DEFAULT_SCENARIO
+
+    req = body or BenchmarkRequest()
+    scenario_path = req.scenario_path or str(DEFAULT_SCENARIO)
+    scenario_dict = load_scenario(scenario_path)
+
+    runner = BenchmarkRunner()
+    results = runner.run_benchmark(
+        scenario=scenario_dict,
+        algorithms=req.algorithms,
+        seeds=req.seeds,
+        steps=req.steps,
+        scenario_name=str(scenario_path),
+    )
+    import numpy as np
+
+    def _clean_val(v):
+        if isinstance(v, float) and (np.isnan(v) or np.isinf(v)):
+            return None
+        if isinstance(v, dict):
+            return {k: _clean_val(val) for k, val in v.items()}
+        if isinstance(v, list):
+            return [_clean_val(val) for val in v]
+        return v
+
+    summary_records = [_clean_val(r) for r in results["summary_df"].to_dict(orient="records")]
+    return {
+        "scenario": results["scenario"],
+        "algorithms": results["algorithms"],
+        "seeds": results["seeds"],
+        "steps": results["steps"],
+        "summary": summary_records,
+        "runs_count": len(results["runs"]),
+    }
 
 
 @router.get("/waterfall")

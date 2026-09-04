@@ -33,6 +33,8 @@ class BaseEmitter:
     def step(self, time_step: int) -> EmitterState:
         transmitting = self.time_behavior.is_transmitting(time_step)
         frequency_hz = self.frequency_behavior.get_frequency(time_step, {"transmitting": transmitting})
+        dwell_steps = getattr(self.frequency_behavior, "dwell_steps", 1)
+        hop_index = time_step // dwell_steps if hasattr(self.frequency_behavior, "dwell_steps") else None
         self._state = EmitterState(
             emitter_id=self.emitter_id,
             emitter_type=self.emitter_type,
@@ -47,6 +49,8 @@ class BaseEmitter:
             position_x=self.position[0],
             position_y=self.position[1],
             position_z=self.position[2],
+            dwell_steps=dwell_steps,
+            hop_index=hop_index,
         )
         return self._state
 

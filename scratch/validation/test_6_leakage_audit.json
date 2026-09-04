@@ -1,0 +1,211 @@
+{
+  "observation_fields": [
+    "timestamp",
+    "receiver_frequency_hz",
+    "receiver_bandwidth_hz",
+    "detected",
+    "snr_db",
+    "associated_emitter_id",
+    "reward",
+    "previous_action",
+    "recent_history",
+    "measurement"
+  ],
+  "temporal_history_fields": [
+    "previous_frequencies",
+    "previous_detections",
+    "previous_rewards",
+    "last_detected_frequency_hz",
+    "time_since_last_detection",
+    "band_activity_levels",
+    "time_since_band_last_scanned",
+    "recent_transitions"
+  ],
+  "sample_runtime_observation": {
+    "obs": {
+      "timestamp": 0,
+      "receiver_frequency_hz": 737500000.0,
+      "receiver_bandwidth_hz": 25000000.0,
+      "detected": false,
+      "snr_db": null,
+      "associated_emitter_id": null,
+      "reward": -0.01,
+      "previous_action": 737500000.0,
+      "recent_history": {
+        "previous_frequencies": [
+          737500000.0
+        ],
+        "previous_detections": [
+          false
+        ],
+        "previous_rewards": [
+          -0.01
+        ],
+        "last_detected_frequency_hz": null,
+        "time_since_last_detection": null,
+        "band_activity_levels": {
+          "112.5": 0.0,
+          "137.5": 0.0,
+          "162.5": 0.0,
+          "187.5": 0.0,
+          "212.5": 0.0,
+          "237.5": 0.0,
+          "262.5": 0.0,
+          "287.5": 0.0,
+          "312.5": 0.0,
+          "337.5": 0.0,
+          "362.5": 0.0,
+          "387.5": 0.0,
+          "412.5": 0.0,
+          "437.5": 0.0,
+          "462.5": 0.0,
+          "487.5": 0.0,
+          "512.5": 0.0,
+          "537.5": 0.0,
+          "562.5": 0.0,
+          "587.5": 0.0,
+          "612.5": 0.0,
+          "637.5": 0.0,
+          "662.5": 0.0,
+          "687.5": 0.0,
+          "712.5": 0.0,
+          "737.5": 0.0,
+          "762.5": 0.0,
+          "787.5": 0.0,
+          "812.5": 0.0,
+          "837.5": 0.0,
+          "862.5": 0.0,
+          "887.5": 0.0,
+          "912.5": 0.0,
+          "937.5": 0.0,
+          "962.5": 0.0,
+          "987.5": 0.0
+        },
+        "time_since_band_last_scanned": {
+          "112.5": 999,
+          "137.5": 999,
+          "162.5": 999,
+          "187.5": 999,
+          "212.5": 999,
+          "237.5": 999,
+          "262.5": 999,
+          "287.5": 999,
+          "312.5": 999,
+          "337.5": 999,
+          "362.5": 999,
+          "387.5": 999,
+          "412.5": 999,
+          "437.5": 999,
+          "462.5": 999,
+          "487.5": 999,
+          "512.5": 999,
+          "537.5": 999,
+          "562.5": 999,
+          "587.5": 999,
+          "612.5": 999,
+          "637.5": 999,
+          "662.5": 999,
+          "687.5": 999,
+          "712.5": 999,
+          "737.5": 0,
+          "762.5": 999,
+          "787.5": 999,
+          "812.5": 999,
+          "837.5": 999,
+          "862.5": 999,
+          "887.5": 999,
+          "912.5": 999,
+          "937.5": 999,
+          "962.5": 999,
+          "987.5": 999
+        },
+        "recent_transitions": []
+      },
+      "measurement": {
+        "timestamp": 0,
+        "center_frequency_hz": 737500000.0,
+        "bandwidth_hz": 25000000.0,
+        "in_band_emitter_ids": [],
+        "signal_power_dbm": null,
+        "noise_power_dbm": -99.37199637589347,
+        "snr_db": null,
+        "tuning": false
+      }
+    },
+    "reward": -0.01,
+    "action": 737500000.0
+  },
+  "forbidden_detected": [
+    [
+      "obs.measurement.in_band_emitter_ids",
+      [],
+      "Key contains forbidden token 'emitter_id'"
+    ]
+  ],
+  "scheduler_audits": [
+    {
+      "Scheduler": "sequential",
+      "Class": "SequentialScheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    },
+    {
+      "Scheduler": "random",
+      "Class": "RandomScheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    },
+    {
+      "Scheduler": "ucb1",
+      "Class": "UCB1Scheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    },
+    {
+      "Scheduler": "thompson",
+      "Class": "ThompsonSamplingScheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    },
+    {
+      "Scheduler": "sw_ucb",
+      "Class": "SlidingWindowUCBScheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    },
+    {
+      "Scheduler": "discounted_thompson",
+      "Class": "DiscountedThompsonSamplingScheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    },
+    {
+      "Scheduler": "context_aware",
+      "Class": "ContextAwareScheduler",
+      "Accesses Ground Truth": "NO (ISOLATED)",
+      "Accesses Env Object": "NO (ISOLATED)",
+      "Accesses Opportunities": "NO (ISOLATED)",
+      "Data Sources Used": "Observation, Measurement, TemporalHistory, Learned Counts",
+      "Audit Verdict": "ALLOWED"
+    }
+  ],
+  "associated_emitter_id_is_none": true
+}

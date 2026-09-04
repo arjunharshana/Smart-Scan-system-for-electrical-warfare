@@ -56,10 +56,17 @@ class RFEnvironment:
         self.running = False
         self._initialized = False
 
+        # V2: Temporal context and observed transition learning
+        from rf_environment.environment.context_manager import TemporalContextManager
+        from rf_environment.metrics.transition_tracker import ObservedTransitionTracker
+
+        self.temporal_context = TemporalContextManager(bands_hz=self.scheduler.bands_hz)
+        self.transition_tracker = ObservedTransitionTracker(bands_hz=self.scheduler.bands_hz)
+
     def _ensure_initial_tune(self) -> None:
         if self._initialized:
             return
-        freq = self.scheduler.select_frequency(None)
+        freq = self.scheduler.select_action(None)
         self.receiver.tune(freq)
         self.events.publish(
             0,
@@ -105,20 +112,49 @@ class RFEnvironment:
         ]
         intercepted = in_band_tx if detection.detected and not detection.false_alarm else []
 
+        active_tx_states = [s for s in states if s.transmitting]
+
         if detection.detected and in_band_tx:
             outcome = OutcomeType.HIT.value
+            diagnostic_reason = f"Target Intercepted: Receiver scanned {rx_cf/1e6:.1f} MHz, covering active emitter(s) {in_band_tx}."
         elif detection.detected and not in_band_tx:
             outcome = OutcomeType.FALSE_ALARM.value
+            diagnostic_reason = f"False Alarm: Detector triggered on noise at {rx_cf/1e6:.1f} MHz in an unoccupied band."
         elif (not detection.detected) and in_band_tx:
             outcome = OutcomeType.MISS.value
+            diagnostic_reason = f"Detector Miss: Emitter(s) {in_band_tx} were in band {rx_cf/1e6:.1f} MHz, but detector failed to trigger."
         else:
             outcome = OutcomeType.CORRECT_REJECTION.value
+            if active_tx_states:
+                first_active = active_tx_states[0]
+                diagnostic_reason = f"Receiver Off-Frequency: Receiver scanned {rx_cf/1e6:.1f} MHz while {first_active.emitter_id} transmitted at {first_active.frequency_hz/1e6:.1f} MHz."
+            else:
+                diagnostic_reason = f"No Transmissions: Receiver scanned {rx_cf/1e6:.1f} MHz and no emitter was active in the spectrum."
 
         reward = self.reward_calculator.compute(outcome)
         associated = in_band_tx[0] if intercepted else None
         if detection.detected and associated:
             detection.emitter_id = associated
             detection.associated = True
+
+        # V2 Opportunity Tracking (strict ground truth separation: only used by evaluator)
+        self.metrics.opportunity_tracker.step(
+            timestamp=t,
+            emitter_states=states,
+            rx_center_freq_hz=rx_cf,
+            rx_bandwidth_hz=rx_bw,
+            detector_detected=detection.detected,
+            is_false_alarm=detection.false_alarm,
+        )
+
+        # V2 Observed Transition Learning (based strictly on receiver observation)
+        pred_record = self.transition_tracker.step_observation(
+            timestamp=t,
+            scanned_freq_hz=rx_cf,
+            detected=detection.detected,
+        )
+        if pred_record is not None:
+            self.metrics.record_prediction(pred_record.correct)
 
         scan_outcome = ScanOutcome(
             timestamp=t,
@@ -130,19 +166,24 @@ class RFEnvironment:
             reward=reward,
         )
 
+        # Build clean observation for scheduler (NO ground truth leak)
         observation = Observation(
             timestamp=t,
             receiver_frequency_hz=rx_cf,
             receiver_bandwidth_hz=rx_bw,
             detected=detection.detected,
             snr_db=detection.snr_db,
-            associated_emitter_id=detection.emitter_id if detection.associated else None,
+            associated_emitter_id=None,  # Scheduler never sees ground-truth emitter identity
             reward=reward,
             measurement=measurement,
         )
 
-        self.scheduler.update(observation, reward)
-        next_freq = self.scheduler.select_frequency(observation)
+        # Update and enrich with temporal context
+        self.temporal_context.update(t, rx_cf, detection.detected, reward)
+        self.temporal_context.enrich_observation(observation)
+
+        self.scheduler.update(observation, reward, action=rx_cf)
+        next_freq = self.scheduler.select_action(observation)
         self.receiver.tune(next_freq)
 
         snapshot = self.metrics.record(
@@ -195,12 +236,15 @@ class RFEnvironment:
                 "receiver_bandwidth_hz": rx_bw,
                 "detected": detection.detected,
                 "snr_db": detection.snr_db,
+                "outcome": outcome,
+                "diagnostic_reason": diagnostic_reason,
             }
         )
 
         finished = self.clock.finished()
         if finished:
             self.running = False
+            self.metrics.opportunity_tracker.finalize(t)
             self.events.publish(t, EventType.SIMULATION_COMPLETED, **snapshot.to_dict())
 
         return {
@@ -212,6 +256,7 @@ class RFEnvironment:
             "metrics": snapshot.to_dict(),
             "receiver": self.receiver.get_state().to_dict(),
             "scheduler": self.scheduler.get_state().to_dict(),
+            "diagnostic_reason": diagnostic_reason,
             "finished": finished,
         }
 
@@ -240,4 +285,8 @@ class RFEnvironment:
             "metrics": self.metrics.snapshot(max(self.clock.time_step, 0)).to_dict(),
             "ground_truth": latest_gt,
             "spectrum": self.spectrum,
+            "transition_stats": self.transition_tracker.get_stats().to_dict(),
         }
+
+    def get_opportunities_summary(self) -> list[dict[str, Any]]:
+        return [o.to_summary_dict() for o in self.metrics.opportunity_tracker.get_all_opportunities()]

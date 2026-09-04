@@ -21,6 +21,9 @@ class Detector:
         self.p_false_alarm = float(p_false_alarm)
         self.rng = np.random.default_rng(seed)
 
+    def reseed(self, seed: int | None = None) -> None:
+        self.rng = np.random.default_rng(seed)
+
     def detect(self, measurement: ReceiverMeasurement) -> DetectionResult:
         if measurement.tuning:
             return DetectionResult(

@@ -3,18 +3,14 @@ from __future__ import annotations
 from typing import Any
 import numpy as np
 
-from rf_environment.domain.metrics import SchedulerState
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from rf_environment.domain.action import ScanAction
+from rf_environment.domain.metrics import SchedulerTelemetryState
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class DiscountedThompsonSamplingScheduler(ScanScheduler):
-    """Discounted Thompson Sampling (D-TS) algorithm for non-stationary environments.
-
-    Applies an exponential discount factor (gamma < 1.0) to past observations
-    so that older information gradually loses influence while recent detections
-    dominate the Beta posterior distributions.
-    """
+class DiscountedThompsonSamplingScheduler(BaseScheduler):
+    """Discounted Thompson Sampling (D-TS) algorithm for non-stationary environments."""
 
     name = "discounted_thompson"
     category = "non_stationary"
@@ -36,8 +32,7 @@ class DiscountedThompsonSamplingScheduler(ScanScheduler):
         self.rng = np.random.default_rng(seed)
         self._last_arm: int | None = None
 
-    def select_frequency(self, observation: Observation | None) -> float:
-        # Sample from current discounted Beta posteriors
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         samples = [float(self.rng.beta(a, b)) for a, b in zip(self.alpha, self.beta)]
         self._last_arm = max(range(len(samples)), key=lambda i: samples[i])
         self.last_selected = self.bands_hz[self._last_arm]
@@ -55,24 +50,53 @@ class DiscountedThompsonSamplingScheduler(ScanScheduler):
             "beta": b,
             "gamma": self.gamma,
         }
-        return self.last_selected
+        return self._last_arm
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        if self._last_arm is None:
-            return
+    def select_frequency(self, observation: Any = None) -> float:
+        arm = self.select_bin(observation)
+        return self.bands_hz[arm]
 
-        # 1. Apply discount factor gamma to all arms (decay toward uniform prior 1.0)
+    def update_policy(
+        self,
+        observation: SchedulerObservation,
+        action: ScanAction,
+        reward: float,
+        next_observation: SchedulerObservation,
+        done: bool,
+    ) -> None:
         n = len(self.bands_hz)
         for i in range(n):
             self.alpha[i] = 1.0 + self.gamma * (self.alpha[i] - 1.0)
             self.beta[i] = 1.0 + self.gamma * (self.beta[i] - 1.0)
 
-        # 2. Add newest observation to chosen arm
-        chosen_i = self._last_arm
-        if reward > 0:
-            self.alpha[chosen_i] += 1.0
+        chosen_i = action.frequency_bin
+        if 0 <= chosen_i < n:
+            if next_observation.last_detection or reward > 0:
+                self.alpha[chosen_i] += 1.0
+            else:
+                self.beta[chosen_i] += 1.0
+
+    def update(self, observation: Any, reward: float, action: float | int | None = None) -> None:
+        if action is not None:
+            if isinstance(action, int):
+                chosen_i = action
+            else:
+                chosen_i = min(range(len(self.bands_hz)), key=lambda idx: abs(self.bands_hz[idx] - float(action)))
+        elif self._last_arm is not None:
+            chosen_i = self._last_arm
         else:
-            self.beta[chosen_i] += 1.0
+            return
+
+        n = len(self.bands_hz)
+        for i in range(n):
+            self.alpha[i] = 1.0 + self.gamma * (self.alpha[i] - 1.0)
+            self.beta[i] = 1.0 + self.gamma * (self.beta[i] - 1.0)
+
+        if 0 <= chosen_i < n:
+            if reward > 0:
+                self.alpha[chosen_i] += 1.0
+            else:
+                self.beta[chosen_i] += 1.0
 
     def reset(self) -> None:
         super().reset()
@@ -82,7 +106,7 @@ class DiscountedThompsonSamplingScheduler(ScanScheduler):
         self.rng = np.random.default_rng(self.seed)
         self._last_arm = None
 
-    def get_state(self) -> SchedulerState:
+    def get_state(self) -> SchedulerTelemetryState:
         totals = [a + b for a, b in zip(self.alpha, self.beta)]
         stats = [
             {
@@ -96,7 +120,7 @@ class DiscountedThompsonSamplingScheduler(ScanScheduler):
             }
             for f, a, b, t in zip(self.bands_hz, self.alpha, self.beta, totals)
         ]
-        return SchedulerState(
+        return SchedulerTelemetryState(
             name=self.name,
             category=self.category,
             selected_frequency_hz=self.last_selected,

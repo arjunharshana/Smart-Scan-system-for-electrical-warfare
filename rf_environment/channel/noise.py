@@ -12,6 +12,9 @@ class AdditiveNoise:
         self.noise_floor_dbm = float(noise_floor_dbm)
         self.rng = np.random.default_rng(seed)
 
+    def reseed(self, seed: int | None = None) -> None:
+        self.rng = np.random.default_rng(seed)
+
     def sample_dbm(self) -> float:
         # Small AWGN fluctuation around the configured floor.
         return float(self.noise_floor_dbm + self.rng.normal(0.0, 0.5))

@@ -3,7 +3,7 @@ from __future__ import annotations
 from rf_environment.domain.enums import Serializable
 
 
-class SchedulerState(Serializable):
+class SchedulerTelemetryState(Serializable):
     name: str
     category: str = "baseline"  # baseline, non_stationary, contextual
     selected_frequency_hz: float | None = None

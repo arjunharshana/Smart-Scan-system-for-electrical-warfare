@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+from typing import Any
 import numpy as np
 
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class RandomScheduler(ScanScheduler):
+class RandomScheduler(BaseScheduler):
     name = "random"
     category = "baseline"
 
@@ -15,7 +16,7 @@ class RandomScheduler(ScanScheduler):
         self.seed = seed
         self.rng = np.random.default_rng(seed)
 
-    def select_frequency(self, observation: Observation | None) -> float:
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         idx = int(self.rng.integers(0, len(self.bands_hz)))
         self.last_selected = self.bands_hz[idx]
         self.last_explanation = {
@@ -25,10 +26,11 @@ class RandomScheduler(ScanScheduler):
             "estimated_value": 0.0,
             "exploration_bonus": 0.0,
         }
-        return self.last_selected
+        return idx
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        return None
+    def select_frequency(self, observation: Any = None) -> float:
+        idx = self.select_bin(observation)
+        return self.bands_hz[idx]
 
     def reset(self) -> None:
         super().reset()

@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
 import numpy as np
 
-from rf_environment.domain.metrics import SchedulerState
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from rf_environment.domain.action import ScanAction
+from rf_environment.domain.metrics import SchedulerTelemetryState
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class ThompsonSamplingScheduler(ScanScheduler):
+class ThompsonSamplingScheduler(BaseScheduler):
     name = "thompson_sampling"
     category = "baseline"
 
@@ -20,7 +22,7 @@ class ThompsonSamplingScheduler(ScanScheduler):
         self.rng = np.random.default_rng(seed)
         self._last_arm: int | None = None
 
-    def select_frequency(self, observation: Observation | None) -> float:
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         samples = [float(self.rng.beta(a, b)) for a, b in zip(self.alpha, self.beta)]
         self._last_arm = max(range(len(samples)), key=lambda i: samples[i])
         self.last_selected = self.bands_hz[self._last_arm]
@@ -36,16 +38,42 @@ class ThompsonSamplingScheduler(ScanScheduler):
             "alpha": a,
             "beta": b,
         }
-        return self.last_selected
+        return self._last_arm
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        if self._last_arm is None:
-            return
-        i = self._last_arm
-        if reward > 0:
-            self.alpha[i] += 1.0
+    def select_frequency(self, observation: Any = None) -> float:
+        arm = self.select_bin(observation)
+        return self.bands_hz[arm]
+
+    def update_policy(
+        self,
+        observation: SchedulerObservation,
+        action: ScanAction,
+        reward: float,
+        next_observation: SchedulerObservation,
+        done: bool,
+    ) -> None:
+        i = action.frequency_bin
+        if 0 <= i < len(self.alpha):
+            if next_observation.last_detection or reward > 0:
+                self.alpha[i] += 1.0
+            else:
+                self.beta[i] += 1.0
+
+    def update(self, observation: Any, reward: float, action: float | int | None = None) -> None:
+        if action is not None:
+            if isinstance(action, int):
+                i = action
+            else:
+                i = min(range(len(self.bands_hz)), key=lambda idx: abs(self.bands_hz[idx] - float(action)))
+        elif self._last_arm is not None:
+            i = self._last_arm
         else:
-            self.beta[i] += 1.0
+            return
+        if 0 <= i < len(self.alpha):
+            if reward > 0:
+                self.alpha[i] += 1.0
+            else:
+                self.beta[i] += 1.0
 
     def reset(self) -> None:
         super().reset()
@@ -55,7 +83,7 @@ class ThompsonSamplingScheduler(ScanScheduler):
         self.rng = np.random.default_rng(self.seed)
         self._last_arm = None
 
-    def get_state(self) -> SchedulerState:
+    def get_state(self) -> SchedulerTelemetryState:
         totals = [a + b for a, b in zip(self.alpha, self.beta)]
         stats = [
             {
@@ -68,7 +96,7 @@ class ThompsonSamplingScheduler(ScanScheduler):
             }
             for f, a, b, t in zip(self.bands_hz, self.alpha, self.beta, totals)
         ]
-        return SchedulerState(
+        return SchedulerTelemetryState(
             name=self.name,
             category=self.category,
             selected_frequency_hz=self.last_selected,

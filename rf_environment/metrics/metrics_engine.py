@@ -40,6 +40,24 @@ class MetricsEngine:
         self.total_predictions = 0
         self.correct_predictions = 0
 
+    def reset(self) -> None:
+        """Resets all metric counters and opportunity tracker."""
+        self.total_scans = 0
+        self.hits = 0
+        self.misses = 0
+        self.false_alarms = 0
+        self.correct_rejections = 0
+        self.rewards.clear()
+        self.cumulative_reward = 0.0
+        self.detected_emitters.clear()
+        self.first_intercept.clear()
+        self.transmitting_emitter_steps = 0
+        self.intercepted_emitter_steps = 0
+        self._intercept_history.clear()
+        self.total_predictions = 0
+        self.correct_predictions = 0
+        self.opportunity_tracker.reset()
+
     def record_prediction(self, correct: bool) -> None:
         """Records an observed frequency transition prediction outcome."""
         self.total_predictions += 1

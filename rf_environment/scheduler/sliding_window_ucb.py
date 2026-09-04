@@ -4,12 +4,13 @@ from collections import deque
 import math
 from typing import Any
 
-from rf_environment.domain.metrics import SchedulerState
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from rf_environment.domain.action import ScanAction
+from rf_environment.domain.metrics import SchedulerTelemetryState
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class SlidingWindowUCBScheduler(ScanScheduler):
+class SlidingWindowUCBScheduler(BaseScheduler):
     """Sliding-Window Upper Confidence Bound (SW-UCB) algorithm.
 
     Maintains a FIFO window of the most recent N observations.
@@ -35,7 +36,7 @@ class SlidingWindowUCBScheduler(ScanScheduler):
         self.window: deque[tuple[int, float, int]] = deque(maxlen=self.window_size)
         self._last_arm: int | None = None
 
-    def select_frequency(self, observation: Observation | None) -> float:
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         self.t += 1
         n = len(self.bands_hz)
 
@@ -59,7 +60,7 @@ class SlidingWindowUCBScheduler(ScanScheduler):
                     "exploration_bonus": float("inf"),
                     "window_pulls": 0,
                 }
-                return self.last_selected
+                return i
 
         effective_t = min(self.t, self.window_size)
         scores = []
@@ -83,12 +84,33 @@ class SlidingWindowUCBScheduler(ScanScheduler):
             "exploration_bonus": bonuses[chosen],
             "window_pulls": counts[chosen],
         }
-        return self.last_selected
+        return self._last_arm
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        if self._last_arm is None:
+    def select_frequency(self, observation: Any = None) -> float:
+        arm = self.select_bin(observation)
+        return self.bands_hz[arm]
+
+    def update_policy(
+        self,
+        observation: SchedulerObservation,
+        action: ScanAction,
+        reward: float,
+        next_observation: SchedulerObservation,
+        done: bool,
+    ) -> None:
+        self.window.append((action.frequency_bin, float(reward), self.t))
+
+    def update(self, observation: Any, reward: float, action: float | int | None = None) -> None:
+        if action is not None:
+            if isinstance(action, int):
+                arm = action
+            else:
+                arm = min(range(len(self.bands_hz)), key=lambda idx: abs(self.bands_hz[idx] - float(action)))
+        elif self._last_arm is not None:
+            arm = self._last_arm
+        else:
             return
-        self.window.append((self._last_arm, float(reward), self.t))
+        self.window.append((arm, float(reward), self.t))
 
     def reset(self) -> None:
         super().reset()
@@ -96,7 +118,7 @@ class SlidingWindowUCBScheduler(ScanScheduler):
         self.window.clear()
         self._last_arm = None
 
-    def get_state(self) -> SchedulerState:
+    def get_state(self) -> SchedulerTelemetryState:
         n = len(self.bands_hz)
         counts = [0] * n
         reward_sums = [0.0] * n
@@ -106,25 +128,22 @@ class SlidingWindowUCBScheduler(ScanScheduler):
 
         effective_t = min(max(self.t, 2), self.window_size)
         stats = []
-        for i, f in enumerate(self.bands_hz):
-            c = counts[i]
-            mean = reward_sums[i] / c if c > 0 else 0.0
+        for i in range(n):
+            mean = reward_sums[i] / counts[i] if counts[i] > 0 else 0.0
             bonus = (
-                self.exploration * math.sqrt((2.0 * math.log(effective_t)) / c)
-                if c > 0
+                self.exploration * math.sqrt((2.0 * math.log(effective_t)) / counts[i])
+                if counts[i] > 0
                 else float("inf")
             )
             stats.append({
-                "frequency_hz": f,
-                "count": c,
+                "frequency_hz": self.bands_hz[i],
+                "count": counts[i],
                 "value": mean,
                 "probability": max(mean, 0.0),
-                "bonus": bonus if c > 0 else 0.0,
-                "upper_bound": mean + bonus if c > 0 else 0.0,
-                "window_size": self.window_size,
+                "bonus": bonus if counts[i] > 0 else 0.0,
+                "upper_bound": mean + bonus if counts[i] > 0 else 0.0,
             })
-
-        return SchedulerState(
+        return SchedulerTelemetryState(
             name=self.name,
             category=self.category,
             selected_frequency_hz=self.last_selected,

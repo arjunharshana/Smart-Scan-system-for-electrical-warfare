@@ -30,6 +30,16 @@ class ObservedTransitionTracker:
         self.total_predictions = 0
         self.correct_predictions = 0
 
+    def reset(self) -> None:
+        self.counts = {src: {dst: 0 for dst in self.bands_hz} for src in self.bands_hz}
+        self.last_detected_freq = None
+        self.last_detected_time = None
+        self.pending_prediction = None
+        self.predictions.clear()
+        self.total_transitions = 0
+        self.total_predictions = 0
+        self.correct_predictions = 0
+
     def step_observation(
         self,
         timestamp: int,

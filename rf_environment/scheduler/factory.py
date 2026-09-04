@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from rf_environment.scheduler.rl_scheduler import RLScheduler
+
 from rf_environment.scheduler.base import ScanScheduler
 from rf_environment.scheduler.context_aware import ContextAwareScheduler
 from rf_environment.scheduler.discounted_thompson import DiscountedThompsonSamplingScheduler
@@ -46,6 +48,11 @@ SCHEDULER_METADATA = {
         "category": "contextual",
         "description": "Learns empirical frequency transition patterns from detections combined with recency and coverage bonuses.",
     },
+    "rl": {
+        "name": "RL Scheduler (Placeholder)",
+        "category": "rl",
+        "description": "Reinforcement learning scan scheduler interface placeholder.",
+    },
 }
 
 
@@ -76,4 +83,6 @@ def create_scheduler(name: str, bands_hz: list[float], seed: int = 0) -> ScanSch
         return DiscountedThompsonSamplingScheduler(bands_hz, gamma=0.95, seed=seed)
     if key in {"context_aware", "contextual", "transition", "context"}:
         return ContextAwareScheduler(bands_hz, seed=seed)
+    if key in {"rl", "rl_scheduler"}:
+        return RLScheduler(bands_hz, allow_fallback_policy=True, seed=seed)
     raise ValueError(f"Unknown scheduler: {name}. Available: {list(SCHEDULER_METADATA.keys())}")

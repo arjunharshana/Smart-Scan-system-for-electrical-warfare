@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 import math
+from typing import Any
 
-from rf_environment.domain.metrics import SchedulerState
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from rf_environment.domain.action import ScanAction
+from rf_environment.domain.metrics import SchedulerTelemetryState
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class UCB1Scheduler(ScanScheduler):
+class UCB1Scheduler(BaseScheduler):
     name = "ucb1"
     category = "baseline"
 
@@ -20,7 +22,7 @@ class UCB1Scheduler(ScanScheduler):
         self.t = 0
         self._last_arm: int | None = None
 
-    def select_frequency(self, observation: Observation | None) -> float:
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         self.t += 1
         for i, count in enumerate(self.counts):
             if count == 0:
@@ -34,7 +36,7 @@ class UCB1Scheduler(ScanScheduler):
                     "exploration_bonus": float("inf"),
                     "arm_pulls": 0,
                 }
-                return self.last_selected
+                return i
 
         scores = []
         bonuses = []
@@ -54,15 +56,40 @@ class UCB1Scheduler(ScanScheduler):
             "exploration_bonus": bonuses[chosen_i],
             "arm_pulls": self.counts[chosen_i],
         }
-        return self.last_selected
+        return self._last_arm
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        if self._last_arm is None:
+    def select_frequency(self, observation: Any = None) -> float:
+        arm = self.select_bin(observation)
+        return self.bands_hz[arm]
+
+    def update_policy(
+        self,
+        observation: SchedulerObservation,
+        action: ScanAction,
+        reward: float,
+        next_observation: SchedulerObservation,
+        done: bool,
+    ) -> None:
+        i = action.frequency_bin
+        if 0 <= i < len(self.counts):
+            self.counts[i] += 1
+            n = self.counts[i]
+            self.values[i] += (reward - self.values[i]) / n
+
+    def update(self, observation: Any, reward: float, action: float | int | None = None) -> None:
+        if action is not None:
+            if isinstance(action, int):
+                i = action
+            else:
+                i = min(range(len(self.bands_hz)), key=lambda idx: abs(self.bands_hz[idx] - float(action)))
+        elif self._last_arm is not None:
+            i = self._last_arm
+        else:
             return
-        i = self._last_arm
-        self.counts[i] += 1
-        n = self.counts[i]
-        self.values[i] += (reward - self.values[i]) / n
+        if 0 <= i < len(self.counts):
+            self.counts[i] += 1
+            n = self.counts[i]
+            self.values[i] += (reward - self.values[i]) / n
 
     def reset(self) -> None:
         super().reset()
@@ -72,7 +99,7 @@ class UCB1Scheduler(ScanScheduler):
         self.t = 0
         self._last_arm = None
 
-    def get_state(self) -> SchedulerState:
+    def get_state(self) -> SchedulerTelemetryState:
         stats = []
         for i, (f, c, v) in enumerate(zip(self.bands_hz, self.counts, self.values)):
             bonus = (
@@ -88,7 +115,7 @@ class UCB1Scheduler(ScanScheduler):
                 "bonus": bonus if c > 0 else 0.0,
                 "upper_bound": v + bonus if c > 0 else 0.0,
             })
-        return SchedulerState(
+        return SchedulerTelemetryState(
             name=self.name,
             category=self.category,
             selected_frequency_hz=self.last_selected,

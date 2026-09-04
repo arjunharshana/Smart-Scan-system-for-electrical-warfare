@@ -25,6 +25,13 @@ class RandomFrequency(FrequencyBehavior):
         self.dwell_steps = max(1, int(dwell_steps))
         self.rng = np.random.default_rng(seed)
         self._cache: dict[int, float] = {}
+
+    def reseed(self, seed: int | None = None) -> None:
+        self.rng = np.random.default_rng(seed)
+        self._cache.clear()
+
+    def reset(self) -> None:
+        self._cache.clear()
         if not self.frequencies_hz and (min_frequency_hz is None or max_frequency_hz is None):
             raise ValueError("RandomFrequency needs a frequency set or a min/max range")
 

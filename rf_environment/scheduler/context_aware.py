@@ -3,12 +3,13 @@ from __future__ import annotations
 from typing import Any
 import numpy as np
 
-from rf_environment.domain.metrics import SchedulerState
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from rf_environment.domain.action import ScanAction
+from rf_environment.domain.metrics import SchedulerTelemetryState
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class ContextAwareScheduler(ScanScheduler):
+class ContextAwareScheduler(BaseScheduler):
     """Simplified 3-term Context-Aware / Transition Scan Scheduler.
 
     Combines three interpretable terms using configurable weights:
@@ -42,131 +43,176 @@ class ContextAwareScheduler(ScanScheduler):
         self.seed = seed
         self.rng = np.random.default_rng(seed)
 
-        # Empirical transition counts from observed detections: src -> dst -> count
-        self.counts: dict[float, dict[float, int]] = {
-            src: {dst: 0 for dst in self.bands_hz} for src in self.bands_hz
-        }
-        self.last_detected_freq: float | None = None
-        self.last_scanned_time: dict[float, int] = {b: -999 for b in self.bands_hz}
+        n = len(self.bands_hz)
+        # Empirical transition counts: src_bin -> dst_bin -> count
+        self.counts_by_bin: list[list[int]] = [[0] * n for _ in range(n)]
+        self.last_detected_bin: int | None = None
+        self.last_scanned_time: list[int] = [-999] * n
         self.t = 0
         self.predicted_frequency_hz: float | None = None
 
-    def _closest_band(self, freq_hz: float) -> float:
-        return min(self.bands_hz, key=lambda b: abs(b - freq_hz))
+    @property
+    def counts(self) -> dict[float, dict[float, int]]:
+        """Legacy compatibility mapping of counts by Hz."""
+        return {
+            src_f: {dst_f: self.counts_by_bin[i][j] for j, dst_f in enumerate(self.bands_hz)}
+            for i, src_f in enumerate(self.bands_hz)
+        }
 
-    def select_frequency(self, observation: Observation | None) -> float:
+    @property
+    def last_detected_freq(self) -> float | None:
+        return self.bands_hz[self.last_detected_bin] if self.last_detected_bin is not None else None
+
+    def _closest_band_idx(self, freq_hz: float) -> int:
+        return min(range(len(self.bands_hz)), key=lambda i: abs(self.bands_hz[i] - freq_hz))
+
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         self.t += 1
         n = len(self.bands_hz)
 
-        # 1. Determine last detected frequency from observation context
-        last_det = None
-        if observation and observation.recent_history:
-            last_det = observation.recent_history.last_detected_frequency_hz
-        if last_det is None:
-            last_det = self.last_detected_freq
+        # 1. Determine last detected bin
+        last_det_bin = None
+        if isinstance(observation, SchedulerObservation):
+            last_det_bin = observation.last_detection_bin
+        if last_det_bin is None:
+            last_det_bin = self.last_detected_bin
 
-        # 2. Compute Transition Probabilities T_j = P(band_j | last_det)
-        transition_probs = {}
-        if last_det is not None:
-            src = self._closest_band(last_det)
-            row = self.counts[src]
-            total_pulls = sum(row.values())
+        # 2. Transition probabilities T_j = P(bin_j | last_det_bin)
+        transition_probs = [1.0 / n] * n
+        if last_det_bin is not None and 0 <= last_det_bin < n:
+            row = self.counts_by_bin[last_det_bin]
+            total_pulls = sum(row)
             denom = total_pulls + self.smoothing * n
-            for dst in self.bands_hz:
-                transition_probs[dst] = (row[dst] + self.smoothing) / denom
+            transition_probs = [(row[j] + self.smoothing) / denom for j in range(n)]
+
+        best_dst_idx = max(range(n), key=lambda j: transition_probs[j])
+        self.predicted_frequency_hz = self.bands_hz[best_dst_idx]
+
+        # 3. Activity levels A_j from recent history: detection rate of bin_j when probed
+        activity_scores = [0.0] * n
+        if isinstance(observation, SchedulerObservation) and observation.recent_detection_history:
+            for j in range(n):
+                scans_j = sum(1 for b in observation.recent_frequency_history if b == j)
+                if scans_j > 0:
+                    dets_j = sum(
+                        1
+                        for det, b in zip(
+                            observation.recent_detection_history,
+                            observation.recent_frequency_history,
+                        )
+                        if det and b == j
+                    )
+                    activity_scores[j] = dets_j / scans_j
+
+        # 4. Exploration scores E_j
+        exploration_scores = [1.0] * n
+        if isinstance(observation, SchedulerObservation) and observation.time_since_scan_by_bin:
+            stale = max(self.stale_threshold, 1)
+            exploration_scores = [
+                min(1.0, observation.time_since_scan_by_bin[j] / stale)
+                for j in range(n)
+            ]
         else:
-            for dst in self.bands_hz:
-                transition_probs[dst] = 1.0 / n
-
-        # Next frequency prediction is the argmax of transition probability
-        self.predicted_frequency_hz = max(self.bands_hz, key=lambda b: transition_probs[b])
-
-        # 3. Compute Activity Levels A_j
-        activity_levels = {}
-        if observation and observation.recent_history and observation.recent_history.band_activity_levels:
-            for b in self.bands_hz:
-                key = f"{b/1e6:.1f}"
-                activity_levels[b] = observation.recent_history.band_activity_levels.get(key, 0.0)
-        else:
-            activity_levels = {b: 0.0 for b in self.bands_hz}
-
-        # 4. Compute Exploration / Coverage term E_j based on elapsed idle time
-        exploration_scores = {}
-        for b in self.bands_hz:
-            elapsed = self.t - self.last_scanned_time.get(b, -999)
-            exploration_scores[b] = min(1.0, elapsed / max(self.stale_threshold, 1))
+            for j in range(n):
+                elapsed = self.t - self.last_scanned_time[j]
+                exploration_scores[j] = min(1.0, elapsed / max(self.stale_threshold, 1))
 
         # 5. Combined Score
-        scores = {}
-        for b in self.bands_hz:
-            s = (
-                self.w_trans * transition_probs[b]
-                + self.w_act * activity_levels[b]
-                + self.w_exp * exploration_scores[b]
+        scores = []
+        for j in range(n):
+            score = (
+                self.w_trans * transition_probs[j]
+                + self.w_act * activity_scores[j]
+                + self.w_exp * exploration_scores[j]
             )
-            # Small random tie-breaker
-            scores[b] = s + self.rng.uniform(0, 1e-6)
+            scores.append(score)
 
-        best_band = max(self.bands_hz, key=lambda b: scores[b])
-        self.last_selected = best_band
-        self.last_scanned_time[best_band] = self.t
+        # Break ties with small deterministic jitter
+        jitter = [float(self.rng.uniform(0.0, 1e-6)) for _ in range(n)]
+        chosen_bin = max(range(n), key=lambda j: scores[j] + jitter[j])
 
-        t_prob = transition_probs[best_band]
-        act_score = activity_levels[best_band]
-        exp_score = exploration_scores[best_band]
-        tot = scores[best_band]
-
-        prev_str = f"{last_det/1e6:.0f} MHz" if last_det is not None else "None"
+        self.last_selected_bin = chosen_bin
+        self.last_selected = self.bands_hz[chosen_bin]
         self.last_explanation = {
-            "action_mhz": best_band / 1e6,
+            "action_mhz": self.last_selected / 1e6,
             "reason": (
-                f"Combined score {tot:.3f} = {self.w_trans:.2f}×Trans({t_prob:.2f} from {prev_str}) + "
-                f"{self.w_act:.2f}×Act({act_score:.2f}) + {self.w_exp:.2f}×Exp({exp_score:.2f})"
+                f"Combined score {scores[chosen_bin]:.3f} = "
+                f"{self.w_trans:.2f}×Trans({transition_probs[chosen_bin]:.2f} from {self.bands_hz[last_det_bin]/1e6 if last_det_bin is not None else 'None'}) + "
+                f"{self.w_act:.2f}×Act({activity_scores[chosen_bin]:.2f}) + "
+                f"{self.w_exp:.2f}×Exp({exploration_scores[chosen_bin]:.2f})"
             ),
             "rule": "weighted_context_fusion",
-            "transition_probability": t_prob,
-            "activity_level": act_score,
-            "exploration_bonus": exp_score,
-            "estimated_value": tot,
+            "transition_probability": transition_probs[chosen_bin],
+            "activity_level": activity_scores[chosen_bin],
+            "exploration_bonus": exploration_scores[chosen_bin],
+            "estimated_value": scores[chosen_bin],
             "predicted_next_mhz": self.predicted_frequency_hz / 1e6 if self.predicted_frequency_hz else None,
         }
-        return self.last_selected
+        return chosen_bin
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        scanned_freq = action or observation.receiver_frequency_hz
-        band = self._closest_band(scanned_freq)
-        self.last_scanned_time[band] = self.t
+    def select_frequency(self, observation: Any = None) -> float:
+        bin_idx = self.select_bin(observation)
+        return self.bands_hz[bin_idx]
 
-        if observation.detected:
-            if self.last_detected_freq is not None:
-                src = self._closest_band(self.last_detected_freq)
-                dst = self._closest_band(scanned_freq)
-                self.counts[src][dst] += 1
-            self.last_detected_freq = scanned_freq
+    def update_policy(
+        self,
+        observation: SchedulerObservation,
+        action: ScanAction,
+        reward: float,
+        next_observation: SchedulerObservation,
+        done: bool,
+    ) -> None:
+        scanned_bin = action.frequency_bin
+        if 0 <= scanned_bin < len(self.last_scanned_time):
+            self.last_scanned_time[scanned_bin] = self.t
+
+        if next_observation.last_detection:
+            if self.last_detected_bin is not None and 0 <= self.last_detected_bin < len(self.bands_hz):
+                self.counts_by_bin[self.last_detected_bin][scanned_bin] += 1
+            self.last_detected_bin = scanned_bin
+
+    def update(self, observation: Any, reward: float, action: float | int | None = None) -> None:
+        if action is not None:
+            if isinstance(action, int):
+                scanned_bin = action
+            else:
+                scanned_bin = self._closest_band_idx(float(action))
+        else:
+            scanned_bin = self.last_selected_bin
+
+        if 0 <= scanned_bin < len(self.last_scanned_time):
+            self.last_scanned_time[scanned_bin] = self.t
+
+        detected = getattr(observation, "detected", False) or getattr(observation, "last_detection", False)
+        if detected:
+            if self.last_detected_bin is not None and 0 <= self.last_detected_bin < len(self.bands_hz):
+                self.counts_by_bin[self.last_detected_bin][scanned_bin] += 1
+            self.last_detected_bin = scanned_bin
 
     def reset(self) -> None:
         super().reset()
-        self.counts = {src: {dst: 0 for dst in self.bands_hz} for src in self.bands_hz}
-        self.last_detected_freq = None
-        self.last_scanned_time = {b: -999 for b in self.bands_hz}
+        n = len(self.bands_hz)
+        self.counts_by_bin = [[0] * n for _ in range(n)]
+        self.last_detected_bin = None
+        self.last_scanned_time = [-999] * n
         self.t = 0
         self.predicted_frequency_hz = None
         self.rng = np.random.default_rng(self.seed)
 
-    def get_state(self) -> SchedulerState:
+    def get_state(self) -> SchedulerTelemetryState:
         stats = []
         n = len(self.bands_hz)
-        for b in self.bands_hz:
-            row = self.counts[b]
-            total_pulls = sum(row.values())
+        for i, b in enumerate(self.bands_hz):
+            row = self.counts_by_bin[i]
+            total_pulls = sum(row)
             stats.append({
                 "frequency_hz": b,
                 "count": total_pulls,
                 "value": total_pulls,
                 "probability": 1.0 / n,
-                "transitions_from": dict(row),
+                "transitions_from": {f"{dst/1e6:.1f}": row[j] for j, dst in enumerate(self.bands_hz)},
             })
-        return SchedulerState(
+        return SchedulerTelemetryState(
             name=self.name,
             category=self.category,
             selected_frequency_hz=self.last_selected,

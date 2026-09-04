@@ -46,6 +46,14 @@ class OpportunityTracker:
         self.completed_episodes: list[TransmissionOpportunity] = []
         self._episode_counters: dict[str, int] = {}
 
+    def reset(self) -> None:
+        self.active_opportunities.clear()
+        self.completed_opportunities.clear()
+        self._opportunity_counters.clear()
+        self.active_episodes.clear()
+        self.completed_episodes.clear()
+        self._episode_counters.clear()
+
     def _is_agile(self, state: EmitterState) -> bool:
         return state.frequency_behavior in (
             FrequencyBehaviorType.HOPPING,

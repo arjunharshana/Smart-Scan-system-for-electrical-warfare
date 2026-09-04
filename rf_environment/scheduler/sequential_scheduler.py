@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from rf_environment.domain.observation import Observation
-from rf_environment.scheduler.base import ScanScheduler
+from typing import Any
+from rf_environment.domain.state import SchedulerObservation
+from rf_environment.scheduler.base import BaseScheduler
 
 
-class SequentialScheduler(ScanScheduler):
+class SequentialScheduler(BaseScheduler):
     name = "sequential"
     category = "baseline"
 
@@ -12,7 +13,7 @@ class SequentialScheduler(ScanScheduler):
         super().__init__(bands_hz)
         self._index = -1
 
-    def select_frequency(self, observation: Observation | None) -> float:
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
         self._index = (self._index + 1) % len(self.bands_hz)
         self.last_selected = self.bands_hz[self._index]
         self.last_explanation = {
@@ -22,10 +23,11 @@ class SequentialScheduler(ScanScheduler):
             "estimated_value": 0.0,
             "exploration_bonus": 0.0,
         }
-        return self.last_selected
+        return self._index
 
-    def update(self, observation: Observation, reward: float, action: float | None = None) -> None:
-        return None
+    def select_frequency(self, observation: Any = None) -> float:
+        idx = self.select_bin(observation)
+        return self.bands_hz[idx]
 
     def reset(self) -> None:
         super().reset()

@@ -59,5 +59,19 @@ class BaseEmitter:
             raise RuntimeError(f"Emitter {self.emitter_id} has not been stepped yet")
         return self._state
 
+    def reset(self) -> None:
+        self._state = None
+        if hasattr(self.frequency_behavior, "reset"):
+            self.frequency_behavior.reset()
+        if hasattr(self.time_behavior, "reset"):
+            self.time_behavior.reset()
+
+    def reseed(self, seed: int | None = None) -> None:
+        self.reset()
+        if hasattr(self.frequency_behavior, "reseed"):
+            self.frequency_behavior.reseed(seed)
+        if hasattr(self.time_behavior, "reseed"):
+            self.time_behavior.reseed(seed)
+
     def get_ground_truth(self) -> EmitterState:
         return self.get_state()

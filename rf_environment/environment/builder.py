@@ -49,7 +49,7 @@ def build_environment(
     sched_cfg = scenario.get("scheduler", {})
     name = scheduler_name or sched_cfg.get("type", "sequential")
     bands = sched_cfg.get("bands_hz") or default_scan_bands(min_hz, max_hz, bw)
-    scheduler = create_scheduler(name, bands, seed=derive_seed(seed, "scheduler"))
+    scheduler = create_scheduler(name, bands, seed=derive_seed(seed, "scheduler"), config=sched_cfg)
     channel_cfg = scenario.get("channel", {})
     channel = ChannelModel(
         noise=AdditiveNoise(

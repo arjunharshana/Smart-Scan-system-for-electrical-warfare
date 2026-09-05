@@ -66,8 +66,10 @@ class ContextAwareScheduler(BaseScheduler):
     def _closest_band_idx(self, freq_hz: float) -> int:
         return min(range(len(self.bands_hz)), key=lambda i: abs(self.bands_hz[i] - freq_hz))
 
-    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
-        self.t += 1
+    def compute_action_scores(
+        self, observation: SchedulerObservation | Any = None
+    ) -> tuple[np.ndarray, dict[str, Any]]:
+        """Computes the full vector of Context-Aware scores, transition probabilities, and activity levels."""
         n = len(self.bands_hz)
 
         # 1. Determine last detected bin
@@ -118,18 +120,35 @@ class ContextAwareScheduler(BaseScheduler):
                 exploration_scores[j] = min(1.0, elapsed / max(self.stale_threshold, 1))
 
         # 5. Combined Score
-        scores = []
+        scores = np.zeros(n, dtype=np.float32)
         for j in range(n):
-            score = (
+            scores[j] = (
                 self.w_trans * transition_probs[j]
                 + self.w_act * activity_scores[j]
                 + self.w_exp * exploration_scores[j]
             )
-            scores.append(score)
+
+        details = {
+            "transition_probs": np.array(transition_probs, dtype=np.float32),
+            "activity_scores": np.array(activity_scores, dtype=np.float32),
+            "exploration_scores": np.array(exploration_scores, dtype=np.float32),
+            "last_detected_bin": last_det_bin,
+            "predicted_bin": best_dst_idx,
+        }
+        return scores, details
+
+    def select_bin(self, observation: SchedulerObservation | Any = None) -> int:
+        self.t += 1
+        n = len(self.bands_hz)
+        scores, details = self.compute_action_scores(observation)
+        transition_probs = details["transition_probs"]
+        activity_scores = details["activity_scores"]
+        exploration_scores = details["exploration_scores"]
+        last_det_bin = details["last_detected_bin"]
 
         # Break ties with small deterministic jitter
         jitter = [float(self.rng.uniform(0.0, 1e-6)) for _ in range(n)]
-        chosen_bin = max(range(n), key=lambda j: scores[j] + jitter[j])
+        chosen_bin = int(max(range(n), key=lambda j: scores[j] + jitter[j]))
 
         self.last_selected_bin = chosen_bin
         self.last_selected = self.bands_hz[chosen_bin]
@@ -142,10 +161,10 @@ class ContextAwareScheduler(BaseScheduler):
                 f"{self.w_exp:.2f}×Exp({exploration_scores[chosen_bin]:.2f})"
             ),
             "rule": "weighted_context_fusion",
-            "transition_probability": transition_probs[chosen_bin],
-            "activity_level": activity_scores[chosen_bin],
-            "exploration_bonus": exploration_scores[chosen_bin],
-            "estimated_value": scores[chosen_bin],
+            "transition_probability": float(transition_probs[chosen_bin]),
+            "activity_level": float(activity_scores[chosen_bin]),
+            "exploration_bonus": float(exploration_scores[chosen_bin]),
+            "estimated_value": float(scores[chosen_bin]),
             "predicted_next_mhz": self.predicted_frequency_hz / 1e6 if self.predicted_frequency_hz else None,
         }
         return chosen_bin
@@ -170,6 +189,20 @@ class ContextAwareScheduler(BaseScheduler):
             if self.last_detected_bin is not None and 0 <= self.last_detected_bin < len(self.bands_hz):
                 self.counts_by_bin[self.last_detected_bin][scanned_bin] += 1
             self.last_detected_bin = scanned_bin
+
+    def observe(
+        self,
+        observation: SchedulerObservation | Any,
+        action: ScanAction | None = None,
+        reward: float = 0.0,
+        next_observation: SchedulerObservation | None = None,
+        done: bool = False,
+    ) -> None:
+        if hasattr(observation, "observation") and hasattr(observation, "action") and hasattr(observation, "reward"):
+            trans = observation
+            self.update_policy(trans.observation, trans.action, trans.reward, trans.next_observation, trans.done)
+            return
+        self.update_policy(observation, action, reward, next_observation, done)
 
     def update(self, observation: Any, reward: float, action: float | int | None = None) -> None:
         if action is not None:

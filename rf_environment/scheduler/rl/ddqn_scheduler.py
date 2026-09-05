@@ -88,10 +88,14 @@ class DDQNScheduler(BaseScheduler):
         self.last_loss: float = 0.0
         self.losses: list[float] = []
 
+    def get_q_values(self, observation: SchedulerObservation) -> np.ndarray:
+        """Evaluates and returns raw Q-values for all frequency bins from online network."""
+        state_vec = self.encoder.encode(observation)
+        return self.online_net.forward(state_vec)
+
     def select_bin(self, observation: SchedulerObservation) -> int:
         """Selects frequency bin via epsilon-greedy exploration in train mode or greedy in eval."""
-        state_vec = self.encoder.encode(observation)
-        q_values = self.online_net.forward(state_vec)
+        q_values = self.get_q_values(observation)
 
         if self.train_mode and self.rng.random() < self.epsilon:
             # Epsilon exploration

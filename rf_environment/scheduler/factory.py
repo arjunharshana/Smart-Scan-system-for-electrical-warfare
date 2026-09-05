@@ -3,6 +3,7 @@ from __future__ import annotations
 from rf_environment.scheduler.base import ScanScheduler
 from rf_environment.scheduler.context_aware import ContextAwareScheduler
 from rf_environment.scheduler.discounted_thompson import DiscountedThompsonSamplingScheduler
+from rf_environment.scheduler.hybrid.hybrid_scheduler import HybridScheduler
 from rf_environment.scheduler.random_scheduler import RandomScheduler
 from rf_environment.scheduler.rl.ddqn_scheduler import DDQNScheduler
 from rf_environment.scheduler.rl_scheduler import RLScheduler
@@ -58,6 +59,11 @@ SCHEDULER_METADATA = {
         "category": "rl",
         "description": "Double Deep Q-Network baseline scanning scheduler learning Q-values with target network separation.",
     },
+    "hybrid_v4": {
+        "name": "Hybrid CA + DDQN",
+        "category": "hybrid",
+        "description": "V4.0 Hybrid scheduler arbitrating between Context-Aware online adaptation and DDQN pattern prediction.",
+    },
 }
 
 
@@ -72,7 +78,13 @@ def default_scan_bands(min_hz: float, max_hz: float, bandwidth_hz: float) -> lis
     return bands or [min_hz]
 
 
-def create_scheduler(name: str, bands_hz: list[float], seed: int = 0) -> ScanScheduler:
+def create_scheduler(
+    name: str,
+    bands_hz: list[float],
+    seed: int = 0,
+    config: dict[str, Any] | None = None,
+    **kwargs: Any,
+) -> ScanScheduler:
     key = name.lower().replace("-", "_")
     if key in {"random"}:
         return RandomScheduler(bands_hz, seed=seed)
@@ -92,4 +104,13 @@ def create_scheduler(name: str, bands_hz: list[float], seed: int = 0) -> ScanSch
         return RLScheduler(bands_hz, allow_fallback_policy=True, seed=seed)
     if key in {"ddqn", "double_dqn"}:
         return DDQNScheduler(bands_hz, seed=seed)
+    if key in {"hybrid", "hybrid_v4", "hybrid_meta"}:
+        cfg = config or kwargs
+        return HybridScheduler(
+            bands_hz,
+            ca_config=cfg.get("context_aware"),
+            ddqn_config=cfg.get("ddqn"),
+            arbitrator_config=cfg.get("arbitrator"),
+            seed=seed,
+        )
     raise ValueError(f"Unknown scheduler: {name}. Available: {list(SCHEDULER_METADATA.keys())}")

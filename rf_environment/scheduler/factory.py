@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+from typing import Any
+
 from rf_environment.scheduler.base import ScanScheduler
 from rf_environment.scheduler.context_aware import ContextAwareScheduler
 from rf_environment.scheduler.discounted_thompson import DiscountedThompsonSamplingScheduler
 from rf_environment.scheduler.hybrid.hybrid_scheduler import HybridScheduler
+from rf_environment.scheduler.hybrid.hybrid_v41 import LSTMHybridScheduler
 from rf_environment.scheduler.random_scheduler import RandomScheduler
 from rf_environment.scheduler.rl.ddqn_scheduler import DDQNScheduler
+from rf_environment.scheduler.rl.lstm_ddqn_scheduler import LSTMDDQNScheduler
 from rf_environment.scheduler.rl_scheduler import RLScheduler
 from rf_environment.scheduler.sequential_scheduler import SequentialScheduler
 from rf_environment.scheduler.sliding_window_ucb import SlidingWindowUCBScheduler
@@ -64,6 +68,16 @@ SCHEDULER_METADATA = {
         "category": "hybrid",
         "description": "V4.0 Hybrid scheduler arbitrating between Context-Aware online adaptation and DDQN pattern prediction.",
     },
+    "lstm_ddqn": {
+        "name": "LSTM-DDQN (DRQN)",
+        "category": "rl",
+        "description": "V4.1 Recurrent Double DQN with LSTM temporal working memory (h_t, c_t).",
+    },
+    "hybrid_v41": {
+        "name": "Hybrid CA + LSTM-DDQN",
+        "category": "hybrid",
+        "description": "V4.1 Hybrid scheduler arbitrating between Context-Aware online adaptation and LSTM-DDQN temporal memory.",
+    },
 }
 
 
@@ -110,6 +124,18 @@ def create_scheduler(
             bands_hz,
             ca_config=cfg.get("context_aware"),
             ddqn_config=cfg.get("ddqn"),
+            arbitrator_config=cfg.get("arbitrator"),
+            seed=seed,
+        )
+    if key in {"lstm_ddqn", "drqn", "lstm_dqn"}:
+        cfg = config or kwargs
+        return LSTMDDQNScheduler(bands_hz, seed=seed, **cfg)
+    if key in {"hybrid_v41", "hybrid_lstm", "lstm_hybrid"}:
+        cfg = config or kwargs
+        return LSTMHybridScheduler(
+            bands_hz,
+            ca_config=cfg.get("context_aware"),
+            lstm_ddqn_config=cfg.get("lstm_ddqn"),
             arbitrator_config=cfg.get("arbitrator"),
             seed=seed,
         )

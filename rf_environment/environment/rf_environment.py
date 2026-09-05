@@ -20,6 +20,7 @@ from rf_environment.receiver.detector import Detector
 from rf_environment.receiver.receiver import Receiver
 from rf_environment.receiver.scan_controller import ScanController
 from rf_environment.receiver.tuner import bands_overlap
+from rf_environment.rewards.r4_reward import R4RewardCalculator
 from rf_environment.rewards.reward import RewardCalculator
 from rf_environment.scheduler.base import BaseScheduler
 from rf_environment.signal.base import SignalSource
@@ -50,7 +51,7 @@ class RFEnvironment:
         signal_source: SignalSource | None = None,
         events: EventStream | None = None,
         metrics: MetricsEngine | None = None,
-        reward_calculator: RewardCalculator | None = None,
+        reward_calculator: RewardCalculator | R4RewardCalculator | None = None,
         spectrum: dict[str, float] | None = None,
         waterfall_limit: int = 2000,
         bands_hz: list[float] | None = None,
@@ -65,7 +66,9 @@ class RFEnvironment:
         self.signal_source = signal_source or PythonSignalSource()
         self.events = events or EventStream()
         self.metrics = metrics or MetricsEngine()
-        self.reward_calculator = reward_calculator or RewardCalculator()
+        self.reward_calculator = (
+            reward_calculator if reward_calculator is not None else R4RewardCalculator()
+        )
         self.ground_truth = GroundTruthStore()
         self.spectrum = spectrum or {"min_frequency_hz": 100e6, "max_frequency_hz": 1e9}
         self.waterfall: deque[dict[str, Any]] = deque(maxlen=waterfall_limit)
@@ -289,7 +292,6 @@ class RFEnvironment:
             else:
                 diagnostic_reason = f"No Transmissions: Receiver scanned {rx_cf/1e6:.1f} MHz and no emitter was active in the spectrum."
 
-        reward = self.reward_calculator.compute(outcome)
         associated = in_band_tx[0] if intercepted else None
         if detection.detected and associated:
             detection.emitter_id = associated
@@ -314,6 +316,23 @@ class RFEnvironment:
         if pred_record is not None:
             self.metrics.record_prediction(pred_record.correct)
 
+        # 10. Build Canonical SchedulerObservation (strictly NO ground truth)
+        next_observation = self.observation_builder.step(
+            timestamp=float(t),
+            scanned_bin=resolved_action.frequency_bin,
+            detected=detection.detected,
+            signal_strength=measurement.signal_power_dbm,
+        )
+
+        # 11. Compute production V3 R4 reward or fallback legacy reward
+        if isinstance(self.reward_calculator, R4RewardCalculator):
+            reward = self.reward_calculator.compute(
+                observation=next_observation,
+                action=resolved_action,
+            )
+        else:
+            reward = self.reward_calculator.compute(outcome)
+
         scan_outcome = ScanOutcome(
             timestamp=t,
             outcome=outcome,
@@ -322,14 +341,6 @@ class RFEnvironment:
             intercepted_ids=intercepted,
             associated_emitter_id=associated,
             reward=reward,
-        )
-
-        # 10. Build Canonical SchedulerObservation (strictly NO ground truth)
-        next_observation = self.observation_builder.step(
-            timestamp=float(t),
-            scanned_bin=resolved_action.frequency_bin,
-            detected=detection.detected,
-            signal_strength=measurement.signal_power_dbm,
         )
 
         # 11. Legacy observation for backward compatibility

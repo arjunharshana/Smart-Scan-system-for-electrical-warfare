@@ -1,0 +1,13 @@
+{
+  "scenario": "deterministic_hopping",
+  "seed": 42,
+  "environment_steps": 400,
+  "training_updates": 337,
+  "initial_loss": 1.8058306574821472,
+  "final_loss": 0.1493740975856781,
+  "mean_reward": 0.11800000000000001,
+  "final_epsilon": 0.1346580429260134,
+  "q_min": 1.7469228506088257,
+  "q_max": 3.3394529819488525,
+  "nan_inf_occurrence": false
+}

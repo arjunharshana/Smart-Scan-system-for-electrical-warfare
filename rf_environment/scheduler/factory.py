@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from rf_environment.scheduler.rl_scheduler import RLScheduler
-
 from rf_environment.scheduler.base import ScanScheduler
 from rf_environment.scheduler.context_aware import ContextAwareScheduler
 from rf_environment.scheduler.discounted_thompson import DiscountedThompsonSamplingScheduler
 from rf_environment.scheduler.random_scheduler import RandomScheduler
+from rf_environment.scheduler.rl.ddqn_scheduler import DDQNScheduler
+from rf_environment.scheduler.rl_scheduler import RLScheduler
 from rf_environment.scheduler.sequential_scheduler import SequentialScheduler
 from rf_environment.scheduler.sliding_window_ucb import SlidingWindowUCBScheduler
 from rf_environment.scheduler.thompson_sampling import ThompsonSamplingScheduler
@@ -53,6 +53,11 @@ SCHEDULER_METADATA = {
         "category": "rl",
         "description": "Reinforcement learning scan scheduler interface placeholder.",
     },
+    "ddqn": {
+        "name": "Double DQN",
+        "category": "rl",
+        "description": "Double Deep Q-Network baseline scanning scheduler learning Q-values with target network separation.",
+    },
 }
 
 
@@ -85,4 +90,6 @@ def create_scheduler(name: str, bands_hz: list[float], seed: int = 0) -> ScanSch
         return ContextAwareScheduler(bands_hz, seed=seed)
     if key in {"rl", "rl_scheduler"}:
         return RLScheduler(bands_hz, allow_fallback_policy=True, seed=seed)
+    if key in {"ddqn", "double_dqn"}:
+        return DDQNScheduler(bands_hz, seed=seed)
     raise ValueError(f"Unknown scheduler: {name}. Available: {list(SCHEDULER_METADATA.keys())}")

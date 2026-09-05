@@ -1,0 +1,493 @@
+{
+  "integration_passed": true,
+  "scenarios": [
+    [
+      "stationary_fixed",
+      "rf_environment/scenarios/stationary_fixed.yaml"
+    ],
+    [
+      "deterministic_hopping",
+      "rf_environment/scenarios/deterministic_hopping.yaml"
+    ],
+    [
+      "random_hopping",
+      "rf_environment/scenarios/random_hopping.yaml"
+    ],
+    [
+      "periodic_time",
+      "rf_environment/scenarios/periodic_time.yaml"
+    ]
+  ],
+  "seeds": [
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55
+  ],
+  "integration_results": {
+    "stationary_fixed": [
+      {
+        "seed": 10,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8170000000000001
+      },
+      {
+        "seed": 15,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8180000000000001
+      },
+      {
+        "seed": 20,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8575
+      },
+      {
+        "seed": 25,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8175000000000002
+      },
+      {
+        "seed": 30,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8015000000000001
+      },
+      {
+        "seed": 35,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8135
+      },
+      {
+        "seed": 40,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8175000000000002
+      },
+      {
+        "seed": 45,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8090000000000002
+      },
+      {
+        "seed": 50,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8035000000000001
+      },
+      {
+        "seed": 55,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.8880000000000003
+      }
+    ],
+    "deterministic_hopping": [
+      {
+        "seed": 10,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.335125
+      },
+      {
+        "seed": 15,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.30475
+      },
+      {
+        "seed": 20,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.31375000000000003
+      },
+      {
+        "seed": 25,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.29987499999999995
+      },
+      {
+        "seed": 30,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.3178750000000001
+      },
+      {
+        "seed": 35,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.3385000000000001
+      },
+      {
+        "seed": 40,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.3385000000000001
+      },
+      {
+        "seed": 45,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.29387500000000005
+      },
+      {
+        "seed": 50,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.308125
+      },
+      {
+        "seed": 55,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.34675000000000006
+      }
+    ],
+    "random_hopping": [
+      {
+        "seed": 10,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.04937499999999998
+      },
+      {
+        "seed": 15,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.07937499999999999
+      },
+      {
+        "seed": 20,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.03999999999999999
+      },
+      {
+        "seed": 25,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.04112499999999999
+      },
+      {
+        "seed": 30,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.06474999999999999
+      },
+      {
+        "seed": 35,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.04487499999999998
+      },
+      {
+        "seed": 40,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.03624999999999999
+      },
+      {
+        "seed": 45,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.037750000000000006
+      },
+      {
+        "seed": 50,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.04862499999999999
+      },
+      {
+        "seed": 55,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.06962499999999999
+      }
+    ],
+    "periodic_time": [
+      {
+        "seed": 10,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.0004999999999999923
+      },
+      {
+        "seed": 15,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.022999999999999986
+      },
+      {
+        "seed": 20,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.021999999999999992
+      },
+      {
+        "seed": 25,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.02849999999999998
+      },
+      {
+        "seed": 30,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.05099999999999999
+      },
+      {
+        "seed": 35,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": -0.023499999999999997
+      },
+      {
+        "seed": 40,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.003999999999999986
+      },
+      {
+        "seed": 45,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.03949999999999999
+      },
+      {
+        "seed": 50,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.022499999999999996
+      },
+      {
+        "seed": 55,
+        "passed": true,
+        "all_finite": true,
+        "in_bounds": true,
+        "min_reward": -0.05,
+        "max_reward": 1.15,
+        "mean_reward": 0.06199999999999998
+      }
+    ]
+  },
+  "summary_table": [
+    {
+      "scenario": "stationary_fixed",
+      "reward_type": "R4 (V3)",
+      "mean_reward": 0.8243,
+      "std_reward": 0.5319107245738672,
+      "min_reward": -0.05,
+      "max_reward": 1.15,
+      "detection_rate": 0.725752508361204,
+      "interception_ratio": 1.0,
+      "opportunity_coverage": 1.0
+    },
+    {
+      "scenario": "stationary_fixed",
+      "reward_type": "Old",
+      "mean_reward": 0.6606666666666666,
+      "std_reward": 0.4767371512594221,
+      "min_reward": -0.51,
+      "max_reward": 0.99,
+      "detection_rate": 0.6785953177257525,
+      "interception_ratio": 1.0,
+      "opportunity_coverage": 1.0
+    },
+    {
+      "scenario": "deterministic_hopping",
+      "reward_type": "R4 (V3)",
+      "mean_reward": 0.3197125,
+      "std_reward": 0.552114338950987,
+      "min_reward": -0.05,
+      "max_reward": 1.15,
+      "detection_rate": 0.29899749373433576,
+      "interception_ratio": 0.3179104477611941,
+      "opportunity_coverage": 0.3194029850746269
+    },
+    {
+      "scenario": "deterministic_hopping",
+      "reward_type": "Old",
+      "mean_reward": 0.28087500000000004,
+      "std_reward": 0.4651735009484564,
+      "min_reward": -0.51,
+      "max_reward": 0.99,
+      "detection_rate": 0.29899749373433576,
+      "interception_ratio": 0.3179104477611941,
+      "opportunity_coverage": 0.3194029850746269
+    },
+    {
+      "scenario": "random_hopping",
+      "reward_type": "R4 (V3)",
+      "mean_reward": 0.05117499999999999,
+      "std_reward": 0.3288255714979826,
+      "min_reward": -0.05,
+      "max_reward": 1.15,
+      "detection_rate": 0.07092731829573935,
+      "interception_ratio": 0.07075,
+      "opportunity_coverage": 0.07425
+    },
+    {
+      "scenario": "random_hopping",
+      "reward_type": "Old",
+      "mean_reward": 0.052649999999999995,
+      "std_reward": 0.26517953738897787,
+      "min_reward": -0.51,
+      "max_reward": 0.99,
+      "detection_rate": 0.07092731829573935,
+      "interception_ratio": 0.07075,
+      "opportunity_coverage": 0.07425
+    },
+    {
+      "scenario": "periodic_time",
+      "reward_type": "R4 (V3)",
+      "mean_reward": 0.02294999999999999,
+      "std_reward": 0.2768713405473227,
+      "min_reward": -0.05,
+      "max_reward": 1.15,
+      "detection_rate": 0.045484949832775914,
+      "interception_ratio": 0.26666666666666666,
+      "opportunity_coverage": 0.26666666666666666
+    },
+    {
+      "scenario": "periodic_time",
+      "reward_type": "Old",
+      "mean_reward": -0.01736666666666667,
+      "std_reward": 0.07506821222497187,
+      "min_reward": -0.51,
+      "max_reward": 0.99,
+      "detection_rate": 0.0016722408026755853,
+      "interception_ratio": 0.03333333333333334,
+      "opportunity_coverage": 0.03333333333333334
+    }
+  ]
+}

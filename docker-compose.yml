@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  ew-smart-scan-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sih26055-ew-dashboard
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEFAULT_SCENARIO=frequency_agile.yaml
+      - DEFAULT_SCHEDULER=hybrid_v41
+      - LOG_LEVEL=info
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

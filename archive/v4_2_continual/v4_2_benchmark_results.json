@@ -1,0 +1,1149 @@
+{
+  "summary": {
+    "Context_Aware": {
+      "ir_overall_mean": 0.21977777777777777,
+      "ir_overall_std": 0.005854195498808663,
+      "ir_phase_a_mean": 0.3076666666666667,
+      "ir_phase_a_std": 0.013420548092798261,
+      "ir_phase_b_imm_mean": 0.018,
+      "ir_phase_b_post_mean": 0.02333333333333333,
+      "ir_phase_b_all_mean": 0.020999999999999998,
+      "ir_phase_c_mean": 0.33066666666666666,
+      "retention_phase_c_mean": 107.6760782428134,
+      "recovery_steps_mean": 188.0,
+      "telemetry": {}
+    },
+    "V4_1_LSTM_Hybrid_Frozen": {
+      "ir_overall_mean": 0.45524999999999993,
+      "ir_overall_std": 0.01548418647731283,
+      "ir_phase_a_mean": 0.6547499999999999,
+      "ir_phase_a_std": 0.042971324417828013,
+      "ir_phase_b_imm_mean": 0.018,
+      "ir_phase_b_post_mean": 0.024333333333333332,
+      "ir_phase_b_all_mean": 0.02175,
+      "ir_phase_c_mean": 0.68925,
+      "retention_phase_c_mean": 112.44613494580967,
+      "recovery_steps_mean": 188.0,
+      "telemetry": {
+        "total_decisions": 900,
+        "mode_counts": {
+          "DDQN_EXPLOIT": 592,
+          "CA_ADAPT": 294,
+          "BLENDED": 14,
+          "EXPLORE_DISCOVERY": 0
+        },
+        "pct_ddqn_exploit": 65.77777777777779,
+        "pct_ca_adapt": 32.666666666666664,
+        "pct_blended": 1.5555555555555556,
+        "pct_explore": 0.0,
+        "avg_ddqn_weight": 0.6701326537411969,
+        "avg_ca_weight": 0.32986734625880304,
+        "lstm_hidden_dim": 64,
+        "lstm_sequence_length": 10
+      }
+    },
+    "V4_2_Continual_Hybrid": {
+      "ir_overall_mean": 0.35305555555555557,
+      "ir_overall_std": 0.020733836483117205,
+      "ir_phase_a_mean": 0.5355833333333333,
+      "ir_phase_a_std": 0.03426013637515829,
+      "ir_phase_b_imm_mean": 0.018,
+      "ir_phase_b_post_mean": 0.025333333333333336,
+      "ir_phase_b_all_mean": 0.022,
+      "ir_phase_c_mean": 0.5015833333333333,
+      "retention_phase_c_mean": 99.62630220223636,
+      "recovery_steps_mean": 188.0,
+      "telemetry": {
+        "total_decisions": 900,
+        "mode_counts": {
+          "DDQN_EXPLOIT": 0,
+          "CA_ADAPT": 892,
+          "BLENDED": 8,
+          "EXPLORE_DISCOVERY": 0
+        },
+        "regime_state_counts": {
+          "STABLE": 8,
+          "SUSPECTED_SHIFT": 25,
+          "ADAPTING": 0,
+          "VALIDATING": 0,
+          "ROLLBACK": 867
+        },
+        "pct_ddqn_exploit": 0.0,
+        "pct_ca_adapt": 99.11111111111111,
+        "pct_blended": 0.8888888888888888,
+        "pct_explore": 0.0,
+        "avg_ddqn_weight": 0.16650000000000006,
+        "avg_ca_weight": 0.8334999999999891,
+        "regime_state": "ROLLBACK",
+        "regime_shifts_detected": 1,
+        "adaptation_attempts": 5,
+        "adaptations_accepted": 0,
+        "adaptations_rejected": 5,
+        "rollbacks_performed": 5,
+        "total_gradient_steps": 75,
+        "time_spent_adapting_ms": 414.1052770009992,
+        "last_validation": {
+          "decision": "REJECT",
+          "reason": "REJECT: Catastrophic forgetting on historical data (ratio 1.86 > 1.25)",
+          "loss_cand_recent": 0.133427232503891,
+          "loss_prod_recent": 0.4377240538597107,
+          "loss_cand_hist": 0.10874760150909424,
+          "loss_prod_hist": 0.05855337530374527,
+          "hist_ratio": 1.857238817488603,
+          "historical_pass": false,
+          "recent_pass": true
+        }
+      }
+    },
+    "Standalone_LSTM_DDQN": {
+      "ir_overall_mean": 0.4699999999999999,
+      "ir_overall_std": 0.010818365728567191,
+      "ir_phase_a_mean": 0.7248333333333333,
+      "ir_phase_a_std": 0.021733231083604046,
+      "ir_phase_b_imm_mean": 0.018,
+      "ir_phase_b_post_mean": 0.023666666666666662,
+      "ir_phase_b_all_mean": 0.0215,
+      "ir_phase_c_mean": 0.6636666666666666,
+      "retention_phase_c_mean": 94.29940212996581,
+      "recovery_steps_mean": 188.0,
+      "telemetry": {}
+    }
+  },
+  "per_seed_runs": {
+    "Context_Aware": [
+      {
+        "ir_overall": 0.22333333333333333,
+        "ir_phase_a": 0.30333333333333334,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03333333333333333,
+        "ir_phase_c": 0.3333333333333333,
+        "retention_phase_c": 109.89010989010988,
+        "adaptation_recovery_steps": 59,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.23,
+        "ir_phase_a": 0.31666666666666665,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.3433333333333333,
+        "retention_phase_c": 108.42105263157895,
+        "adaptation_recovery_steps": 94,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.22,
+        "ir_phase_a": 0.31666666666666665,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.013333333333333334,
+        "ir_phase_c": 0.33,
+        "retention_phase_c": 104.21052631578948,
+        "adaptation_recovery_steps": 270,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.21444444444444444,
+        "ir_phase_a": 0.2966666666666667,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.33,
+        "retention_phase_c": 111.23595505617978,
+        "adaptation_recovery_steps": 287,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.22111111111111112,
+        "ir_phase_a": 0.33,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02666666666666667,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.31666666666666665,
+        "retention_phase_c": 95.95959595959596,
+        "adaptation_recovery_steps": 200,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.2288888888888889,
+        "ir_phase_a": 0.32666666666666666,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.023333333333333334,
+        "ir_phase_c": 0.33666666666666667,
+        "retention_phase_c": 103.0612244897959,
+        "adaptation_recovery_steps": 120,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.21444444444444444,
+        "ir_phase_a": 0.29,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.006666666666666667,
+        "ir_phase_c": 0.3466666666666667,
+        "retention_phase_c": 119.54022988505749,
+        "adaptation_recovery_steps": 300,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.21333333333333335,
+        "ir_phase_a": 0.29333333333333333,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.31666666666666665,
+        "retention_phase_c": 107.95454545454545,
+        "adaptation_recovery_steps": 118,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.21888888888888888,
+        "ir_phase_a": 0.30666666666666664,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.01,
+        "ir_phase_c": 0.34,
+        "retention_phase_c": 110.86956521739133,
+        "adaptation_recovery_steps": 300,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.21333333333333335,
+        "ir_phase_a": 0.2966666666666667,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.31333333333333335,
+        "retention_phase_c": 105.61797752808988,
+        "adaptation_recovery_steps": 132,
+        "diagnostics": {}
+      }
+    ],
+    "V4_1_LSTM_Hybrid_Frozen": [
+      {
+        "ir_overall": 0.4552777777777778,
+        "ir_phase_a": 0.6141666666666667,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03583333333333333,
+        "ir_phase_c": 0.7158333333333333,
+        "retention_phase_c": 132.28463715165844,
+        "adaptation_recovery_steps": 59.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 592,
+            "CA_ADAPT": 294,
+            "BLENDED": 14,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 65.77777777777779,
+          "pct_ca_adapt": 32.666666666666664,
+          "pct_blended": 1.5555555555555556,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6701326537411969,
+          "avg_ca_weight": 0.32986734625880304,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.41944444444444445,
+        "ir_phase_a": 0.5758333333333332,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.035,
+        "ir_phase_b_all": 0.03083333333333333,
+        "ir_phase_c": 0.6516666666666666,
+        "retention_phase_c": 124.13432720972338,
+        "adaptation_recovery_steps": 94.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 532,
+            "CA_ADAPT": 347,
+            "BLENDED": 21,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 59.111111111111114,
+          "pct_ca_adapt": 38.55555555555556,
+          "pct_blended": 2.3333333333333335,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6080636451612705,
+          "avg_ca_weight": 0.39193635483872935,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.47111111111111115,
+        "ir_phase_a": 0.7066666666666667,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.026666666666666665,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.69,
+        "retention_phase_c": 99.6048254131552,
+        "adaptation_recovery_steps": 270.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 565,
+            "CA_ADAPT": 319,
+            "BLENDED": 16,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 62.77777777777778,
+          "pct_ca_adapt": 35.44444444444444,
+          "pct_blended": 1.7777777777777777,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6408810576507468,
+          "avg_ca_weight": 0.35911894234925323,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.4488888888888889,
+        "ir_phase_a": 0.6083333333333334,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.021666666666666667,
+        "ir_phase_b_all": 0.017499999999999998,
+        "ir_phase_c": 0.7208333333333333,
+        "retention_phase_c": 139.70543469240772,
+        "adaptation_recovery_steps": 287.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 575,
+            "CA_ADAPT": 310,
+            "BLENDED": 15,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 63.888888888888886,
+          "pct_ca_adapt": 34.44444444444444,
+          "pct_blended": 1.6666666666666667,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.651640637182834,
+          "avg_ca_weight": 0.348359362817166,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.47138888888888886,
+        "ir_phase_a": 0.6716666666666666,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02666666666666667,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.7258333333333333,
+        "retention_phase_c": 110.08267462790212,
+        "adaptation_recovery_steps": 200.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 577,
+            "CA_ADAPT": 308,
+            "BLENDED": 15,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 64.11111111111111,
+          "pct_ca_adapt": 34.22222222222222,
+          "pct_blended": 1.6666666666666667,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6538160404373224,
+          "avg_ca_weight": 0.3461839595626775,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.44305555555555554,
+        "ir_phase_a": 0.65,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.023333333333333334,
+        "ir_phase_c": 0.6558333333333333,
+        "retention_phase_c": 103.33557953041948,
+        "adaptation_recovery_steps": 120.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 575,
+            "CA_ADAPT": 309,
+            "BLENDED": 16,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 63.888888888888886,
+          "pct_ca_adapt": 34.333333333333336,
+          "pct_blended": 1.7777777777777777,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6519926049507876,
+          "avg_ca_weight": 0.34800739504921246,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.4469444444444444,
+        "ir_phase_a": 0.6516666666666667,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.006666666666666667,
+        "ir_phase_c": 0.6825000000000001,
+        "retention_phase_c": 108.83053675164433,
+        "adaptation_recovery_steps": 300.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 573,
+            "CA_ADAPT": 312,
+            "BLENDED": 15,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 63.66666666666667,
+          "pct_ca_adapt": 34.66666666666667,
+          "pct_blended": 1.6666666666666667,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.649336847055162,
+          "avg_ca_weight": 0.3506631529448379,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.4655555555555555,
+        "ir_phase_a": 0.6608333333333334,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.7058333333333333,
+        "retention_phase_c": 108.95066786401465,
+        "adaptation_recovery_steps": 118.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 583,
+            "CA_ADAPT": 303,
+            "BLENDED": 14,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 64.77777777777777,
+          "pct_ca_adapt": 33.666666666666664,
+          "pct_blended": 1.5555555555555556,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6601326537411969,
+          "avg_ca_weight": 0.33986734625880305,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.46138888888888896,
+        "ir_phase_a": 0.6883333333333332,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.01,
+        "ir_phase_c": 0.6858333333333333,
+        "retention_phase_c": 102.75351831399088,
+        "adaptation_recovery_steps": 300.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 571,
+            "CA_ADAPT": 312,
+            "BLENDED": 17,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 63.44444444444445,
+          "pct_ca_adapt": 34.66666666666667,
+          "pct_blended": 1.8888888888888888,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6485367845001929,
+          "avg_ca_weight": 0.3514632154998071,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      },
+      {
+        "ir_overall": 0.46944444444444444,
+        "ir_phase_a": 0.72,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.6583333333333333,
+        "retention_phase_c": 94.77914790318042,
+        "adaptation_recovery_steps": 132.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 594,
+            "CA_ADAPT": 300,
+            "BLENDED": 6,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "pct_ddqn_exploit": 66.0,
+          "pct_ca_adapt": 33.33333333333333,
+          "pct_blended": 0.6666666666666667,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.6649244498283803,
+          "avg_ca_weight": 0.3350755501716199,
+          "lstm_hidden_dim": 64,
+          "lstm_sequence_length": 10
+        }
+      }
+    ],
+    "V4_2_Continual_Hybrid": [
+      {
+        "ir_overall": 0.3491666666666667,
+        "ir_phase_a": 0.48083333333333333,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.05333333333333333,
+        "ir_phase_b_all": 0.043333333333333335,
+        "ir_phase_c": 0.5233333333333333,
+        "retention_phase_c": 112.34265993901101,
+        "adaptation_recovery_steps": 59.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 0,
+            "CA_ADAPT": 892,
+            "BLENDED": 8,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 8,
+            "SUSPECTED_SHIFT": 25,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 867
+          },
+          "pct_ddqn_exploit": 0.0,
+          "pct_ca_adapt": 99.11111111111111,
+          "pct_blended": 0.8888888888888888,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.16650000000000006,
+          "avg_ca_weight": 0.8334999999999891,
+          "regime_state": "ROLLBACK",
+          "regime_shifts_detected": 1,
+          "adaptation_attempts": 5,
+          "adaptations_accepted": 0,
+          "adaptations_rejected": 5,
+          "rollbacks_performed": 5,
+          "total_gradient_steps": 75,
+          "time_spent_adapting_ms": 414.1052770009992,
+          "last_validation": {
+            "decision": "REJECT",
+            "reason": "REJECT: Catastrophic forgetting on historical data (ratio 1.86 > 1.25)",
+            "loss_cand_recent": 0.133427232503891,
+            "loss_prod_recent": 0.4377240538597107,
+            "loss_cand_hist": 0.10874760150909424,
+            "loss_prod_hist": 0.05855337530374527,
+            "hist_ratio": 1.857238817488603,
+            "historical_pass": false,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.32611111111111113,
+        "ir_phase_a": 0.49749999999999994,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.4508333333333333,
+        "retention_phase_c": 100.12081855430998,
+        "adaptation_recovery_steps": 94.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 428,
+            "CA_ADAPT": 462,
+            "BLENDED": 10,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 547,
+            "SUSPECTED_SHIFT": 153,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 200
+          },
+          "pct_ddqn_exploit": 47.55555555555556,
+          "pct_ca_adapt": 51.33333333333333,
+          "pct_blended": 1.1111111111111112,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.5015844324053863,
+          "avg_ca_weight": 0.49841556759461414,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 7,
+          "adaptation_attempts": 11,
+          "adaptations_accepted": 6,
+          "adaptations_rejected": 5,
+          "rollbacks_performed": 5,
+          "total_gradient_steps": 165,
+          "time_spent_adapting_ms": 941.3096719981695,
+          "last_validation": {
+            "decision": "ACCEPT",
+            "reason": "ACCEPT: Candidate passed (recent loss: 0.1793 vs 0.3063, hist ratio: 0.35)",
+            "loss_cand_recent": 0.17929205298423767,
+            "loss_prod_recent": 0.3063031733036041,
+            "loss_cand_hist": 0.13257178664207458,
+            "loss_prod_hist": 0.3738274872303009,
+            "hist_ratio": 0.35463359750323054,
+            "historical_pass": true,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.37583333333333335,
+        "ir_phase_a": 0.5566666666666668,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.013333333333333334,
+        "ir_phase_c": 0.5575,
+        "retention_phase_c": 103.53567117400655,
+        "adaptation_recovery_steps": 270.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 474,
+            "CA_ADAPT": 418,
+            "BLENDED": 8,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 515,
+            "SUSPECTED_SHIFT": 25,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 360
+          },
+          "pct_ddqn_exploit": 52.666666666666664,
+          "pct_ca_adapt": 46.44444444444444,
+          "pct_blended": 0.8888888888888888,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.5594999999999992,
+          "avg_ca_weight": 0.4405000000000007,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 2,
+          "adaptation_attempts": 9,
+          "adaptations_accepted": 0,
+          "adaptations_rejected": 9,
+          "rollbacks_performed": 9,
+          "total_gradient_steps": 135,
+          "time_spent_adapting_ms": 757.5419060030981,
+          "last_validation": {
+            "decision": "REJECT",
+            "reason": "REJECT: Catastrophic forgetting on historical data (ratio 2.41 > 1.25)",
+            "loss_cand_recent": 0.2159779965877533,
+            "loss_prod_recent": 1.1824958324432373,
+            "loss_cand_hist": 0.23445546627044678,
+            "loss_prod_hist": 0.09725047647953033,
+            "hist_ratio": 2.4108413116083383,
+            "historical_pass": false,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.4002777777777778,
+        "ir_phase_a": 0.5883333333333333,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.5958333333333333,
+        "retention_phase_c": 113.41989278517995,
+        "adaptation_recovery_steps": 287.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 380,
+            "CA_ADAPT": 508,
+            "BLENDED": 12,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 550,
+            "SUSPECTED_SHIFT": 185,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 165
+          },
+          "pct_ddqn_exploit": 42.22222222222222,
+          "pct_ca_adapt": 56.44444444444444,
+          "pct_blended": 1.3333333333333335,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.4502247108113382,
+          "avg_ca_weight": 0.5497752891886621,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 9,
+          "adaptation_attempts": 12,
+          "adaptations_accepted": 8,
+          "adaptations_rejected": 4,
+          "rollbacks_performed": 4,
+          "total_gradient_steps": 180,
+          "time_spent_adapting_ms": 1028.2417300004454,
+          "last_validation": {
+            "decision": "ACCEPT",
+            "reason": "ACCEPT: Candidate passed (recent loss: 0.3036 vs 0.4259, hist ratio: 0.35)",
+            "loss_cand_recent": 0.3035839796066284,
+            "loss_prod_recent": 0.4259139895439148,
+            "loss_cand_hist": 0.1552332043647766,
+            "loss_prod_hist": 0.44193530082702637,
+            "hist_ratio": 0.35125776120232344,
+            "historical_pass": true,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.34444444444444444,
+        "ir_phase_a": 0.5283333333333333,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02666666666666667,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.4883333333333333,
+        "retention_phase_c": 101.9074064484949,
+        "adaptation_recovery_steps": 200.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 453,
+            "CA_ADAPT": 439,
+            "BLENDED": 8,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 501,
+            "SUSPECTED_SHIFT": 25,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 374
+          },
+          "pct_ddqn_exploit": 50.33333333333333,
+          "pct_ca_adapt": 48.77777777777778,
+          "pct_blended": 0.8888888888888888,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.5381666666666659,
+          "avg_ca_weight": 0.46183333333333393,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 2,
+          "adaptation_attempts": 9,
+          "adaptations_accepted": 0,
+          "adaptations_rejected": 9,
+          "rollbacks_performed": 9,
+          "total_gradient_steps": 135,
+          "time_spent_adapting_ms": 761.9573899974057,
+          "last_validation": {
+            "decision": "REJECT",
+            "reason": "REJECT: Catastrophic forgetting on historical data (ratio 1.90 > 1.25)",
+            "loss_cand_recent": 0.19611096382141113,
+            "loss_prod_recent": 1.0260616540908813,
+            "loss_cand_hist": 0.18954896926879883,
+            "loss_prod_hist": 0.09957223385572433,
+            "hist_ratio": 1.9036327892718237,
+            "historical_pass": false,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.33111111111111113,
+        "ir_phase_a": 0.5016666666666667,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.023333333333333334,
+        "ir_phase_c": 0.4683333333333334,
+        "retention_phase_c": 95.9582735287525,
+        "adaptation_recovery_steps": 120.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 369,
+            "CA_ADAPT": 520,
+            "BLENDED": 11,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 524,
+            "SUSPECTED_SHIFT": 57,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 319
+          },
+          "pct_ddqn_exploit": 41.0,
+          "pct_ca_adapt": 57.77777777777777,
+          "pct_blended": 1.2222222222222223,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.4406845857600057,
+          "avg_ca_weight": 0.5593154142399941,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 4,
+          "adaptation_attempts": 10,
+          "adaptations_accepted": 3,
+          "adaptations_rejected": 7,
+          "rollbacks_performed": 7,
+          "total_gradient_steps": 150,
+          "time_spent_adapting_ms": 844.678968000153,
+          "last_validation": {
+            "decision": "ACCEPT",
+            "reason": "ACCEPT: Candidate passed (recent loss: 0.2121 vs 0.4995, hist ratio: 0.53)",
+            "loss_cand_recent": 0.2120741307735443,
+            "loss_prod_recent": 0.4994979798793793,
+            "loss_cand_hist": 0.27444157004356384,
+            "loss_prod_hist": 0.5183941125869751,
+            "hist_ratio": 0.5294071892020544,
+            "historical_pass": true,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.35833333333333334,
+        "ir_phase_a": 0.5425,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.006666666666666667,
+        "ir_phase_c": 0.5258333333333334,
+        "retention_phase_c": 105.94712014646885,
+        "adaptation_recovery_steps": 300.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 368,
+            "CA_ADAPT": 522,
+            "BLENDED": 10,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 548,
+            "SUSPECTED_SHIFT": 89,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 263
+          },
+          "pct_ddqn_exploit": 40.88888888888889,
+          "pct_ca_adapt": 57.99999999999999,
+          "pct_blended": 1.1111111111111112,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.4350084295842965,
+          "avg_ca_weight": 0.5649915704157035,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 4,
+          "adaptation_attempts": 9,
+          "adaptations_accepted": 3,
+          "adaptations_rejected": 6,
+          "rollbacks_performed": 6,
+          "total_gradient_steps": 135,
+          "time_spent_adapting_ms": 781.9543900041026,
+          "last_validation": {
+            "decision": "ACCEPT",
+            "reason": "ACCEPT: Candidate passed (recent loss: 0.2788 vs 0.2802, hist ratio: 0.34)",
+            "loss_cand_recent": 0.2788325846195221,
+            "loss_prod_recent": 0.28020912408828735,
+            "loss_cand_hist": 0.16369250416755676,
+            "loss_prod_hist": 0.4782528281211853,
+            "hist_ratio": 0.34227190001284935,
+            "historical_pass": true,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.3586111111111111,
+        "ir_phase_a": 0.56,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.48583333333333334,
+        "retention_phase_c": 95.93134527584216,
+        "adaptation_recovery_steps": 118.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 451,
+            "CA_ADAPT": 441,
+            "BLENDED": 8,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 492,
+            "SUSPECTED_SHIFT": 25,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 383
+          },
+          "pct_ddqn_exploit": 50.11111111111111,
+          "pct_ca_adapt": 49.0,
+          "pct_blended": 0.8888888888888888,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.540388888888888,
+          "avg_ca_weight": 0.45961111111111186,
+          "regime_state": "STABLE",
+          "regime_shifts_detected": 2,
+          "adaptation_attempts": 9,
+          "adaptations_accepted": 0,
+          "adaptations_rejected": 9,
+          "rollbacks_performed": 9,
+          "total_gradient_steps": 135,
+          "time_spent_adapting_ms": 756.6703329976008,
+          "last_validation": {
+            "decision": "REJECT",
+            "reason": "REJECT: Catastrophic forgetting on historical data (ratio 2.06 > 1.25)",
+            "loss_cand_recent": 0.39394378662109375,
+            "loss_prod_recent": 0.5286633372306824,
+            "loss_cand_hist": 0.1875309944152832,
+            "loss_prod_hist": 0.09112749993801117,
+            "hist_ratio": 2.0578968428065054,
+            "historical_pass": false,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.345,
+        "ir_phase_a": 0.52,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.01,
+        "ir_phase_c": 0.505,
+        "retention_phase_c": 100.50357618278588,
+        "adaptation_recovery_steps": 300.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 0,
+            "CA_ADAPT": 892,
+            "BLENDED": 8,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 8,
+            "SUSPECTED_SHIFT": 25,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 867
+          },
+          "pct_ddqn_exploit": 0.0,
+          "pct_ca_adapt": 99.11111111111111,
+          "pct_blended": 0.8888888888888888,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.1968888888888872,
+          "avg_ca_weight": 0.8031111111111044,
+          "regime_state": "ROLLBACK",
+          "regime_shifts_detected": 1,
+          "adaptation_attempts": 1,
+          "adaptations_accepted": 0,
+          "adaptations_rejected": 1,
+          "rollbacks_performed": 1,
+          "total_gradient_steps": 15,
+          "time_spent_adapting_ms": 79.48300499992911,
+          "last_validation": {
+            "decision": "REJECT",
+            "reason": "REJECT: Catastrophic forgetting on historical data (ratio 1.99 > 1.25)",
+            "loss_cand_recent": 0.23983731865882874,
+            "loss_prod_recent": 0.8846372365951538,
+            "loss_cand_hist": 0.19459377229213715,
+            "loss_prod_hist": 0.09799417108297348,
+            "hist_ratio": 1.9857688487141851,
+            "historical_pass": false,
+            "recent_pass": true
+          }
+        }
+      },
+      {
+        "ir_overall": 0.3416666666666667,
+        "ir_phase_a": 0.58,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.41500000000000004,
+        "retention_phase_c": 66.59625798751185,
+        "adaptation_recovery_steps": 132.0,
+        "diagnostics": {
+          "total_decisions": 900,
+          "mode_counts": {
+            "DDQN_EXPLOIT": 294,
+            "CA_ADAPT": 601,
+            "BLENDED": 5,
+            "EXPLORE_DISCOVERY": 0
+          },
+          "regime_state_counts": {
+            "STABLE": 333,
+            "SUSPECTED_SHIFT": 0,
+            "ADAPTING": 0,
+            "VALIDATING": 0,
+            "ROLLBACK": 567
+          },
+          "pct_ddqn_exploit": 32.666666666666664,
+          "pct_ca_adapt": 66.77777777777779,
+          "pct_blended": 0.5555555555555556,
+          "pct_explore": 0.0,
+          "avg_ddqn_weight": 0.4051111111111069,
+          "avg_ca_weight": 0.5948888888888912,
+          "regime_state": "ROLLBACK",
+          "regime_shifts_detected": 1,
+          "adaptation_attempts": 7,
+          "adaptations_accepted": 0,
+          "adaptations_rejected": 7,
+          "rollbacks_performed": 7,
+          "total_gradient_steps": 105,
+          "time_spent_adapting_ms": 583.2688300015434,
+          "last_validation": {
+            "decision": "REJECT",
+            "reason": "REJECT: Catastrophic forgetting on historical data (ratio 1.44 > 1.25)",
+            "loss_cand_recent": 0.2124972641468048,
+            "loss_prod_recent": 0.5664819478988647,
+            "loss_cand_hist": 0.11384503543376923,
+            "loss_prod_hist": 0.07920849323272705,
+            "hist_ratio": 1.4372831850149523,
+            "historical_pass": false,
+            "recent_pass": true
+          }
+        }
+      }
+    ],
+    "Standalone_LSTM_DDQN": [
+      {
+        "ir_overall": 0.45888888888888885,
+        "ir_phase_a": 0.7208333333333334,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.035,
+        "ir_phase_c": 0.6208333333333333,
+        "retention_phase_c": 88.95768279740638,
+        "adaptation_recovery_steps": 59.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.47611111111111115,
+        "ir_phase_a": 0.7275,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.6708333333333334,
+        "retention_phase_c": 94.89417977289479,
+        "adaptation_recovery_steps": 94.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.47388888888888886,
+        "ir_phase_a": 0.7483333333333333,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.021666666666666667,
+        "ir_phase_b_all": 0.014166666666666668,
+        "ir_phase_c": 0.6591666666666667,
+        "retention_phase_c": 90.31331981280309,
+        "adaptation_recovery_steps": 270.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.4722222222222222,
+        "ir_phase_a": 0.7066666666666667,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.6933333333333334,
+        "retention_phase_c": 102.5919500277668,
+        "adaptation_recovery_steps": 287.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.485,
+        "ir_phase_a": 0.7141666666666667,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.02666666666666667,
+        "ir_phase_b_all": 0.016666666666666666,
+        "ir_phase_c": 0.7241666666666666,
+        "retention_phase_c": 101.84710486844129,
+        "adaptation_recovery_steps": 200.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.4830555555555555,
+        "ir_phase_a": 0.7508333333333332,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.02,
+        "ir_phase_b_all": 0.024999999999999998,
+        "ir_phase_c": 0.6733333333333333,
+        "retention_phase_c": 91.7314781029821,
+        "adaptation_recovery_steps": 120.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.45638888888888884,
+        "ir_phase_a": 0.7216666666666667,
+        "ir_phase_b_imm": 0.0,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.006666666666666667,
+        "ir_phase_c": 0.6408333333333334,
+        "retention_phase_c": 91.57335366939341,
+        "adaptation_recovery_steps": 300.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.4502777777777778,
+        "ir_phase_a": 0.6758333333333333,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.034999999999999996,
+        "ir_phase_b_all": 0.03083333333333333,
+        "ir_phase_c": 0.6441666666666667,
+        "retention_phase_c": 98.04303637265296,
+        "adaptation_recovery_steps": 118.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.46972222222222226,
+        "ir_phase_a": 0.735,
+        "ir_phase_b_imm": 0.04,
+        "ir_phase_b_post": 0.006666666666666667,
+        "ir_phase_b_all": 0.01,
+        "ir_phase_c": 0.6641666666666667,
+        "retention_phase_c": 94.2821010366373,
+        "adaptation_recovery_steps": 300.0,
+        "diagnostics": {}
+      },
+      {
+        "ir_overall": 0.47444444444444445,
+        "ir_phase_a": 0.7475,
+        "ir_phase_b_imm": 0.02,
+        "ir_phase_b_post": 0.03333333333333333,
+        "ir_phase_b_all": 0.03,
+        "ir_phase_c": 0.6458333333333334,
+        "retention_phase_c": 88.75981483868009,
+        "adaptation_recovery_steps": 132.0,
+        "diagnostics": {}
+      }
+    ]
+  },
+  "metadata": {
+    "train_seeds": [
+      42,
+      123,
+      456,
+      789
+    ],
+    "eval_seeds": [
+      10,
+      15,
+      20,
+      25,
+      30,
+      35,
+      40,
+      45,
+      50,
+      55
+    ],
+    "phases": {
+      "Phase_A": "0..300 steps, [5, 15, 25], dwell=3",
+      "Phase_B": "300..600 steps, [10, 20, 27], dwell=5",
+      "Phase_C": "600..900 steps, [5, 15, 25], dwell=3"
+    },
+    "timestamp": 1788609714.5769799,
+    "elapsed_seconds": 149.5099458694458
+  }
+}

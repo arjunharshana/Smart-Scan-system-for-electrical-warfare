@@ -1,0 +1,274 @@
+{
+  "benchmark_summary": {
+    "1_Seen_Structure": {
+      "Context_Aware": {
+        "ir_mean": 0.269,
+        "ir_std": 0.07395268757793728,
+        "cov_mean": 0.271,
+        "det_rate_mean": 0.269
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.42749999999999994,
+        "ir_std": 0.025024987512484394
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.4967499999999999,
+        "ir_std": 0.015734118977559552
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.50625,
+        "ir_std": 0.016817030058842143,
+        "cov_mean": 0.5109999999999999,
+        "det_rate_mean": 0.3433333333333334,
+        "pct_ddqn_exploit": 70.5,
+        "pct_ca_adapt": 25.116666666666667,
+        "pct_blended": 4.233333333333333,
+        "pct_explore": 0.15000000000000002,
+        "avg_w_ddqn": 0.7343300408748764,
+        "avg_w_ca": 0.26566995912512364,
+        "avg_adaptation_steps": 13.825
+      }
+    },
+    "2_Unseen_Permutation": {
+      "Context_Aware": {
+        "ir_mean": 0.31399999999999995,
+        "ir_std": 0.014966629547095779,
+        "cov_mean": 0.315,
+        "det_rate_mean": 0.31399999999999995
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.42374999999999996,
+        "ir_std": 0.03084740669813267
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.50125,
+        "ir_std": 0.015622499799968007
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.40475000000000005,
+        "ir_std": 0.07359899795513525,
+        "cov_mean": 0.4105,
+        "det_rate_mean": 0.29091666666666666,
+        "pct_ddqn_exploit": 60.491666666666674,
+        "pct_ca_adapt": 37.31666666666666,
+        "pct_blended": 2.0333333333333337,
+        "pct_explore": 0.15833333333333335,
+        "avg_w_ddqn": 0.6190728906234708,
+        "avg_w_ca": 0.38092710937652924,
+        "avg_adaptation_steps": 18.175
+      }
+    },
+    "3_Unseen_Phase": {
+      "Context_Aware": {
+        "ir_mean": 0.304,
+        "ir_std": 0.09414881836751857,
+        "cov_mean": 0.304,
+        "det_rate_mean": 0.304
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.43900000000000006,
+        "ir_std": 0.02000624902374255
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.48775,
+        "ir_std": 0.015670433944214805
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.45699999999999996,
+        "ir_std": 0.04287773314903668,
+        "cov_mean": 0.46475,
+        "det_rate_mean": 0.3083333333333333,
+        "pct_ddqn_exploit": 64.7,
+        "pct_ca_adapt": 31.233333333333338,
+        "pct_blended": 4.066666666666667,
+        "pct_explore": 0.0,
+        "avg_w_ddqn": 0.6722300821740474,
+        "avg_w_ca": 0.32776991782595255,
+        "avg_adaptation_steps": 8.2
+      }
+    },
+    "4_Unseen_Dwell": {
+      "Context_Aware": {
+        "ir_mean": 0.24533333333333332,
+        "ir_std": 0.14786780883237868,
+        "cov_mean": 0.2576666666666666,
+        "det_rate_mean": 0.24533333333333332
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.15883333333333333,
+        "ir_std": 0.009392668535736915
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.20758333333333337,
+        "ir_std": 0.012858471051325567
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.19575,
+        "ir_std": 0.03049692607460628,
+        "cov_mean": 0.20600000000000002,
+        "det_rate_mean": 0.2104166666666667,
+        "pct_ddqn_exploit": 53.43333333333332,
+        "pct_ca_adapt": 40.59166666666666,
+        "pct_blended": 5.816666666666666,
+        "pct_explore": 0.15833333333333335,
+        "avg_w_ddqn": 0.5728924243405726,
+        "avg_w_ca": 0.4271075756594275,
+        "avg_adaptation_steps": 19.025
+      }
+    },
+    "5_Unseen_Subset": {
+      "Context_Aware": {
+        "ir_mean": 0.274,
+        "ir_std": 0.07364781055808788,
+        "cov_mean": 0.274,
+        "det_rate_mean": 0.274
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.004250000000000001,
+        "ir_std": 0.001600781059358212
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.0095,
+        "ir_std": 0.004301162633521313
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.21424999999999997,
+        "ir_std": 0.04605770836678699,
+        "cov_mean": 0.21725,
+        "det_rate_mean": 0.10883333333333334,
+        "pct_ddqn_exploit": 28.133333333333336,
+        "pct_ca_adapt": 66.53333333333333,
+        "pct_blended": 5.283333333333333,
+        "pct_explore": 0.05,
+        "avg_w_ddqn": 0.3153131528234898,
+        "avg_w_ca": 0.6846868471765102,
+        "avg_adaptation_steps": 26.975
+      }
+    },
+    "6_Mixed_Shift": {
+      "Context_Aware": {
+        "ir_mean": 0.30666666666666664,
+        "ir_std": 0.022607766610417555,
+        "cov_mean": 0.30666666666666664,
+        "det_rate_mean": 0.30666666666666664
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.00625,
+        "ir_std": 0.0027950849718747376
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.014166666666666666,
+        "ir_std": 0.005
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.14708333333333332,
+        "ir_std": 0.03736317631632039,
+        "cov_mean": 0.14999999999999997,
+        "det_rate_mean": 0.08275,
+        "pct_ddqn_exploit": 19.56666666666667,
+        "pct_ca_adapt": 74.85833333333333,
+        "pct_blended": 5.533333333333334,
+        "pct_explore": 0.04166666666666667,
+        "avg_w_ddqn": 0.23397786989741337,
+        "avg_w_ca": 0.7660221301025866,
+        "avg_adaptation_steps": 37.675
+      }
+    },
+    "7_Random_Hopping": {
+      "Context_Aware": {
+        "ir_mean": 0.16099999999999998,
+        "ir_std": 0.050089919145472776,
+        "cov_mean": 0.16999999999999998,
+        "det_rate_mean": 0.16099999999999998
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.10683333333333334,
+        "ir_std": 0.007386173268720113
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.13741666666666666,
+        "ir_std": 0.009230459841681178
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.1418333333333333,
+        "ir_std": 0.01600694293805728,
+        "cov_mean": 0.15041666666666667,
+        "det_rate_mean": 0.15766666666666668,
+        "pct_ddqn_exploit": 41.93333333333334,
+        "pct_ca_adapt": 51.30833333333334,
+        "pct_blended": 6.65,
+        "pct_explore": 0.10833333333333335,
+        "avg_w_ddqn": 0.45816249903312506,
+        "avg_w_ca": 0.541837500966875,
+        "avg_adaptation_steps": 10.85
+      }
+    },
+    "8_Periodic_Burst": {
+      "Context_Aware": {
+        "ir_mean": 0.5133333333333333,
+        "ir_std": 0.4290040144852312,
+        "cov_mean": 0.52,
+        "det_rate_mean": 0.5133333333333333
+      },
+      "V3_0_DDQN": {
+        "ir_mean": 0.24666666666666667,
+        "ir_std": 0.03858612300930075
+      },
+      "V3_1_DDQN": {
+        "ir_mean": 0.4616666666666667,
+        "ir_std": 0.05871304984602846
+      },
+      "V4_0_Hybrid": {
+        "ir_mean": 0.7483333333333333,
+        "ir_std": 0.15836841716565697,
+        "cov_mean": 0.7533333333333333,
+        "det_rate_mean": 0.14675,
+        "pct_ddqn_exploit": 31.59166666666666,
+        "pct_ca_adapt": 64.89166666666667,
+        "pct_blended": 3.35,
+        "pct_explore": 0.16666666666666669,
+        "avg_w_ddqn": 0.3403738031862702,
+        "avg_w_ca": 0.6596261968137298,
+        "avg_adaptation_steps": 20.225
+      }
+    }
+  },
+  "ood_retention": {
+    "2_Unseen_Permutation": {
+      "v3_0_retention": 99.12280701754386,
+      "v3_1_retention": 100.90588827377958,
+      "v4_0_retention": 79.95061728395063
+    },
+    "3_Unseen_Phase": {
+      "v3_0_retention": 102.69005847953218,
+      "v3_1_retention": 98.18822345244088,
+      "v4_0_retention": 90.2716049382716
+    },
+    "4_Unseen_Dwell": {
+      "v3_0_retention": 37.15399610136453,
+      "v3_1_retention": 41.78829055527598,
+      "v4_0_retention": 38.66666666666667
+    },
+    "5_Unseen_Subset": {
+      "v3_0_retention": 0.9941520467836261,
+      "v3_1_retention": 1.9124308002013086,
+      "v4_0_retention": 42.32098765432099
+    },
+    "6_Mixed_Shift": {
+      "v3_0_retention": 1.4619883040935675,
+      "v3_1_retention": 2.8518704915282673,
+      "v4_0_retention": 29.05349794238683
+    },
+    "7_Random_Hopping": {
+      "v3_0_retention": 24.990253411306046,
+      "v3_1_retention": 27.663143767824195,
+      "v4_0_retention": 28.016460905349795
+    },
+    "8_Periodic_Burst": {
+      "v3_0_retention": 57.69980506822613,
+      "v3_1_retention": 92.93742660627414,
+      "v4_0_retention": 147.81893004115224
+    }
+  },
+  "total_runtime_seconds": 255.54051232337952
+}

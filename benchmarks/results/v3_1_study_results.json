@@ -1,0 +1,1169 @@
+{
+  "v3_0_baseline": {
+    "deterministic_hopping": {
+      "ddqn_ir_mean": 0.6354999999999998,
+      "ddqn_ir_std": 0.030919249667480626,
+      "ca_ir_mean": 0.312,
+      "ca_ir_std": 0.022271057451320096,
+      "train_loss_mean": 0.15856611421331762,
+      "train_reward_mean": 0.25828124999999996,
+      "per_seed_ir": [
+        0.5974999999999999,
+        0.6925,
+        0.6399999999999999,
+        0.635,
+        0.59,
+        0.6375000000000001,
+        0.6375,
+        0.6,
+        0.6575,
+        0.6675
+      ]
+    },
+    "random_hopping": {
+      "ddqn_ir_mean": 0.13191666666666665,
+      "ddqn_ir_std": 0.013463169925557813,
+      "ca_ir_mean": 0.16133333333333336,
+      "ca_ir_std": 0.05057887130237508,
+      "train_loss_mean": 0.12765082210302353,
+      "train_reward_mean": 0.11521875,
+      "per_seed_ir": [
+        0.13333333333333333,
+        0.145,
+        0.13083333333333333,
+        0.1275,
+        0.13999999999999999,
+        0.11916666666666667,
+        0.15166666666666667,
+        0.12166666666666667,
+        0.10500000000000001,
+        0.14500000000000002
+      ]
+    },
+    "periodic_time": {
+      "ddqn_ir_mean": 0.51,
+      "ddqn_ir_std": 0.050110987927909696,
+      "ca_ir_mean": 0.6666666666666666,
+      "ca_ir_std": 0.44020197384584475,
+      "train_loss_mean": 0.16672693453729154,
+      "train_reward_mean": 0.11984374999999997,
+      "per_seed_ir": [
+        0.48333333333333334,
+        0.4166666666666667,
+        0.5333333333333333,
+        0.5,
+        0.5833333333333334,
+        0.48333333333333334,
+        0.49999999999999994,
+        0.48333333333333334,
+        0.5166666666666667,
+        0.6
+      ]
+    },
+    "ood_hopping": {
+      "ddqn_ir_mean": 0.0175,
+      "ddqn_ir_std": 0.0064009547898905075,
+      "ca_ir_mean": 0.32499999999999996,
+      "ca_ir_std": 0.020069324297987155
+    }
+  },
+  "encoder_comparison": {
+    "Encoder_A_Baseline": {
+      "id_ir_mean": 0.6354999999999998,
+      "id_ir_std": 0.030919249667480626,
+      "ood_ir_mean": 0.0175,
+      "ood_ir_std": 0.0064009547898905075,
+      "retention": 0.027537372147915035
+    },
+    "Encoder_B_Temporal": {
+      "id_ir_mean": 0.63775,
+      "id_ir_std": 0.03250865269432127,
+      "ood_ir_mean": 0.015,
+      "ood_ir_std": 0.005335936864527373,
+      "retention": 0.02352018816150529
+    },
+    "Encoder_C_NoAbsTime": {
+      "id_ir_mean": 0.6155,
+      "id_ir_std": 0.05817860431464473,
+      "ood_ir_mean": 0.035833333333333335,
+      "ood_ir_std": 0.011666666666666665,
+      "retention": 0.05821825074465204
+    },
+    "Encoder_D_Fourier": {
+      "id_ir_mean": 0.5800000000000001,
+      "id_ir_std": 0.01930025906561877,
+      "ood_ir_mean": 0.06333333333333334,
+      "ood_ir_std": 0.024209731743889917,
+      "retention": 0.10919540229885057
+    }
+  },
+  "replay_diversity_profile": {
+    "unique_frequency_transitions": 27,
+    "unique_hopping_sequences": 11,
+    "number_of_scenario_types": 5,
+    "distinct_active_channel_sets": 20
+  },
+  "generalization_matrix": {
+    "A_Seen_Structure": {
+      "context_aware": {
+        "ir_mean": 0.29400000000000004,
+        "ir_std": 0.024979991993593593,
+        "cov_mean": 0.296
+      },
+      "v3_0_ddqn": {
+        "ir_mean": 0.22825,
+        "ir_std": 0.03413301187999677
+      },
+      "v3_1_ddqn": {
+        "ir_mean": 0.11950000000000001,
+        "ir_std": 0.021177818584547373,
+        "cov_mean": 0.12225000000000001,
+        "det_given_cov": 0.9754031385281385,
+        "detection_rate": 0.07133333333333335,
+        "retention_vs_seen": 1.0
+      }
+    },
+    "B_Unseen_Permutation": {
+      "context_aware": {
+        "ir_mean": 0.344,
+        "ir_std": 0.08296987405076615,
+        "cov_mean": 0.34500000000000003
+      },
+      "v3_0_ddqn": {
+        "ir_mean": 0.23374999999999999,
+        "ir_std": 0.03080685800272401
+      },
+      "v3_1_ddqn": {
+        "ir_mean": 0.13175,
+        "ir_std": 0.024850804815941072,
+        "cov_mean": 0.13375,
+        "det_given_cov": 0.9822073489483513,
+        "detection_rate": 0.0745,
+        "retention_vs_seen": 1.102510460251046
+      }
+    },
+    "C_Unseen_Phase": {
+      "context_aware": {
+        "ir_mean": 0.306,
+        "ir_std": 0.0925418824100742,
+        "cov_mean": 0.306
+      },
+      "v3_0_ddqn": {
+        "ir_mean": 0.23425,
+        "ir_std": 0.0241880652388735
+      },
+      "v3_1_ddqn": {
+        "ir_mean": 0.129,
+        "ir_std": 0.013190905958272922,
+        "cov_mean": 0.13274999999999998,
+        "det_given_cov": 0.9817013292183667,
+        "detection_rate": 0.07158333333333333,
+        "retention_vs_seen": 1.0794979079497908
+      }
+    },
+    "D_Unseen_Dwell": {
+      "context_aware": {
+        "ir_mean": 0.2593333333333333,
+        "ir_std": 0.1643018901629288,
+        "cov_mean": 0.2713333333333333
+      },
+      "v3_0_ddqn": {
+        "ir_mean": 0.11400000000000002,
+        "ir_std": 0.01737574938431913
+      },
+      "v3_1_ddqn": {
+        "ir_mean": 0.04425,
+        "ir_std": 0.0060604592785255705,
+        "cov_mean": 0.047,
+        "det_given_cov": 0.9037805899589682,
+        "detection_rate": 0.061750000000000006,
+        "retention_vs_seen": 0.37029288702928864
+      }
+    },
+    "E_Unseen_Subset": {
+      "context_aware": {
+        "ir_mean": 0.33299999999999996,
+        "ir_std": 0.09392017887546851,
+        "cov_mean": 0.33299999999999996
+      },
+      "v3_0_ddqn": {
+        "ir_mean": 0.007250000000000001,
+        "ir_std": 0.0042499999999999994
+      },
+      "v3_1_ddqn": {
+        "ir_mean": 0.017750000000000002,
+        "ir_std": 0.00702228595259407,
+        "cov_mean": 0.019,
+        "det_given_cov": 0.6533333333333333,
+        "detection_rate": 0.023833333333333335,
+        "retention_vs_seen": 0.14853556485355648
+      }
+    },
+    "F_Mixed_Shift": {
+      "context_aware": {
+        "ir_mean": 0.2899999999999999,
+        "ir_std": 0.06110100926607786,
+        "cov_mean": 0.2899999999999999
+      },
+      "v3_0_ddqn": {
+        "ir_mean": 0.013333333333333332,
+        "ir_std": 0.013149778198382917
+      },
+      "v3_1_ddqn": {
+        "ir_mean": 0.04041666666666667,
+        "ir_std": 0.011938790651578669,
+        "cov_mean": 0.043333333333333335,
+        "det_given_cov": 0.7316071428571428,
+        "detection_rate": 0.02683333333333333,
+        "retention_vs_seen": 0.3382147838214784
+      }
+    }
+  },
+  "training_quantity_ablation": {
+    "25_percent": {
+      "episodes": 3,
+      "id_ir_mean": 0.03225000000000001,
+      "id_ir_std": 0.010395311443145896,
+      "ood_ir_mean": 0.028250000000000004,
+      "ood_ir_std": 0.01031079531365064,
+      "retention": 0.8759689922480619
+    },
+    "50_percent": {
+      "episodes": 6,
+      "id_ir_mean": 0.06399999999999999,
+      "id_ir_std": 0.03477067730142742,
+      "ood_ir_mean": 0.04825,
+      "ood_ir_std": 0.021126109438322997,
+      "retention": 0.7539062500000002
+    },
+    "100_percent": {
+      "episodes": 12,
+      "id_ir_mean": 0.11950000000000001,
+      "id_ir_std": 0.021177818584547373,
+      "ood_ir_mean": 0.017750000000000002,
+      "ood_ir_std": 0.00702228595259407,
+      "retention": 0.14853556485355648
+    }
+  },
+  "feature_ablation": {
+    "baseline_encoder": {
+      "id_ir_mean": 0.021,
+      "ood_ir_mean": 0.027750000000000004,
+      "retention": 1.3214285714285716
+    },
+    "plus_freq_movement": {
+      "id_ir_mean": 0.03924999999999999,
+      "ood_ir_mean": 0.06775,
+      "retention": 1.7261146496815292
+    },
+    "plus_det_rate": {
+      "id_ir_mean": 0.01125,
+      "ood_ir_mean": 0.03925,
+      "retention": 3.488888888888889
+    },
+    "plus_persistence": {
+      "id_ir_mean": 0.021249999999999998,
+      "ood_ir_mean": 0.066,
+      "retention": 3.105882352941177
+    },
+    "plus_time_between_det": {
+      "id_ir_mean": 0.08875,
+      "ood_ir_mean": 0.046000000000000006,
+      "retention": 0.5183098591549297
+    },
+    "plus_consistency": {
+      "id_ir_mean": 0.047,
+      "ood_ir_mean": 0.046000000000000006,
+      "retention": 0.9787234042553192
+    },
+    "all_temporal_features": {
+      "id_ir_mean": 0.06399999999999999,
+      "ood_ir_mean": 0.04825,
+      "retention": 0.7539062500000002
+    }
+  },
+  "periodic_burst_comparison": {
+    "context_aware": {
+      "ir_mean": 0.6666666666666666,
+      "ir_std": 0.44020197384584475
+    },
+    "v3_0_ddqn": {
+      "ir_mean": 0.51,
+      "ir_std": 0.050110987927909696
+    },
+    "v3_1_temporal_ddqn": {
+      "ir_mean": 0.06999999999999999,
+      "ir_std": 0.02449489742783178
+    },
+    "v3_1_fourier_ddqn": {
+      "ir_mean": 0.24499999999999997,
+      "ir_std": 0.025873624493766702
+    },
+    "v3_1_diversified_ddqn": {
+      "ir_mean": 0.12,
+      "ir_std": 0.0348010216963685
+    }
+  },
+  "statistical_analysis": {
+    "overall_v31_mean": 0.08044444444444446,
+    "overall_ca_mean": 0.30438888888888893,
+    "mean_diff": -0.22394444444444442,
+    "t_statistic": -15.899758370880512,
+    "p_value": 0.0,
+    "ci_95": [
+      -0.25211398504005317,
+      -0.19577490384883567
+    ],
+    "significant_05": true
+  },
+  "behavioral_trajectories": {
+    "deterministic_hopping": [
+      {
+        "step": 0.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 1.0,
+        "selected_bin": 24,
+        "center_freq_mhz": 590.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 2.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 3.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": true,
+        "reward": 1.15
+      },
+      {
+        "step": 4.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 5.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 6.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 7.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 8.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 9.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 10.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 11.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 12.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 13.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 14.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 15.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 16.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 17.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 18.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 19.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 20.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 21.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 22.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 23.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 24.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 25.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 26.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 27.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 28.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 29.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      }
+    ],
+    "ood_hopping": [
+      {
+        "step": 0.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 1.0,
+        "selected_bin": 24,
+        "center_freq_mhz": 590.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 2.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 3.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 4.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 5.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 6.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 7.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 8.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 9.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 10.0,
+        "selected_bin": 16,
+        "center_freq_mhz": 430.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 11.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 12.0,
+        "selected_bin": 2,
+        "center_freq_mhz": 150.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 13.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 14.0,
+        "selected_bin": 16,
+        "center_freq_mhz": 430.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 15.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 16.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": true,
+        "reward": 1.15
+      },
+      {
+        "step": 17.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 18.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 19.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 20.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 21.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 22.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 23.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 24.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 25.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 26.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 27.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 28.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 29.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      }
+    ],
+    "periodic_burst": [
+      {
+        "step": 0.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 1.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 2.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 3.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 4.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 5.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 6.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 7.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 8.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 9.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 10.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 11.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 12.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 13.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 14.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 15.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 16.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 17.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 18.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 19.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 20.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 21.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 22.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 23.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 24.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 25.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 26.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 27.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 28.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 29.0,
+        "selected_bin": 19,
+        "center_freq_mhz": 490.0,
+        "detected": false,
+        "reward": -0.05
+      }
+    ],
+    "random_hopping": [
+      {
+        "step": 0.0,
+        "selected_bin": 12,
+        "center_freq_mhz": 350.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 1.0,
+        "selected_bin": 24,
+        "center_freq_mhz": 590.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 2.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 3.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": true,
+        "reward": 1.15
+      },
+      {
+        "step": 4.0,
+        "selected_bin": 29,
+        "center_freq_mhz": 690.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 5.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 6.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 7.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 8.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": true,
+        "reward": 1.15
+      },
+      {
+        "step": 9.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 10.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 11.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 12.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 13.0,
+        "selected_bin": 14,
+        "center_freq_mhz": 390.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 14.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 15.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 16.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 17.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 18.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 19.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 20.0,
+        "selected_bin": 15,
+        "center_freq_mhz": 410.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 21.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 22.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 23.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 24.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": true,
+        "reward": 1.15
+      },
+      {
+        "step": 25.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 26.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 27.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 28.0,
+        "selected_bin": 4,
+        "center_freq_mhz": 190.0,
+        "detected": false,
+        "reward": -0.05
+      },
+      {
+        "step": 29.0,
+        "selected_bin": 11,
+        "center_freq_mhz": 330.0,
+        "detected": false,
+        "reward": -0.05
+      }
+    ]
+  }
+}

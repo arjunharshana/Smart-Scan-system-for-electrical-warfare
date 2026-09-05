@@ -1,0 +1,1046 @@
+{
+  "condition_a": {
+    "condition_id": "condition_a",
+    "condition_name": "1 Regime (Base Threat)",
+    "train_scenarios": [
+      "TRAIN_1_BaseThreat"
+    ],
+    "training_seeds": [
+      42,
+      123,
+      456,
+      789
+    ],
+    "selected_seed": 123,
+    "checkpoint_file": "models/ablation/condition_a_1regime/production_checkpoint.npz",
+    "checkpoint_sha256": "93c578be302a034da1e70d4ca9c60429f39225f1e0ffa15ef5a975d0bb8c81ed",
+    "selection_reason": "Selected Seed 123 with highest validation composite score (28.28). Validation Interception Rate: 30.70% (\u00b14.86%), Min Scenario IR: 26.00%. Demonstrated superior stability across diverse held-out validation scenarios without collapse.",
+    "validation_ir_mean": 0.307046783625731,
+    "validation_ir_std": 0.04856262146496841,
+    "validation_ir_min": 0.26,
+    "validation_det_rate": 0.9722170691969427,
+    "canonical_test_scenarios": {
+      "1_Seen_Structure": {
+        "ca_ir_mean": 0.269,
+        "v41_hybrid_ir_mean": 0.8719999999999999,
+        "v41_hybrid_ir_std": 0.135705563629499,
+        "v41_det_rate_mean": 0.9507586834326457,
+        "per_seed_ir": [
+          0.96,
+          0.97,
+          0.96,
+          0.91,
+          0.94,
+          0.74,
+          0.57,
+          0.72,
+          0.97,
+          0.98
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 2415,
+          "CA_ADAPT": 571,
+          "BLENDED": 14,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "2_Unseen_Permutation": {
+        "ca_ir_mean": 0.31399999999999995,
+        "v41_hybrid_ir_mean": 0.7649999999999999,
+        "v41_hybrid_ir_std": 0.08393449827097317,
+        "v41_det_rate_mean": 0.9498227118487991,
+        "per_seed_ir": [
+          0.53,
+          0.79,
+          0.77,
+          0.79,
+          0.76,
+          0.79,
+          0.78,
+          0.75,
+          0.84,
+          0.85
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 2240,
+          "CA_ADAPT": 640,
+          "BLENDED": 110,
+          "EXPLORE_DISCOVERY": 10
+        }
+      },
+      "3_Unseen_Phase": {
+        "ca_ir_mean": 0.304,
+        "v41_hybrid_ir_mean": 0.8380000000000001,
+        "v41_hybrid_ir_std": 0.08447484832777151,
+        "v41_det_rate_mean": 0.9519000088715549,
+        "per_seed_ir": [
+          0.88,
+          0.89,
+          0.89,
+          0.71,
+          0.89,
+          0.85,
+          0.88,
+          0.9,
+          0.64,
+          0.85
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 2381,
+          "CA_ADAPT": 534,
+          "BLENDED": 75,
+          "EXPLORE_DISCOVERY": 10
+        }
+      },
+      "4_Unseen_Dwell": {
+        "ca_ir_mean": 0.24533333333333332,
+        "v41_hybrid_ir_mean": 0.2506666666666667,
+        "v41_hybrid_ir_std": 0.02128118626601649,
+        "v41_det_rate_mean": 0.9533003605293633,
+        "per_seed_ir": [
+          0.26666666666666666,
+          0.25666666666666665,
+          0.25666666666666665,
+          0.23666666666666666,
+          0.22666666666666666,
+          0.26666666666666666,
+          0.20333333333333334,
+          0.25,
+          0.27666666666666667,
+          0.26666666666666666
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 1930,
+          "CA_ADAPT": 1006,
+          "BLENDED": 64,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "5_Unseen_Subset": {
+        "ca_ir_mean": 0.274,
+        "v41_hybrid_ir_mean": 0.24900000000000003,
+        "v41_hybrid_ir_std": 0.06122907805936654,
+        "v41_det_rate_mean": 0.951674950717253,
+        "per_seed_ir": [
+          0.26,
+          0.09,
+          0.24,
+          0.31,
+          0.28,
+          0.32,
+          0.23,
+          0.28,
+          0.22,
+          0.26
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 1130,
+          "CA_ADAPT": 1746,
+          "BLENDED": 114,
+          "EXPLORE_DISCOVERY": 10
+        }
+      },
+      "6_Mixed_Shift": {
+        "ca_ir_mean": 0.30666666666666664,
+        "v41_hybrid_ir_mean": 0.08,
+        "v41_hybrid_ir_std": 0.07102425250887505,
+        "v41_det_rate_mean": 0.9618181818181819,
+        "per_seed_ir": [
+          0.016666666666666666,
+          0.016666666666666666,
+          0.15,
+          0.08333333333333333,
+          0.016666666666666666,
+          0.05,
+          0.11666666666666667,
+          0.03333333333333333,
+          0.06666666666666667,
+          0.25
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 306,
+          "CA_ADAPT": 2578,
+          "BLENDED": 116,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "7_Random_Hopping": {
+        "ca_ir_mean": 0.2636666666666666,
+        "v41_hybrid_ir_mean": 0.24666666666666667,
+        "v41_hybrid_ir_std": 0.03741657386773942,
+        "v41_det_rate_mean": 0.9554417120440568,
+        "per_seed_ir": [
+          0.24,
+          0.2633333333333333,
+          0.2966666666666667,
+          0.24666666666666667,
+          0.22666666666666666,
+          0.16666666666666666,
+          0.21333333333333335,
+          0.2833333333333333,
+          0.24,
+          0.29
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 1688,
+          "CA_ADAPT": 1247,
+          "BLENDED": 58,
+          "EXPLORE_DISCOVERY": 7
+        }
+      },
+      "8_Periodic_Burst": {
+        "ca_ir_mean": 0.515,
+        "v41_hybrid_ir_mean": 0.325,
+        "v41_hybrid_ir_std": 0.31957002362549586,
+        "v41_det_rate_mean": 0.6806217948717949,
+        "per_seed_ir": [
+          0.9,
+          0.0,
+          0.5,
+          0.75,
+          0.0,
+          0.1,
+          0.15,
+          0.6,
+          0.25,
+          0.0
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 427,
+          "CA_ADAPT": 2477,
+          "BLENDED": 86,
+          "EXPLORE_DISCOVERY": 10
+        }
+      }
+    },
+    "overall_test_ir_mean": 0.45329166666666665,
+    "overall_detection_rate": 0.9194173005167061,
+    "overall_mode_distribution": {
+      "exploit_pct": 52.15416666666667,
+      "adapt_pct": 44.99583333333334,
+      "blend_pct": 2.654166666666667,
+      "raw_counts": {
+        "DDQN_EXPLOIT": 12517,
+        "CA_ADAPT": 10799,
+        "BLENDED": 637,
+        "EXPLORE_DISCOVERY": 47
+      }
+    },
+    "candidate_summary": [
+      {
+        "seed": 42,
+        "val_ir_mean": 0.3101900584795322,
+        "val_ir_std": 0.13371222183933312,
+        "val_ir_min": 0.16,
+        "sha256": "6592d198bac2a082a1533c0bb0c6f4cc9246b8b62d289345d8e7517bc425f8a2"
+      },
+      {
+        "seed": 123,
+        "val_ir_mean": 0.307046783625731,
+        "val_ir_std": 0.04856262146496841,
+        "val_ir_min": 0.26,
+        "sha256": "93c578be302a034da1e70d4ca9c60429f39225f1e0ffa15ef5a975d0bb8c81ed"
+      },
+      {
+        "seed": 456,
+        "val_ir_mean": 0.23953216374269007,
+        "val_ir_std": 0.09054456047165073,
+        "val_ir_min": 0.14035087719298245,
+        "sha256": "5e639839860cca3b35bdd4122af3673f414dd08c94d94d2e0311ca93fc15e1bf"
+      },
+      {
+        "seed": 789,
+        "val_ir_mean": 0.3840789473684211,
+        "val_ir_std": 0.27676836100000224,
+        "val_ir_min": 0.1688888888888889,
+        "sha256": "537b913c3e611739c4aad5a15cd23efa78d57f2232ac4b94f0225084e86d83de"
+      }
+    ],
+    "elapsed_seconds": 840.7970860004425
+  },
+  "condition_b": {
+    "condition_id": "condition_b",
+    "condition_name": "2 Regimes (Base + Agile d=4)",
+    "train_scenarios": [
+      "TRAIN_1_BaseThreat",
+      "TRAIN_2_Agile_Dwell4"
+    ],
+    "training_seeds": [
+      42,
+      123,
+      456,
+      789
+    ],
+    "selected_seed": 123,
+    "checkpoint_file": "models/ablation/condition_b_2regimes/production_checkpoint.npz",
+    "checkpoint_sha256": "ce46ef207ca8a1edd34c0d9e5158bc53f1ae2327eb823938142ba67038075c8c",
+    "selection_reason": "Selected Seed 123 with highest validation composite score (30.93). Validation Interception Rate: 42.48% (\u00b123.09%), Min Scenario IR: 28.00%. Demonstrated superior stability across diverse held-out validation scenarios without collapse.",
+    "validation_ir_mean": 0.42475146198830405,
+    "validation_ir_std": 0.23093776562146104,
+    "validation_ir_min": 0.27999999999999997,
+    "validation_det_rate": 0.9590392892128646,
+    "canonical_test_scenarios": {
+      "1_Seen_Structure": {
+        "ca_ir_mean": 0.269,
+        "v41_hybrid_ir_mean": 0.3330000000000001,
+        "v41_hybrid_ir_std": 0.07925276020429825,
+        "v41_det_rate_mean": 0.9493986054231611,
+        "per_seed_ir": [
+          0.38,
+          0.27,
+          0.32,
+          0.32,
+          0.32,
+          0.32,
+          0.32,
+          0.32,
+          0.22,
+          0.54
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 654,
+          "CA_ADAPT": 2171,
+          "BLENDED": 146,
+          "EXPLORE_DISCOVERY": 29
+        }
+      },
+      "2_Unseen_Permutation": {
+        "ca_ir_mean": 0.31399999999999995,
+        "v41_hybrid_ir_mean": 0.31500000000000006,
+        "v41_hybrid_ir_std": 0.029068883707497273,
+        "v41_det_rate_mean": 0.9497579933332257,
+        "per_seed_ir": [
+          0.33,
+          0.28,
+          0.32,
+          0.33,
+          0.24,
+          0.33,
+          0.33,
+          0.33,
+          0.33,
+          0.33
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 388,
+          "CA_ADAPT": 2552,
+          "BLENDED": 50,
+          "EXPLORE_DISCOVERY": 10
+        }
+      },
+      "3_Unseen_Phase": {
+        "ca_ir_mean": 0.304,
+        "v41_hybrid_ir_mean": 0.26,
+        "v41_hybrid_ir_std": 0.127043299705258,
+        "v41_det_rate_mean": 0.9388285357423053,
+        "per_seed_ir": [
+          0.56,
+          0.26,
+          0.28,
+          0.11,
+          0.06,
+          0.24,
+          0.28,
+          0.31,
+          0.3,
+          0.2
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 646,
+          "CA_ADAPT": 2191,
+          "BLENDED": 134,
+          "EXPLORE_DISCOVERY": 29
+        }
+      },
+      "4_Unseen_Dwell": {
+        "ca_ir_mean": 0.24533333333333332,
+        "v41_hybrid_ir_mean": 0.17966666666666664,
+        "v41_hybrid_ir_std": 0.08839871793942111,
+        "v41_det_rate_mean": 0.945079175360165,
+        "per_seed_ir": [
+          0.016666666666666666,
+          0.18666666666666668,
+          0.21,
+          0.26,
+          0.17333333333333334,
+          0.25666666666666665,
+          0.26,
+          0.14333333333333334,
+          0.02666666666666667,
+          0.2633333333333333
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 515,
+          "CA_ADAPT": 2396,
+          "BLENDED": 79,
+          "EXPLORE_DISCOVERY": 10
+        }
+      },
+      "5_Unseen_Subset": {
+        "ca_ir_mean": 0.274,
+        "v41_hybrid_ir_mean": 0.30999999999999994,
+        "v41_hybrid_ir_std": 0.03065941943351179,
+        "v41_det_rate_mean": 0.9468604428301555,
+        "per_seed_ir": [
+          0.33,
+          0.33,
+          0.33,
+          0.33,
+          0.32,
+          0.32,
+          0.32,
+          0.32,
+          0.24,
+          0.26
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 824,
+          "CA_ADAPT": 2061,
+          "BLENDED": 95,
+          "EXPLORE_DISCOVERY": 20
+        }
+      },
+      "6_Mixed_Shift": {
+        "ca_ir_mean": 0.30666666666666664,
+        "v41_hybrid_ir_mean": 0.24,
+        "v41_hybrid_ir_std": 0.066332495807108,
+        "v41_det_rate_mean": 0.956198552695499,
+        "per_seed_ir": [
+          0.23333333333333334,
+          0.2,
+          0.15,
+          0.26666666666666666,
+          0.2833333333333333,
+          0.3333333333333333,
+          0.15,
+          0.3,
+          0.31666666666666665,
+          0.16666666666666666
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 715,
+          "CA_ADAPT": 2189,
+          "BLENDED": 75,
+          "EXPLORE_DISCOVERY": 21
+        }
+      },
+      "7_Random_Hopping": {
+        "ca_ir_mean": 0.2636666666666666,
+        "v41_hybrid_ir_mean": 0.1873333333333333,
+        "v41_hybrid_ir_std": 0.06318930992572153,
+        "v41_det_rate_mean": 0.9677525538557077,
+        "per_seed_ir": [
+          0.21,
+          0.043333333333333335,
+          0.15666666666666668,
+          0.21666666666666667,
+          0.11666666666666667,
+          0.17666666666666667,
+          0.25333333333333335,
+          0.24666666666666667,
+          0.24666666666666667,
+          0.20666666666666667
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 739,
+          "CA_ADAPT": 2119,
+          "BLENDED": 123,
+          "EXPLORE_DISCOVERY": 19
+        }
+      },
+      "8_Periodic_Burst": {
+        "ca_ir_mean": 0.515,
+        "v41_hybrid_ir_mean": 0.52,
+        "v41_hybrid_ir_std": 0.2551470164434615,
+        "v41_det_rate_mean": 0.9279574472560526,
+        "per_seed_ir": [
+          0.1,
+          0.25,
+          0.4,
+          0.85,
+          0.75,
+          0.75,
+          0.75,
+          0.65,
+          0.2,
+          0.5
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 442,
+          "CA_ADAPT": 2410,
+          "BLENDED": 119,
+          "EXPLORE_DISCOVERY": 29
+        }
+      }
+    },
+    "overall_test_ir_mean": 0.293125,
+    "overall_detection_rate": 0.9477291633120339,
+    "overall_mode_distribution": {
+      "exploit_pct": 20.5125,
+      "adapt_pct": 75.37083333333334,
+      "blend_pct": 3.4208333333333334,
+      "raw_counts": {
+        "DDQN_EXPLOIT": 4923,
+        "CA_ADAPT": 18089,
+        "BLENDED": 821,
+        "EXPLORE_DISCOVERY": 167
+      }
+    },
+    "candidate_summary": [
+      {
+        "seed": 42,
+        "val_ir_mean": 0.2736842105263158,
+        "val_ir_std": 0.054702030715748216,
+        "val_ir_min": 0.2280701754385965,
+        "sha256": "bf35c7628a2638e04e2f2fc88128d37a67589611f96e9a2d1be5ca85969a9471"
+      },
+      {
+        "seed": 123,
+        "val_ir_mean": 0.42475146198830405,
+        "val_ir_std": 0.23093776562146104,
+        "val_ir_min": 0.27999999999999997,
+        "sha256": "ce46ef207ca8a1edd34c0d9e5158bc53f1ae2327eb823938142ba67038075c8c"
+      },
+      {
+        "seed": 456,
+        "val_ir_mean": 0.38980994152046783,
+        "val_ir_std": 0.24789722133030273,
+        "val_ir_min": 0.15555555555555556,
+        "sha256": "a243b60214170757cb23a9fc3b1f266933ea6db586a9a6a054453bfa06dd2e3c"
+      },
+      {
+        "seed": 789,
+        "val_ir_mean": 0.3240497076023392,
+        "val_ir_std": 0.2184953856112181,
+        "val_ir_min": 0.18333333333333335,
+        "sha256": "fd54dea46e0d12f2a7416050e7662d1bc7d219d5b3cfb16312b5a23f6196d67e"
+      }
+    ],
+    "elapsed_seconds": 867.6317789554596
+  },
+  "condition_c": {
+    "condition_id": "condition_c",
+    "condition_name": "3 Regimes (Base + Agile d=4 + Fast d=2)",
+    "train_scenarios": [
+      "TRAIN_1_BaseThreat",
+      "TRAIN_2_Agile_Dwell4",
+      "TRAIN_3_FastCycle_Dwell2"
+    ],
+    "training_seeds": [
+      42,
+      123,
+      456,
+      789
+    ],
+    "selected_seed": 42,
+    "checkpoint_file": "models/ablation/condition_c_3regimes/production_checkpoint.npz",
+    "checkpoint_sha256": "1bfa759d85e4b3ed92f9d81825efca90bdda9e9153f56ccb5a8e206917bca30b",
+    "selection_reason": "Selected Seed 42 with highest validation composite score (26.87). Validation Interception Rate: 36.22% (\u00b118.69%), Min Scenario IR: 22.67%. Demonstrated superior stability across diverse held-out validation scenarios without collapse.",
+    "validation_ir_mean": 0.36216374269005847,
+    "validation_ir_std": 0.18689629392932947,
+    "validation_ir_min": 0.22666666666666666,
+    "validation_det_rate": 0.9571215914538418,
+    "canonical_test_scenarios": {
+      "1_Seen_Structure": {
+        "ca_ir_mean": 0.269,
+        "v41_hybrid_ir_mean": 0.293,
+        "v41_hybrid_ir_std": 0.08136952746575342,
+        "v41_det_rate_mean": 0.9539475252433297,
+        "per_seed_ir": [
+          0.35,
+          0.31,
+          0.36,
+          0.32,
+          0.32,
+          0.25,
+          0.33,
+          0.35,
+          0.07,
+          0.27
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 740,
+          "CA_ADAPT": 2152,
+          "BLENDED": 108,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "2_Unseen_Permutation": {
+        "ca_ir_mean": 0.31399999999999995,
+        "v41_hybrid_ir_mean": 0.318,
+        "v41_hybrid_ir_std": 0.1790977386791916,
+        "v41_det_rate_mean": 0.8678943166842759,
+        "per_seed_ir": [
+          0.24,
+          0.47,
+          0.43,
+          0.36,
+          0.24,
+          0.53,
+          0.49,
+          0.4,
+          0.0,
+          0.02
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 732,
+          "CA_ADAPT": 2189,
+          "BLENDED": 79,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "3_Unseen_Phase": {
+        "ca_ir_mean": 0.304,
+        "v41_hybrid_ir_mean": 0.319,
+        "v41_hybrid_ir_std": 0.13765536676788162,
+        "v41_det_rate_mean": 0.9547322641565807,
+        "per_seed_ir": [
+          0.31,
+          0.38,
+          0.32,
+          0.16,
+          0.38,
+          0.47,
+          0.54,
+          0.32,
+          0.28,
+          0.03
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 948,
+          "CA_ADAPT": 1967,
+          "BLENDED": 85,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "4_Unseen_Dwell": {
+        "ca_ir_mean": 0.24533333333333332,
+        "v41_hybrid_ir_mean": 0.13133333333333336,
+        "v41_hybrid_ir_std": 0.05294021785624485,
+        "v41_det_rate_mean": 0.9625468876028787,
+        "per_seed_ir": [
+          0.08,
+          0.07,
+          0.15,
+          0.17,
+          0.14666666666666667,
+          0.16,
+          0.14666666666666667,
+          0.15666666666666668,
+          0.023333333333333334,
+          0.21
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 566,
+          "CA_ADAPT": 2331,
+          "BLENDED": 102,
+          "EXPLORE_DISCOVERY": 1
+        }
+      },
+      "5_Unseen_Subset": {
+        "ca_ir_mean": 0.274,
+        "v41_hybrid_ir_mean": 0.21400000000000002,
+        "v41_hybrid_ir_std": 0.12435433245367851,
+        "v41_det_rate_mean": 0.7665456765456765,
+        "per_seed_ir": [
+          0.28,
+          0.09,
+          0.24,
+          0.31,
+          0.29,
+          0.31,
+          0.31,
+          0.31,
+          0.0,
+          0.0
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 776,
+          "CA_ADAPT": 2103,
+          "BLENDED": 121,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "6_Mixed_Shift": {
+        "ca_ir_mean": 0.30666666666666664,
+        "v41_hybrid_ir_mean": 0.18,
+        "v41_hybrid_ir_std": 0.077746025264604,
+        "v41_det_rate_mean": 0.8500548514048967,
+        "per_seed_ir": [
+          0.31666666666666665,
+          0.15,
+          0.18333333333333332,
+          0.2,
+          0.13333333333333333,
+          0.2,
+          0.16666666666666666,
+          0.25,
+          0.2,
+          0.0
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 585,
+          "CA_ADAPT": 2342,
+          "BLENDED": 73,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "7_Random_Hopping": {
+        "ca_ir_mean": 0.2636666666666666,
+        "v41_hybrid_ir_mean": 0.14266666666666666,
+        "v41_hybrid_ir_std": 0.074874710164529,
+        "v41_det_rate_mean": 0.8587960690229627,
+        "per_seed_ir": [
+          0.11333333333333333,
+          0.09,
+          0.043333333333333335,
+          0.19,
+          0.21333333333333335,
+          0.14666666666666667,
+          0.22333333333333333,
+          0.18,
+          0.0,
+          0.22666666666666666
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 489,
+          "CA_ADAPT": 2420,
+          "BLENDED": 91,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "8_Periodic_Burst": {
+        "ca_ir_mean": 0.515,
+        "v41_hybrid_ir_mean": 0.41500000000000004,
+        "v41_hybrid_ir_std": 0.35217183305880667,
+        "v41_det_rate_mean": 0.6770293095368273,
+        "per_seed_ir": [
+          0.85,
+          0.0,
+          0.4,
+          0.85,
+          0.0,
+          0.1,
+          0.45,
+          0.65,
+          0.0,
+          0.85
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 187,
+          "CA_ADAPT": 2747,
+          "BLENDED": 66,
+          "EXPLORE_DISCOVERY": 0
+        }
+      }
+    },
+    "overall_test_ir_mean": 0.251625,
+    "overall_detection_rate": 0.8614433625246785,
+    "overall_mode_distribution": {
+      "exploit_pct": 20.929166666666667,
+      "adapt_pct": 76.04583333333333,
+      "blend_pct": 3.0208333333333335,
+      "raw_counts": {
+        "DDQN_EXPLOIT": 5023,
+        "CA_ADAPT": 18251,
+        "BLENDED": 725,
+        "EXPLORE_DISCOVERY": 1
+      }
+    },
+    "candidate_summary": [
+      {
+        "seed": 42,
+        "val_ir_mean": 0.36216374269005847,
+        "val_ir_std": 0.18689629392932947,
+        "val_ir_min": 0.22666666666666666,
+        "sha256": "1bfa759d85e4b3ed92f9d81825efca90bdda9e9153f56ccb5a8e206917bca30b"
+      },
+      {
+        "seed": 123,
+        "val_ir_mean": 0.2721783625730994,
+        "val_ir_std": 0.044626519456963276,
+        "val_ir_min": 0.21999999999999997,
+        "sha256": "0e067b00c563e91bbe31ee068b86f5359a790297a6aabfbdd5b613ba4ce274ae"
+      },
+      {
+        "seed": 456,
+        "val_ir_mean": 0.22988304093567255,
+        "val_ir_std": 0.11361552746787276,
+        "val_ir_min": 0.03508771929824561,
+        "sha256": "399cdcf0d7f102d1c9bf873dd8a4de986d9a2d8cff6fd20c2acb66535f76bfd3"
+      },
+      {
+        "seed": 789,
+        "val_ir_mean": 0.2637280701754386,
+        "val_ir_std": 0.04056992782180375,
+        "val_ir_min": 0.19555555555555557,
+        "sha256": "c8756594352a8fbd6685d5020b470c89fb396c945136cd72e8e19bc13583e41b"
+      }
+    ],
+    "elapsed_seconds": 583.8568902015686
+  },
+  "condition_d": {
+    "condition_id": "condition_d",
+    "condition_name": "6 Regimes (Full Diverse Gym)",
+    "train_scenarios": [
+      "TRAIN_1_BaseThreat",
+      "TRAIN_2_Agile_Dwell4",
+      "TRAIN_3_FastCycle_Dwell2",
+      "TRAIN_4_LongDwell_Dwell5",
+      "TRAIN_5_PeriodicBurst",
+      "TRAIN_6_PhaseShift"
+    ],
+    "training_seeds": [
+      42,
+      123,
+      456,
+      789
+    ],
+    "selected_seed": 456,
+    "checkpoint_file": "models/ablation/condition_d_6regimes/production_checkpoint.npz",
+    "checkpoint_sha256": "11e1f2194638f7b8f0a9d3883965669011bf1dcda251bb6704480757cecb1d98",
+    "selection_reason": "Selected Seed 456 with highest validation composite score (26.91). Validation Interception Rate: 28.61% (\u00b13.41%), Min Scenario IR: 24.00%. Demonstrated superior stability across diverse held-out validation scenarios without collapse.",
+    "validation_ir_mean": 0.2861111111111111,
+    "validation_ir_std": 0.034115815817431186,
+    "validation_ir_min": 0.24,
+    "validation_det_rate": 0.9598610094752295,
+    "canonical_test_scenarios": {
+      "1_Seen_Structure": {
+        "ca_ir_mean": 0.269,
+        "v41_hybrid_ir_mean": 0.348,
+        "v41_hybrid_ir_std": 0.03867815921162744,
+        "v41_det_rate_mean": 0.9524569683844257,
+        "per_seed_ir": [
+          0.33,
+          0.38,
+          0.4,
+          0.31,
+          0.33,
+          0.4,
+          0.3,
+          0.3,
+          0.34,
+          0.39
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 1347,
+          "CA_ADAPT": 1549,
+          "BLENDED": 104,
+          "EXPLORE_DISCOVERY": 0
+        }
+      },
+      "2_Unseen_Permutation": {
+        "ca_ir_mean": 0.31399999999999995,
+        "v41_hybrid_ir_mean": 0.28700000000000003,
+        "v41_hybrid_ir_std": 0.04817675788178361,
+        "v41_det_rate_mean": 0.9493109276879768,
+        "per_seed_ir": [
+          0.3,
+          0.3,
+          0.33,
+          0.18,
+          0.27,
+          0.3,
+          0.35,
+          0.28,
+          0.23,
+          0.33
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 946,
+          "CA_ADAPT": 1906,
+          "BLENDED": 120,
+          "EXPLORE_DISCOVERY": 28
+        }
+      },
+      "3_Unseen_Phase": {
+        "ca_ir_mean": 0.304,
+        "v41_hybrid_ir_mean": 0.326,
+        "v41_hybrid_ir_std": 0.05817215828899594,
+        "v41_det_rate_mean": 0.9441075665063835,
+        "per_seed_ir": [
+          0.42,
+          0.3,
+          0.34,
+          0.33,
+          0.3,
+          0.34,
+          0.28,
+          0.39,
+          0.36,
+          0.2
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 1020,
+          "CA_ADAPT": 1847,
+          "BLENDED": 129,
+          "EXPLORE_DISCOVERY": 4
+        }
+      },
+      "4_Unseen_Dwell": {
+        "ca_ir_mean": 0.24533333333333332,
+        "v41_hybrid_ir_mean": 0.183,
+        "v41_hybrid_ir_std": 0.09705038782909514,
+        "v41_det_rate_mean": 0.9582511926131765,
+        "per_seed_ir": [
+          0.016666666666666666,
+          0.23,
+          0.36,
+          0.21666666666666667,
+          0.21666666666666667,
+          0.19666666666666666,
+          0.23333333333333334,
+          0.14666666666666667,
+          0.02,
+          0.19333333333333333
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 817,
+          "CA_ADAPT": 2036,
+          "BLENDED": 146,
+          "EXPLORE_DISCOVERY": 1
+        }
+      },
+      "5_Unseen_Subset": {
+        "ca_ir_mean": 0.274,
+        "v41_hybrid_ir_mean": 0.221,
+        "v41_hybrid_ir_std": 0.07751773990513397,
+        "v41_det_rate_mean": 0.9499752438753474,
+        "per_seed_ir": [
+          0.12,
+          0.09,
+          0.2,
+          0.16,
+          0.28,
+          0.31,
+          0.31,
+          0.31,
+          0.19,
+          0.24
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 774,
+          "CA_ADAPT": 2062,
+          "BLENDED": 136,
+          "EXPLORE_DISCOVERY": 28
+        }
+      },
+      "6_Mixed_Shift": {
+        "ca_ir_mean": 0.30666666666666664,
+        "v41_hybrid_ir_mean": 0.22000000000000003,
+        "v41_hybrid_ir_std": 0.08293236869749819,
+        "v41_det_rate_mean": 0.9449882831721483,
+        "per_seed_ir": [
+          0.2833333333333333,
+          0.23333333333333334,
+          0.1,
+          0.2833333333333333,
+          0.31666666666666665,
+          0.2833333333333333,
+          0.05,
+          0.16666666666666666,
+          0.23333333333333334,
+          0.25
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 693,
+          "CA_ADAPT": 2155,
+          "BLENDED": 124,
+          "EXPLORE_DISCOVERY": 28
+        }
+      },
+      "7_Random_Hopping": {
+        "ca_ir_mean": 0.2636666666666666,
+        "v41_hybrid_ir_mean": 0.152,
+        "v41_hybrid_ir_std": 0.0500932463844512,
+        "v41_det_rate_mean": 0.9616238650459911,
+        "per_seed_ir": [
+          0.16666666666666666,
+          0.20666666666666667,
+          0.14,
+          0.11333333333333333,
+          0.03333333333333333,
+          0.15,
+          0.14333333333333334,
+          0.15666666666666668,
+          0.19,
+          0.22
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 853,
+          "CA_ADAPT": 2046,
+          "BLENDED": 95,
+          "EXPLORE_DISCOVERY": 6
+        }
+      },
+      "8_Periodic_Burst": {
+        "ca_ir_mean": 0.515,
+        "v41_hybrid_ir_mean": 0.4149999999999999,
+        "v41_hybrid_ir_std": 0.3413575837739657,
+        "v41_det_rate_mean": 0.7474040556393499,
+        "per_seed_ir": [
+          0.9,
+          0.0,
+          0.35,
+          0.85,
+          0.0,
+          0.1,
+          0.5,
+          0.35,
+          0.9,
+          0.2
+        ],
+        "mode_distribution": {
+          "DDQN_EXPLOIT": 325,
+          "CA_ADAPT": 2526,
+          "BLENDED": 121,
+          "EXPLORE_DISCOVERY": 28
+        }
+      }
+    },
+    "overall_test_ir_mean": 0.269,
+    "overall_detection_rate": 0.9260147628655999,
+    "overall_mode_distribution": {
+      "exploit_pct": 28.229166666666668,
+      "adapt_pct": 67.19583333333333,
+      "blend_pct": 4.0625,
+      "raw_counts": {
+        "DDQN_EXPLOIT": 6775,
+        "CA_ADAPT": 16127,
+        "BLENDED": 975,
+        "EXPLORE_DISCOVERY": 123
+      }
+    },
+    "candidate_summary": [
+      {
+        "seed": 42,
+        "val_ir_mean": 0.29609649122807014,
+        "val_ir_std": 0.07543528002819265,
+        "val_ir_min": 0.22222222222222224,
+        "sha256": "5bd6311886078bc482347a735cc0c0168b5c701ea9cb78905b5d11a48a3445f9"
+      },
+      {
+        "seed": 123,
+        "val_ir_mean": 0.3235087719298246,
+        "val_ir_std": 0.17553268432197522,
+        "val_ir_min": 0.14222222222222222,
+        "sha256": "f84c1211afcd8e92ae8ea66d38c88e43a240c4c509cb7096abc4da23f38097ae"
+      },
+      {
+        "seed": 456,
+        "val_ir_mean": 0.2861111111111111,
+        "val_ir_std": 0.034115815817431186,
+        "val_ir_min": 0.24,
+        "sha256": "11e1f2194638f7b8f0a9d3883965669011bf1dcda251bb6704480757cecb1d98"
+      },
+      {
+        "seed": 789,
+        "val_ir_mean": 0.2823245614035088,
+        "val_ir_std": 0.06825566524749152,
+        "val_ir_min": 0.19555555555555557,
+        "sha256": "c5b2a218f67b8af5f89d5b0875e7a9f1be9fbef2279dd593b652f7a7e9a77595"
+      }
+    ],
+    "elapsed_seconds": 917.0617256164551
+  }
+}

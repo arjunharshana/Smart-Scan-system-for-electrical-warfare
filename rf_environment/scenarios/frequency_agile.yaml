@@ -5,7 +5,7 @@ simulation:
 
 spectrum:
   min_frequency_hz: 100000000
-  max_frequency_hz: 800000000
+  max_frequency_hz: 700000000
 
 receiver:
   instantaneous_bandwidth_hz: 20000000

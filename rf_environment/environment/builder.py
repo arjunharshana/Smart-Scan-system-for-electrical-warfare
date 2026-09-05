@@ -17,6 +17,7 @@ from rf_environment.util.seeding import derive_seed
 def build_environment(
     scenario: dict[str, Any],
     scheduler_name: str | None = None,
+    **scheduler_kwargs: Any,
 ) -> RFEnvironment:
     sim = scenario.get("simulation", {})
     seed = int(sim.get("seed", 0))
@@ -46,7 +47,8 @@ def build_environment(
         p_false_alarm=float(det_cfg.get("p_false_alarm", 0.02)),
         seed=derive_seed(seed, "detector"),
     )
-    sched_cfg = scenario.get("scheduler", {})
+    sched_cfg = dict(scenario.get("scheduler", {}))
+    sched_cfg.update(scheduler_kwargs)
     name = scheduler_name or sched_cfg.get("type", "sequential")
     bands = sched_cfg.get("bands_hz") or default_scan_bands(min_hz, max_hz, bw)
     scheduler = create_scheduler(name, bands, seed=derive_seed(seed, "scheduler"), config=sched_cfg)
@@ -70,5 +72,5 @@ def build_environment(
     )
 
 
-def build_from_path(path: str, scheduler_name: str | None = None) -> RFEnvironment:
-    return build_environment(load_scenario(path), scheduler_name=scheduler_name)
+def build_from_path(path: str, scheduler_name: str | None = None, **scheduler_kwargs: Any) -> RFEnvironment:
+    return build_environment(load_scenario(path), scheduler_name=scheduler_name, **scheduler_kwargs)

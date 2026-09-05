@@ -12,9 +12,10 @@ DEFAULT_PORT = int(os.environ.get("PORT", "8000"))
 DEFAULT_LOG_LEVEL = os.environ.get("LOG_LEVEL", "info")
 
 # Simulation defaults
-DEFAULT_SCENARIO_NAME = os.environ.get("DEFAULT_SCENARIO", "frequency_agile.yaml")
+DEFAULT_SCENARIO_NAME = os.environ.get("DEFAULT_SCENARIO", "deterministic_hopping.yaml")
 DEFAULT_SCENARIO_PATH = PROJECT_ROOT / "rf_environment" / "scenarios" / DEFAULT_SCENARIO_NAME
 
 # Tactical Scheduler version: V4.1 is frozen production tactical scheduler
 DEFAULT_SCHEDULER = os.environ.get("DEFAULT_SCHEDULER", "hybrid_v41")
+DEFAULT_V41_CHECKPOINT = PROJECT_ROOT / "models" / "v4_1" / "production_checkpoint.npz"
 APP_VERSION = "4.1"

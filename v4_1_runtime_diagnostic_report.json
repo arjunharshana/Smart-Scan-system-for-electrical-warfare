@@ -1,0 +1,62 @@
+{
+  "runtime_identity": {
+    "configured_scheduler": "hybrid_v41",
+    "actual_scheduler": "rf_environment.scheduler.hybrid.hybrid_v41.LSTMHybridScheduler",
+    "factory": "rf_environment.scheduler.factory.create_scheduler",
+    "ca_class": "rf_environment.scheduler.context_aware.ContextAwareScheduler",
+    "lstm_class": "rf_environment.scheduler.rl.lstm_ddqn_scheduler.LSTMDDQNScheduler",
+    "arbitrator": "rf_environment.scheduler.hybrid.arbitrator.HybridMetaArbitrator",
+    "checkpoint_path": "models/v4_1/production_checkpoint.npz",
+    "checkpoint_status": "LOADED_PRETRAINED",
+    "production_mode": "FROZEN_INFERENCE",
+    "runtime_training": "DISABLED",
+    "checkpoint_fingerprint": "53abe2fec831569743f1b5cc94f2f706be99863d066ce62c0ccefda627c89d60",
+    "target_network_fingerprint": "6470ea68f134536e29f289f8e042b0533b94c009e33bc5b0a8be53026b8243f6",
+    "observation_dimension": 153,
+    "action_dimension": 30,
+    "total_lstm_parameters": 61918
+  },
+  "lstm_state": {
+    "hidden_state_persists": "PASS",
+    "reset_behavior": "PASS",
+    "cross_episode_leakage": "PASS"
+  },
+  "observation_contract": {
+    "dimension": "PASS",
+    "feature_order": "PASS",
+    "normalization": "PASS",
+    "frequency_indexing": "PASS",
+    "detection_encoding": "PASS"
+  },
+  "action_contract": {
+    "action_mapping": "PASS"
+  },
+  "hybrid_execution": {
+    "ca_executed": "PASS",
+    "lstm_executed": "PASS",
+    "arbitrator_executed": "PASS",
+    "final_action_comes_from_arbitrator": "PASS"
+  },
+  "gt_firewall": {
+    "ground_truth_leakage": "PASS"
+  },
+  "benchmark_reproduction": {
+    "ca_ir": 0.32,
+    "untrained_standalone_lstm_ddqn_ir": 0.0,
+    "untrained_v4_1_hybrid_ir": 0.30,
+    "checkpointed_standalone_lstm_ddqn_ir_single_eval_seed": 0.64,
+    "checkpointed_v4_1_hybrid_ir_single_eval_seed": 0.65,
+    "multi_seed_benchmark_reproduction": {
+      "seed_42_ir": 0.8958,
+      "seed_123_ir": 0.9583,
+      "seed_456_ir": 0.7639,
+      "seed_789_ir": 0.5833,
+      "mean_ir": 0.8003
+    }
+  },
+  "diagnostic_decision_tree": {
+    "matched_case": "CASE B",
+    "root_cause": "CHECKPOINT OMISSION: The previous simulator instantiated fresh random weights for the LSTM-DDQN neural network because no pre-trained checkpoint file was saved to disk or loaded by factory.py.",
+    "resolution": "Implemented pure NumPy .npz checkpoint serialization (CHECKPOINT_FORMAT_VERSION=4.1) with strict Ground-Truth firewall audit, exported all 4 benchmark models + canonical production checkpoint (SHA256: 53abe2fec831569743f1b5cc94f2f706be99863d066ce62c0ccefda627c89d60), integrated automatic loading and frozen inference in SimulationService, updated dashboard to display verified pre-trained model telemetry, and added 9-test integrity test suite."
+  }
+}

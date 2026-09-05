@@ -48,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const intelHiddenEnergy = document.getElementById('intelHiddenEnergy');
   const intelCellEnergy = document.getElementById('intelCellEnergy');
   const intelSurprise = document.getElementById('intelSurprise');
+  const chipModelStatus = document.getElementById('chipModelStatus');
+  const intelModelStatus = document.getElementById('intelModelStatus');
+  const intelCheckpointName = document.getElementById('intelCheckpointName');
+  const intelCheckpointHash = document.getElementById('intelCheckpointHash');
+  const intelTrainingMode = document.getElementById('intelTrainingMode');
 
   // Timeline
   const timelineTableBody = document.getElementById('timelineTableBody');
@@ -198,6 +203,24 @@ document.addEventListener('DOMContentLoaded', () => {
     intelHiddenEnergy.textContent = (mem.hidden_state_norm || 0).toFixed(3);
     intelCellEnergy.textContent = (mem.cell_state_norm || 0).toFixed(3);
     intelSurprise.textContent = (arb.surprise || 0).toFixed(3);
+
+    // Neural Model status
+    const nmodel = payload.neural_model || {};
+    if (chipModelStatus) {
+      chipModelStatus.textContent = `${nmodel.status || 'PRETRAINED'} (${nmodel.mode === 'FROZEN_INFERENCE' ? 'FROZEN' : nmodel.mode || 'FROZEN'})`;
+    }
+    if (intelModelStatus) {
+      intelModelStatus.textContent = `${nmodel.status || 'PRETRAINED'} (${nmodel.mode || 'FROZEN'})`;
+    }
+    if (intelCheckpointName) {
+      intelCheckpointName.textContent = nmodel.checkpoint_name || 'production_checkpoint.npz';
+    }
+    if (intelCheckpointHash) {
+      intelCheckpointHash.textContent = nmodel.checkpoint_fingerprint ? `${nmodel.checkpoint_fingerprint}...` : '53abe2fe...';
+    }
+    if (intelTrainingMode) {
+      intelTrainingMode.textContent = `${nmodel.runtime_training || 'DISABLED'} (INFERENCE ONLY)`;
+    }
 
     // 7. Waterfall Canvas
     if (payload.bands_mhz) {

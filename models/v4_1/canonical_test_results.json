@@ -1,0 +1,194 @@
+{
+  "1_Seen_Structure": {
+    "ca_ir_mean": 0.269,
+    "v41_hybrid_ir_mean": 0.348,
+    "v41_hybrid_ir_std": 0.03867815921162744,
+    "v41_det_rate_mean": 0.9524569683844257,
+    "per_seed_ir": [
+      0.33,
+      0.38,
+      0.4,
+      0.31,
+      0.33,
+      0.4,
+      0.3,
+      0.3,
+      0.34,
+      0.39
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 1347,
+      "CA_ADAPT": 1549,
+      "BLENDED": 104,
+      "EXPLORE_DISCOVERY": 0
+    }
+  },
+  "2_Unseen_Permutation": {
+    "ca_ir_mean": 0.31399999999999995,
+    "v41_hybrid_ir_mean": 0.28700000000000003,
+    "v41_hybrid_ir_std": 0.04817675788178361,
+    "v41_det_rate_mean": 0.9493109276879768,
+    "per_seed_ir": [
+      0.3,
+      0.3,
+      0.33,
+      0.18,
+      0.27,
+      0.3,
+      0.35,
+      0.28,
+      0.23,
+      0.33
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 946,
+      "CA_ADAPT": 1906,
+      "BLENDED": 120,
+      "EXPLORE_DISCOVERY": 28
+    }
+  },
+  "3_Unseen_Phase": {
+    "ca_ir_mean": 0.304,
+    "v41_hybrid_ir_mean": 0.326,
+    "v41_hybrid_ir_std": 0.05817215828899594,
+    "v41_det_rate_mean": 0.9441075665063835,
+    "per_seed_ir": [
+      0.42,
+      0.3,
+      0.34,
+      0.33,
+      0.3,
+      0.34,
+      0.28,
+      0.39,
+      0.36,
+      0.2
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 1020,
+      "CA_ADAPT": 1847,
+      "BLENDED": 129,
+      "EXPLORE_DISCOVERY": 4
+    }
+  },
+  "4_Unseen_Dwell": {
+    "ca_ir_mean": 0.24533333333333332,
+    "v41_hybrid_ir_mean": 0.183,
+    "v41_hybrid_ir_std": 0.09705038782909514,
+    "v41_det_rate_mean": 0.9582511926131765,
+    "per_seed_ir": [
+      0.016666666666666666,
+      0.23,
+      0.36,
+      0.21666666666666667,
+      0.21666666666666667,
+      0.19666666666666666,
+      0.23333333333333334,
+      0.14666666666666667,
+      0.02,
+      0.19333333333333333
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 817,
+      "CA_ADAPT": 2036,
+      "BLENDED": 146,
+      "EXPLORE_DISCOVERY": 1
+    }
+  },
+  "5_Unseen_Subset": {
+    "ca_ir_mean": 0.274,
+    "v41_hybrid_ir_mean": 0.221,
+    "v41_hybrid_ir_std": 0.07751773990513397,
+    "v41_det_rate_mean": 0.9499752438753474,
+    "per_seed_ir": [
+      0.12,
+      0.09,
+      0.2,
+      0.16,
+      0.28,
+      0.31,
+      0.31,
+      0.31,
+      0.19,
+      0.24
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 774,
+      "CA_ADAPT": 2062,
+      "BLENDED": 136,
+      "EXPLORE_DISCOVERY": 28
+    }
+  },
+  "6_Mixed_Shift": {
+    "ca_ir_mean": 0.30666666666666664,
+    "v41_hybrid_ir_mean": 0.22000000000000003,
+    "v41_hybrid_ir_std": 0.08293236869749819,
+    "v41_det_rate_mean": 0.9449882831721483,
+    "per_seed_ir": [
+      0.2833333333333333,
+      0.23333333333333334,
+      0.1,
+      0.2833333333333333,
+      0.31666666666666665,
+      0.2833333333333333,
+      0.05,
+      0.16666666666666666,
+      0.23333333333333334,
+      0.25
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 693,
+      "CA_ADAPT": 2155,
+      "BLENDED": 124,
+      "EXPLORE_DISCOVERY": 28
+    }
+  },
+  "7_Random_Hopping": {
+    "ca_ir_mean": 0.2636666666666666,
+    "v41_hybrid_ir_mean": 0.152,
+    "v41_hybrid_ir_std": 0.0500932463844512,
+    "v41_det_rate_mean": 0.9616238650459911,
+    "per_seed_ir": [
+      0.16666666666666666,
+      0.20666666666666667,
+      0.14,
+      0.11333333333333333,
+      0.03333333333333333,
+      0.15,
+      0.14333333333333334,
+      0.15666666666666668,
+      0.19,
+      0.22
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 853,
+      "CA_ADAPT": 2046,
+      "BLENDED": 95,
+      "EXPLORE_DISCOVERY": 6
+    }
+  },
+  "8_Periodic_Burst": {
+    "ca_ir_mean": 0.515,
+    "v41_hybrid_ir_mean": 0.4149999999999999,
+    "v41_hybrid_ir_std": 0.3413575837739657,
+    "v41_det_rate_mean": 0.7474040556393499,
+    "per_seed_ir": [
+      0.9,
+      0.0,
+      0.35,
+      0.85,
+      0.0,
+      0.1,
+      0.5,
+      0.35,
+      0.9,
+      0.2
+    ],
+    "mode_distribution": {
+      "DDQN_EXPLOIT": 325,
+      "CA_ADAPT": 2526,
+      "BLENDED": 121,
+      "EXPLORE_DISCOVERY": 28
+    }
+  }
+}

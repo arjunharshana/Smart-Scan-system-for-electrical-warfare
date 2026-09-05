@@ -300,6 +300,37 @@ def main() -> None:
             m_lstm.epsilon = s_eps_l
             env_v4_1.run(steps=300)
 
+        # Persist trained model checkpoint
+        models_dir = Path("models/v4_1")
+        models_dir.mkdir(parents=True, exist_ok=True)
+        ckpt_path = models_dir / f"lstm_ddqn_seed{t_seed}.npz"
+        m_lstm.save_checkpoint(
+            ckpt_path,
+            metadata={
+                "training_seed": t_seed,
+                "episodes": 5,
+                "scenario": "1_Seen_Structure",
+                "active_bins": [5, 15, 25],
+                "dwell_steps": 3,
+            },
+        )
+        print(f"   [Checkpoint Saved] Seed {t_seed:3d} -> {ckpt_path} (SHA256: {m_lstm.checkpoint_sha256[:16]}...)")
+
+        if t_seed == 42:
+            prod_path = models_dir / "production_checkpoint.npz"
+            m_lstm.save_checkpoint(
+                prod_path,
+                metadata={
+                    "training_seed": t_seed,
+                    "episodes": 5,
+                    "scenario": "1_Seen_Structure",
+                    "active_bins": [5, 15, 25],
+                    "dwell_steps": 3,
+                    "role": "production_reference",
+                },
+            )
+            print(f"   [Production Checkpoint Saved] -> {prod_path} (SHA256: {m_lstm.checkpoint_sha256})")
+
         v3_0_models.append(m_v3_0)
         v3_1_models.append(m_v3_1)
         v4_1_lstm_models.append(m_lstm)

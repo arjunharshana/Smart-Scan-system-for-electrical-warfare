@@ -397,3 +397,34 @@ class LSTMQNetwork:
         )
         cloned.copy_from(self)
         return cloned
+
+    def get_weights_dict(self) -> dict[str, np.ndarray]:
+        """Returns a dictionary containing copies of all trainable parameter arrays."""
+        return {
+            "w_x": np.copy(self.w_x),
+            "w_h": np.copy(self.w_h),
+            "b_lstm": np.copy(self.b_lstm),
+            "w_dense": np.copy(self.w_dense),
+            "b_dense": np.copy(self.b_dense),
+            "w_out": np.copy(self.w_out),
+            "b_out": np.copy(self.b_out),
+        }
+
+    def load_weights_dict(self, weights: dict[str, np.ndarray]) -> None:
+        """Loads weights from a dictionary, strictly validating keys and shapes."""
+        for k in ["w_x", "w_h", "b_lstm", "w_dense", "b_dense", "w_out", "b_out"]:
+            if k not in weights:
+                raise ValueError(f"Missing required parameter key '{k}' in weights dictionary.")
+            current_arr = getattr(self, k)
+            loaded_arr = np.asarray(weights[k], dtype=np.float32)
+            if current_arr.shape != loaded_arr.shape:
+                raise ValueError(
+                    f"Parameter '{k}' shape mismatch: current {current_arr.shape} != loaded {loaded_arr.shape}"
+                )
+            current_arr[:] = loaded_arr
+
+        self.params = [
+            self.w_x, self.w_h, self.b_lstm,
+            self.w_dense, self.b_dense,
+            self.w_out, self.b_out,
+        ]

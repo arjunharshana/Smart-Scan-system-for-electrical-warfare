@@ -35,6 +35,10 @@
         <span class="chip-label">SCENARIO</span>
         <span class="chip-val highlight" id="chipScenario">Loading...</span>
       </div>
+      <div class="system-chip">
+        <span class="chip-label">NEURAL MODEL</span>
+        <span class="chip-val highlight" id="chipModelStatus" style="color: #10b981;">PRETRAINED (FROZEN)</span>
+      </div>
 
       <!-- VIEW MODE SWITCHER -->
       <div class="view-mode-toggle">
@@ -243,6 +247,22 @@
           <div class="intel-item">
             <span class="intel-lbl">Environmental Surprise</span>
             <span class="intel-val" id="intelSurprise">0.000</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-lbl">Neural Model Weights</span>
+            <span class="intel-val text-green" id="intelModelStatus">PRETRAINED (FROZEN)</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-lbl">Active Checkpoint</span>
+            <span class="intel-val" id="intelCheckpointName">production_checkpoint.npz</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-lbl">Fingerprint (SHA256)</span>
+            <span class="intel-val" id="intelCheckpointHash" style="font-family: monospace; font-size: 0.85em;">53abe2fe...</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-lbl">Runtime Neural Training</span>
+            <span class="intel-val text-amber" id="intelTrainingMode">DISABLED (INFERENCE ONLY)</span>
           </div>
         </div>
       </div>

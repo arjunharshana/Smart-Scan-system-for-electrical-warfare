@@ -49,7 +49,65 @@ V4.2 Continual Adaptive Hybrid [EXPERIMENTAL RESEARCH ARCHIVE]
 
 ---
 
-## 3. Production Repository Architecture
+## 3. V4.1 Offline Training, Validation & Deployment Lifecycle
+
+The tactical V4.1 scheduler implements a strict separation between **offline neural learning** and **runtime inference**:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          OFFLINE TRAINING PHASE                         │
+│                                                                         │
+│  Multi-Scenario RF Gym (Diverse Dwells 2-5, Burst, Permutations)        │
+│         │                                                               │
+│         ▼                                                               │
+│  Independent Candidate Training (Seeds 42, 123, 456, 789)               │
+│         │                                                               │
+│         ▼                                                               │
+│  Periodic Held-Out Validation Battery (Val IR & Stability Metrics)      │
+│         │                                                               │
+│         ▼                                                               │
+│  Automated Model Selection (Max Mean Val IR, Collapse Penalty)          │
+│         │                                                               │
+│         ▼                                                               │
+│  Audit Manifest Generation & Atomic Promotion to Production Checkpoint  │
+│  (models/v4_1/training_manifest.json -> production_checkpoint.npz)      │
+└─────────────────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      PRODUCTION RUNTIME DEPLOYMENT                      │
+│                                                                         │
+│  Production Checkpoint Loaded (models/v4_1/production_checkpoint.npz)   │
+│         │                                                               │
+│         ▼                                                               │
+│  FROZEN INFERENCE: train_mode = False, epsilon = 0.0, Zero Gradients    │
+│         │                                                               │
+│         ├── LSTM-DDQN Branch: Pure Feedforward & Recurrent State (h, c) │
+│         │                     (Static weights evaluate Q-values)        │
+│         │                                                               │
+│         ├── Context-Aware Branch: Online Empirical Transition Tracking  │
+│         │                         (Statistical frequency discovery)     │
+│         │                                                               │
+│         ▼                                                               │
+│  HybridMetaArbitrator dynamically balances EXPLOIT vs ADAPT             │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Key Architectural Invariants
+1. **Static / Frozen Model**: The LSTM-DDQN neural network is trained exclusively **offline** prior to operational deployment. In production, **zero gradient updates occur** (`train_mode = False`, `epsilon = 0.0`).
+2. **CA Statistical Adaptation $\ne$ Neural Retraining**: The Context-Aware (CA) branch maintains an empirical transition probability matrix $P(f_{t+1} \mid f_t)$ from receiver detector hits. This statistical bookkeeping allows rapid discovery of novel frequencies without modifying neural weights.
+3. **V4.2 Research Isolation**: V4.2 remains an experimental supervisory research milestone (`archive/v4_2_continual/`) and is **never** used as the production runtime mechanism.
+4. **Zero Ground-Truth Leakage**: Ground truth is strictly evaluation-only. It never enters the observation space, reward calculations, training buffers, validation gates, or arbitration.
+
+### Reproducing Offline Training
+```bash
+# Run full offline training, held-out validation, and model promotion pipeline:
+python -m benchmarks.train_v4_1 --seeds 42 123 456 789 --episodes 25 --episode-length 300 --validation-interval 5
+```
+
+---
+
+## 4. Production Repository Architecture
 
 ```text
 SIH-2026/
@@ -120,7 +178,7 @@ SIH-2026/
 
 ---
 
-## 4. Quickstart — Running Locally
+## 5. Quickstart — Running Locally
 
 ### Prerequisites
 * Python 3.10, 3.11, or 3.12
@@ -148,7 +206,7 @@ Navigate to **`http://localhost:8000`** in any modern web browser.
 
 ---
 
-## 5. Docker Containerized Deployment
+## 6. Docker Containerized Deployment
 
 The application is containerized following defence software standards (minimal slim image, non-root `appuser`, zero external CDN dependencies, built-in health check).
 
@@ -168,7 +226,7 @@ curl -f http://localhost:8000/health
 
 ---
 
-## 6. Dashboard User Guide (SIH Presentation)
+## 7. Dashboard User Guide (SIH Presentation)
 
 The dashboard is designed for high-visibility presentation on a classroom or conference projector with two distinct view modes:
 
@@ -215,7 +273,7 @@ The dashboard is designed for high-visibility presentation on a classroom or con
 
 ---
 
-## 7. Historical Version Preservation
+## 8. Historical Version Preservation
 
 Historical milestones are preserved via Git tags and dedicated branches without rewriting history:
 
@@ -230,23 +288,23 @@ Historical milestones are preserved via Git tags and dedicated branches without 
 
 ---
 
-## 8. Verification & Test Suite
+## 9. Verification & Test Suite
 
-Run the full automated test suite containing **107 unit, integration, and firewall tests**:
+Run the full automated test suite containing **132 unit, integration, and firewall tests**:
 
 ```bash
 python run_tests.py
 ```
 
 ### Verified Invariants
-* **107 / 107 Tests PASSED** (Execution time: $\sim 10$ seconds)
+* **132 / 132 Tests PASSED** (Execution time: $\sim 15$ seconds)
 * **Ground-Truth Firewall**: Statically and dynamically audited to guarantee zero leakage of true emitter state into the observation, reward, or scheduler decision paths.
 * **Deterministic Replay**: Fixed random seeds guarantee bit-for-bit identical scan trajectories and metrics across runs.
 * **Zero External Deep Learning Frameworks**: Pure NumPy implementation of LSTM forward/backward inference and recurrent experience replay.
 
 ---
 
-## 9. Team & Presentation Details
+## 10. Team & Presentation Details
 
 * **Project**: SIH26055 — Smart Scan Strategy for Electronic Warfare
 * **Nodal Agency / Organization**: Ministry of Defence / Defence Research and Development Organisation (DRDO)

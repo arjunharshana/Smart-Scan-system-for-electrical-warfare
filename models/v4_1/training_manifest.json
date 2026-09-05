@@ -1,0 +1,101 @@
+{
+  "architecture": "v4.1",
+  "pipeline": "offline_training_and_validation",
+  "created_at": "2026-09-05T15:49:22.246050+00:00",
+  "training_seeds": [
+    42,
+    123,
+    456,
+    789
+  ],
+  "hyperparameters": {
+    "episodes": 30,
+    "episode_length": 300,
+    "validation_interval": 5,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "sequence_length": 10,
+    "warmup_steps": 64,
+    "target_update_freq": 100,
+    "epsilon_decay": 0.9992,
+    "early_stopping": true,
+    "patience": 4
+  },
+  "scenarios": {
+    "train": [
+      "TRAIN_1_BaseThreat",
+      "TRAIN_2_Agile_Dwell4",
+      "TRAIN_3_FastCycle_Dwell2",
+      "TRAIN_4_LongDwell_Dwell5",
+      "TRAIN_5_PeriodicBurst",
+      "TRAIN_6_PhaseShift"
+    ],
+    "validation": [
+      "VAL_1_Hop3_Dwell3",
+      "VAL_2_Hop3_Dwell4",
+      "VAL_3_Hop3_Dwell2",
+      "VAL_4_Burst_Periodic"
+    ],
+    "test": [
+      "1_Seen_Structure",
+      "2_Unseen_Permutation",
+      "3_Unseen_Phase",
+      "4_Unseen_Dwell",
+      "5_Unseen_Subset",
+      "6_Mixed_Shift",
+      "7_Random_Hopping",
+      "8_Periodic_Burst"
+    ]
+  },
+  "candidates": [
+    {
+      "seed": 42,
+      "checkpoint_file": "models/v4_1/lstm_ddqn_seed42.npz",
+      "sha256": "5bd6311886078bc482347a735cc0c0168b5c701ea9cb78905b5d11a48a3445f9",
+      "episodes_trained": 30,
+      "validation_ir_mean": 0.29609649122807014,
+      "validation_ir_std": 0.07543528002819265,
+      "validation_ir_min": 0.22222222222222224,
+      "validation_det_rate": 0.9390113584632742
+    },
+    {
+      "seed": 123,
+      "checkpoint_file": "models/v4_1/lstm_ddqn_seed123.npz",
+      "sha256": "f84c1211afcd8e92ae8ea66d38c88e43a240c4c509cb7096abc4da23f38097ae",
+      "episodes_trained": 30,
+      "validation_ir_mean": 0.3235087719298246,
+      "validation_ir_std": 0.17553268432197522,
+      "validation_ir_min": 0.14222222222222222,
+      "validation_det_rate": 0.9547621949795864
+    },
+    {
+      "seed": 456,
+      "checkpoint_file": "models/v4_1/lstm_ddqn_seed456.npz",
+      "sha256": "11e1f2194638f7b8f0a9d3883965669011bf1dcda251bb6704480757cecb1d98",
+      "episodes_trained": 30,
+      "validation_ir_mean": 0.2861111111111111,
+      "validation_ir_std": 0.034115815817431186,
+      "validation_ir_min": 0.24,
+      "validation_det_rate": 0.9598610094752295
+    },
+    {
+      "seed": 789,
+      "checkpoint_file": "models/v4_1/lstm_ddqn_seed789.npz",
+      "sha256": "c5b2a218f67b8af5f89d5b0875e7a9f1be9fbef2279dd593b652f7a7e9a77595",
+      "episodes_trained": 30,
+      "validation_ir_mean": 0.2823245614035088,
+      "validation_ir_std": 0.06825566524749152,
+      "validation_ir_min": 0.19555555555555557,
+      "validation_det_rate": 0.8665295822116582
+    }
+  ],
+  "selected_checkpoint": {
+    "seed": 456,
+    "source_checkpoint": "models/v4_1/lstm_ddqn_seed456.npz",
+    "production_checkpoint": "models/v4_1/production_checkpoint.npz",
+    "sha256": "11e1f2194638f7b8f0a9d3883965669011bf1dcda251bb6704480757cecb1d98",
+    "validation_ir_mean": 0.2861111111111111,
+    "validation_ir_std": 0.034115815817431186,
+    "selection_reason": "Selected Seed 456 with highest validation composite score (26.91). Validation Interception Rate: 28.61% (\u00b13.41%), Min Scenario IR: 24.00%. Demonstrated superior stability across diverse held-out validation scenarios without collapse."
+  }
+}

@@ -128,15 +128,27 @@ def create_scheduler(
             seed=seed,
         )
     if key in {"lstm_ddqn", "drqn", "lstm_dqn"}:
-        cfg = config or kwargs
+        raw_cfg = {}
+        if config:
+            raw_cfg.update(config)
+        raw_cfg.update(kwargs)
+        cfg = {k: v for k, v in raw_cfg.items() if k not in {"type", "bands_hz"}}
         return LSTMDDQNScheduler(bands_hz, seed=seed, **cfg)
     if key in {"hybrid_v41", "hybrid_lstm", "lstm_hybrid"}:
-        cfg = config or kwargs
+        cfg = {}
+        if config:
+            cfg.update(config)
+        cfg.update(kwargs)
+        lstm_cfg = cfg.get("lstm_ddqn") or {}
+        ckpt_path = cfg.get("checkpoint_path") or lstm_cfg.get("checkpoint_path")
+        req_ckpt = cfg.get("require_checkpoint", False) or lstm_cfg.get("require_checkpoint", False)
         return LSTMHybridScheduler(
             bands_hz,
             ca_config=cfg.get("context_aware"),
             lstm_ddqn_config=cfg.get("lstm_ddqn"),
             arbitrator_config=cfg.get("arbitrator"),
             seed=seed,
+            checkpoint_path=ckpt_path,
+            require_checkpoint=req_ckpt,
         )
     raise ValueError(f"Unknown scheduler: {name}. Available: {list(SCHEDULER_METADATA.keys())}")

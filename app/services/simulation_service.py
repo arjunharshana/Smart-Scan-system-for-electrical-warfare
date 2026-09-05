@@ -17,6 +17,7 @@ from app.config import (
     DEFAULT_SCENARIO_NAME,
     DEFAULT_SCENARIO_PATH,
     DEFAULT_SCHEDULER,
+    DEFAULT_V41_CHECKPOINT,
     PROJECT_ROOT,
 )
 from rf_environment.environment.builder import build_environment
@@ -122,12 +123,47 @@ class SimulationService:
             sc_copy["simulation"] = {}
         sc_copy["simulation"]["seed"] = self.seed
 
+        # Check if scenario matches canonical 30-bin tactical spectrum
+        spectrum = sc_copy.get("spectrum", {})
+        rx_cfg = sc_copy.get("receiver", {})
+        min_hz = float(spectrum.get("min_frequency_hz", 100_000_000))
+        max_hz = float(spectrum.get("max_frequency_hz", 700_000_000))
+        bw = float(rx_cfg.get("instantaneous_bandwidth_hz", 20_000_000))
+        num_bins = int(round((max_hz - min_hz) / bw)) if bw > 0 else 30
+
         # Build environment
-        self.env = build_environment(sc_copy, scheduler_name=self.scheduler_name)
+        extra_kwargs: dict[str, Any] = {}
+        if self.scheduler_name == "hybrid_v41":
+            if num_bins == 30:
+                extra_kwargs["checkpoint_path"] = str(DEFAULT_V41_CHECKPOINT)
+                extra_kwargs["require_checkpoint"] = True
+            else:
+                logger.warning(
+                    "Scenario %s has %d bins != 30 (checkpoint trained for 30 bins). Running uncheckpointed.",
+                    self.scenario_name,
+                    num_bins,
+                )
+
+        self.env = build_environment(sc_copy, scheduler_name=self.scheduler_name, **extra_kwargs)
         if hasattr(self.env.scheduler, "eval"):
             self.env.scheduler.eval()
         if hasattr(self.env.scheduler, "epsilon"):
             self.env.scheduler.epsilon = 0.0
+
+        # Log production startup banner for V4.1
+        if self.scheduler_name == "hybrid_v41":
+            sched = self.env.scheduler
+            ckpt_p = getattr(sched, "checkpoint_path", str(DEFAULT_V41_CHECKPOINT))
+            ckpt_hash = getattr(sched, "checkpoint_sha256", "UNKNOWN")
+            logger.info("=" * 65)
+            logger.info("TACTICAL SCHEDULER: hybrid_v41 (V4.1 LSTM-Hybrid)")
+            logger.info("MODEL STATUS:       PRETRAINED")
+            logger.info("TRAINING:           OFFLINE")
+            logger.info("RUNTIME TRAINING:   DISABLED")
+            logger.info("CHECKPOINT:         %s", ckpt_p)
+            logger.info("CHECKPOINT SHA256:  %s", ckpt_hash)
+            logger.info("PRODUCTION MODE:    FROZEN INFERENCE")
+            logger.info("=" * 65)
 
         self.state = "IDLE"
         self.waterfall_history.clear()
@@ -445,6 +481,16 @@ class SimulationService:
                 "hidden_state_norm": h_norm,
                 "cell_state_norm": c_norm,
                 "pattern_confidence": conf_level,
+            },
+            "neural_model": {
+                "status": "PRETRAINED" if getattr(sched, "is_pretrained", False) else ("LOADED" if getattr(sched, "checkpoint_path", None) else "UNTRAINED"),
+                "mode": "FROZEN_INFERENCE",
+                "runtime_training": "DISABLED",
+                "checkpoint_name": Path(sched.checkpoint_path).name if getattr(sched, "checkpoint_path", None) else None,
+                "checkpoint_path": str(sched.checkpoint_path) if getattr(sched, "checkpoint_path", None) else None,
+                "checkpoint_sha256": getattr(sched, "checkpoint_sha256", None),
+                "checkpoint_fingerprint": getattr(sched, "checkpoint_sha256", "")[:8] if getattr(sched, "checkpoint_sha256", None) else None,
+                "is_pretrained": bool(getattr(sched, "is_pretrained", False)),
             },
             "bands_mhz": bands_mhz,
             "recent_timeline": list(reversed(self.timeline_history)),

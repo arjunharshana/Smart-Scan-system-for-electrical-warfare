@@ -40,6 +40,8 @@ class LSTMHybridScheduler(BaseScheduler):
         lstm_ddqn_config: dict[str, Any] | None = None,
         arbitrator_config: dict[str, Any] | None = None,
         seed: int | None = None,
+        checkpoint_path: str | Path | None = None,
+        require_checkpoint: bool = False,
     ) -> None:
         super().__init__(bands_hz)
         self.num_bins = len(self.bands_hz)
@@ -62,23 +64,33 @@ class LSTMHybridScheduler(BaseScheduler):
         # 2. Recurrent LSTM-DDQN Predictive Branch
         lstm_cfg = lstm_ddqn_config or {}
         lstm_seed = derive_seed(seed, "lstm_ddqn") if seed is not None else None
-        self.lstm_ddqn = lstm_ddqn or LSTMDDQNScheduler(
-            bands_hz=self.bands_hz,
-            hidden_dim=int(lstm_cfg.get("hidden_dim", 64)),
-            dense_dim=int(lstm_cfg.get("dense_dim", 64)),
-            sequence_length=int(lstm_cfg.get("sequence_length", 10)),
-            burn_in=int(lstm_cfg.get("burn_in", 0)),
-            learning_rate=float(lstm_cfg.get("learning_rate", 0.001)),
-            gamma=float(lstm_cfg.get("gamma", 0.95)),
-            replay_capacity=int(lstm_cfg.get("replay_capacity", 10000)),
-            batch_size=int(lstm_cfg.get("batch_size", 32)),
-            warmup_steps=int(lstm_cfg.get("warmup_steps", 64)),
-            target_update_frequency=int(lstm_cfg.get("target_update_frequency", 100)),
-            epsilon_start=float(lstm_cfg.get("epsilon_start", 1.0)),
-            epsilon_end=float(lstm_cfg.get("epsilon_end", 0.05)),
-            epsilon_decay=float(lstm_cfg.get("epsilon_decay", 0.995)),
-            seed=lstm_seed,
-        )
+        ckpt_path = checkpoint_path or lstm_cfg.get("checkpoint_path")
+        req_ckpt = require_checkpoint or bool(lstm_cfg.get("require_checkpoint", False))
+
+        if lstm_ddqn is not None:
+            self.lstm_ddqn = lstm_ddqn
+            if ckpt_path is not None:
+                self.lstm_ddqn.load_checkpoint(ckpt_path)
+        else:
+            self.lstm_ddqn = LSTMDDQNScheduler(
+                bands_hz=self.bands_hz,
+                hidden_dim=int(lstm_cfg.get("hidden_dim", 64)),
+                dense_dim=int(lstm_cfg.get("dense_dim", 64)),
+                sequence_length=int(lstm_cfg.get("sequence_length", 10)),
+                burn_in=int(lstm_cfg.get("burn_in", 0)),
+                learning_rate=float(lstm_cfg.get("learning_rate", 0.001)),
+                gamma=float(lstm_cfg.get("gamma", 0.95)),
+                replay_capacity=int(lstm_cfg.get("replay_capacity", 10000)),
+                batch_size=int(lstm_cfg.get("batch_size", 32)),
+                warmup_steps=int(lstm_cfg.get("warmup_steps", 64)),
+                target_update_frequency=int(lstm_cfg.get("target_update_frequency", 100)),
+                epsilon_start=float(lstm_cfg.get("epsilon_start", 1.0)),
+                epsilon_end=float(lstm_cfg.get("epsilon_end", 0.05)),
+                epsilon_decay=float(lstm_cfg.get("epsilon_decay", 0.995)),
+                seed=lstm_seed,
+                checkpoint_path=ckpt_path,
+                require_checkpoint=req_ckpt,
+            )
 
         # 3. Rule-Based Meta-Arbitrator
         arb_cfg = arbitrator_config or {}
@@ -237,4 +249,27 @@ class LSTMHybridScheduler(BaseScheduler):
             "avg_ca_weight": float(self.sum_ca_weight) / float(n_dec),
             "lstm_hidden_dim": self.lstm_ddqn.hidden_dim,
             "lstm_sequence_length": self.lstm_ddqn.sequence_length,
+            "checkpoint_path": self.checkpoint_path,
+            "checkpoint_sha256": self.checkpoint_sha256,
+            "is_pretrained": self.is_pretrained,
         }
+
+    def save_checkpoint(self, path: str | Path, metadata: dict[str, Any] | None = None) -> Path:
+        """Saves underlying LSTM-DDQN model parameters to checkpoint."""
+        return self.lstm_ddqn.save_checkpoint(path, metadata=metadata)
+
+    def load_checkpoint(self, path: str | Path) -> dict[str, Any]:
+        """Loads validated checkpoint into underlying LSTM-DDQN and freezes inference."""
+        return self.lstm_ddqn.load_checkpoint(path)
+
+    @property
+    def checkpoint_path(self) -> str | None:
+        return self.lstm_ddqn.checkpoint_path
+
+    @property
+    def checkpoint_sha256(self) -> str | None:
+        return self.lstm_ddqn.checkpoint_sha256
+
+    @property
+    def is_pretrained(self) -> bool:
+        return getattr(self.lstm_ddqn, "is_pretrained", False)

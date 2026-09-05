@@ -49,11 +49,17 @@ class LSTMDDQNScheduler(BaseScheduler):
         epsilon_end: float = 0.05,
         epsilon_decay: float = 0.995,
         seed: int | None = None,
+        checkpoint_path: str | Path | None = None,
+        require_checkpoint: bool = False,
     ) -> None:
         super().__init__(bands_hz)
         self.num_bins = len(self.bands_hz)
         self.seed = seed
         self.rng = np.random.default_rng(seed)
+
+        self.checkpoint_path: str | None = None
+        self.checkpoint_sha256: str | None = None
+        self.is_pretrained: bool = False
 
         self.hidden_dim = int(hidden_dim)
         self.dense_dim = int(dense_dim)
@@ -105,6 +111,80 @@ class LSTMDDQNScheduler(BaseScheduler):
         self.train_step_count: int = 0
         self.last_loss: float = 0.0
         self.losses: list[float] = []
+
+        # 5. Production Checkpoint Loading
+        if checkpoint_path is not None:
+            self.load_checkpoint(checkpoint_path)
+        elif require_checkpoint:
+            raise FileNotFoundError(
+                "V4.1 production checkpoint not found (checkpoint_path was not provided).\n"
+                "Refusing to start with random/untrained LSTM weights."
+            )
+
+    def save_checkpoint(self, path: str | Path, metadata: dict[str, Any] | None = None) -> Path:
+        """Serializes current model parameters into a versioned .npz checkpoint."""
+        from rf_environment.scheduler.rl.checkpoint import save_checkpoint
+
+        saved = save_checkpoint(self, path, metadata=metadata)
+        self.checkpoint_path = str(saved)
+        return saved
+
+    def load_checkpoint(self, path: str | Path) -> dict[str, Any]:
+        """Loads weights from a validated checkpoint, resetting hidden state and freezing inference."""
+        from rf_environment.scheduler.rl.checkpoint import load_checkpoint
+
+        ckpt_data = load_checkpoint(
+            path=path,
+            expected_input_dim=self.encoder.feature_dim,
+            expected_output_dim=self.num_bins,
+            expected_bands_hz=self.bands_hz,
+        )
+
+        self.online_net.load_weights_dict(ckpt_data["online_weights"])
+        self.target_net.load_weights_dict(ckpt_data["target_weights"])
+
+        # Reset recurrent memory to clean zeros
+        self.h = np.zeros(self.hidden_dim, dtype=np.float32)
+        self.c = np.zeros(self.hidden_dim, dtype=np.float32)
+
+        # Production frozen inference invariants
+        self.eval()
+        self.epsilon = 0.0
+
+        self.checkpoint_path = str(ckpt_data["path"])
+        self.checkpoint_sha256 = str(ckpt_data["sha256"])
+        self.is_pretrained = True
+        return ckpt_data
+
+    @classmethod
+    def from_checkpoint(
+        cls,
+        path: str | Path,
+        bands_hz: list[float] | None = None,
+        seed: int = 0,
+        **kwargs: Any,
+    ) -> LSTMDDQNScheduler:
+        """Constructs an LSTMDDQNScheduler directly from a saved checkpoint."""
+        from rf_environment.scheduler.rl.checkpoint import load_checkpoint
+
+        ckpt_data = load_checkpoint(path=path)
+        meta = ckpt_data["metadata"]
+        arch = meta.get("architecture", {})
+        loaded_bands = bands_hz or meta.get("bands_hz")
+        if loaded_bands is None:
+            raise ValueError("bands_hz must be provided or present in checkpoint metadata.")
+
+        sched = cls(
+            bands_hz=loaded_bands,
+            hidden_dim=arch.get("hidden_dim", 64),
+            dense_dim=arch.get("dense_dim", 64),
+            sequence_length=arch.get("sequence_length", 10),
+            seed=seed,
+            checkpoint_path=path,
+            require_checkpoint=True,
+            **kwargs,
+        )
+        return sched
 
     def get_q_values(self, observation: SchedulerObservation) -> np.ndarray:
         """Updates internal recurrent state and returns Q-values for all frequency bins."""

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 import numpy as np
 
@@ -40,6 +41,8 @@ class HybridScheduler(BaseScheduler):
         ddqn_config: dict[str, Any] | None = None,
         arbitrator_config: dict[str, Any] | None = None,
         seed: int | None = None,
+        checkpoint_path: str | Path | None = None,
+        require_checkpoint: bool = False,
     ) -> None:
         super().__init__(bands_hz)
         self.num_bins = len(self.bands_hz)
@@ -62,8 +65,12 @@ class HybridScheduler(BaseScheduler):
         # 2. DDQN Predictive Branch
         ddqn_cfg = ddqn_config or {}
         ddqn_seed = derive_seed(seed, "ddqn") if seed is not None else None
+        ckpt_path = checkpoint_path or ddqn_cfg.get("checkpoint_path")
+        req_ckpt = require_checkpoint or bool(ddqn_cfg.get("require_checkpoint", False))
         if ddqn is not None:
             self.ddqn = ddqn
+            if ckpt_path is not None:
+                self.ddqn.load_checkpoint(ckpt_path)
         else:
             enc = TemporalObservationEncoder.create_encoder_b(num_bins=self.num_bins)
             self.ddqn = DDQNScheduler(
@@ -80,6 +87,8 @@ class HybridScheduler(BaseScheduler):
                 hidden_dimension=int(ddqn_cfg.get("hidden_dimension", 64)),
                 encoder=enc,
                 seed=ddqn_seed,
+                checkpoint_path=ckpt_path,
+                require_checkpoint=req_ckpt,
             )
 
         # 3. Meta-Arbitrator
@@ -235,4 +244,29 @@ class HybridScheduler(BaseScheduler):
             "pct_explore": float(self.mode_counts.get(ArbitrationMode.EXPLORE_DISCOVERY.value, 0)) / float(n_dec) * 100.0,
             "avg_ddqn_weight": float(self.sum_ddqn_weight) / float(n_dec),
             "avg_ca_weight": float(self.sum_ca_weight) / float(n_dec),
+            "checkpoint_path": self.checkpoint_path,
+            "checkpoint_sha256": self.checkpoint_sha256,
+            "is_pretrained": self.is_pretrained,
         }
+
+    def save_checkpoint(self, path: str | Path, metadata: dict[str, Any] | None = None) -> Path:
+        """Saves underlying DDQN model parameters to checkpoint."""
+        return self.ddqn.save_checkpoint(path, metadata=metadata)
+
+    def load_checkpoint(self, path: str | Path) -> dict[str, Any]:
+        """Loads validated checkpoint into underlying DDQN and freezes inference."""
+        res = self.ddqn.load_checkpoint(path)
+        self.eval()
+        return res
+
+    @property
+    def checkpoint_path(self) -> str | None:
+        return getattr(self.ddqn, "checkpoint_path", None)
+
+    @property
+    def checkpoint_sha256(self) -> str | None:
+        return getattr(self.ddqn, "checkpoint_sha256", None)
+
+    @property
+    def is_pretrained(self) -> bool:
+        return getattr(self.ddqn, "is_pretrained", False)

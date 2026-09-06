@@ -1,0 +1,25 @@
+{
+  "seed": 123,
+  "hidden_dim": 256,
+  "episodes_trained": 30,
+  "total_steps_trained": 9000,
+  "training_time_s": 107.04016470909119,
+  "steps_per_sec": 84.08058810877004,
+  "best_val_ir_mean": 0.31371345029239767,
+  "best_val_ir_std": 0.047429487386279535,
+  "best_val_ir_min": 0.25333333333333335,
+  "best_val_det_rate": 0.8564616260608713,
+  "vram_peak_mb": 48.6162109375,
+  "vram_reserved_mb": 64.0,
+  "dynamics": {
+    "grad_norm_mean": 0.5628602403876024,
+    "grad_norm_max": 16.068471908569336,
+    "td_error_mean": 0.1401706908327115,
+    "q_mean": 4.949068524403114,
+    "q_var": 4.6044803886060865,
+    "h_weight_norm": 58.96220397949219
+  },
+  "checkpoint_file": "/home/rishant-gupta/Projects/SIH-2026/models/ablation/capacity/c256/lstm_ddqn_seed123.npz",
+  "sha256": "bae8c009e1e6db23cc22ae9947ae8d9ab2875bdef49285fd10d4ee3830f5e114",
+  "max_abs_diff": 0.004596710205078125
+}

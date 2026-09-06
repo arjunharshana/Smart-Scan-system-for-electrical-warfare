@@ -26,7 +26,7 @@ logger = logging.getLogger("app.main")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan context manager handling graceful startup and teardown."""
-    logger.info("Initializing SIH26055 V4.1 Tactical Electronic Warfare Application...")
+    logger.info("Initializing SIH26055 V4.0 Tactical Electronic Warfare Application (V4.0 Hybrid Production)...")
     yield
     logger.info("Shutting down simulation runner...")
     await service.pause()

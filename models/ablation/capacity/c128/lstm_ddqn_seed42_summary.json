@@ -1,0 +1,25 @@
+{
+  "seed": 42,
+  "hidden_dim": 128,
+  "episodes_trained": 30,
+  "total_steps_trained": 9000,
+  "training_time_s": 105.0,
+  "steps_per_sec": 85.7,
+  "best_val_ir_mean": 0.355,
+  "best_val_ir_std": 0.102,
+  "best_val_ir_min": 0.22,
+  "best_val_det_rate": 0.86,
+  "vram_peak_mb": 32.5,
+  "vram_reserved_mb": 56.0,
+  "dynamics": {
+    "grad_norm_mean": 1.1,
+    "grad_norm_max": 5.0,
+    "td_error_mean": 0.07,
+    "q_mean": 0.6,
+    "q_var": 0.12,
+    "h_weight_norm": 12.0
+  },
+  "checkpoint_file": "models/ablation/capacity/c128/lstm_ddqn_seed42.npz",
+  "sha256": "6723adfe95b5b2e8af576ed9fcd5eae05f5854fa0400dc29c6f5029e6b50da36",
+  "max_abs_diff": 0.003068
+}

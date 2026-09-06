@@ -148,6 +148,9 @@ def train_single_seed(
     learning_rate: float = 0.001,
     batch_size: int = 32,
     sequence_length: int = 10,
+    burn_in: int = 0,
+    use_stored_hidden: bool = False,
+    regime_balanced_replay: bool = False,
     warmup_steps: int = 64,
     target_update_freq: int = 100,
     epsilon_start: float = 1.0,
@@ -175,6 +178,9 @@ def train_single_seed(
         hidden_dim=64,
         dense_dim=64,
         sequence_length=sequence_length,
+        burn_in=burn_in,
+        use_stored_hidden=use_stored_hidden,
+        regime_balanced_replay=regime_balanced_replay,
         learning_rate=learning_rate,
         gamma=0.95,
         replay_capacity=10000,
@@ -203,6 +209,7 @@ def train_single_seed(
 
     for ep in range(episodes):
         sc_name, sc_dict = train_scenarios[ep % len(train_scenarios)]
+        lstm_sched.current_regime_id = ep % len(train_scenarios)
         sc_copy = copy.deepcopy(sc_dict)
         ep_seed = seed + ep * 1000
         sc_copy["simulation"]["seed"] = ep_seed

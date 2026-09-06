@@ -173,6 +173,7 @@ class LSTMHybridScheduler(BaseScheduler):
         reward: float,
         next_observation: SchedulerObservation,
         done: bool,
+        regime_id: int | None = None,
     ) -> None:
         """Updates internal state across all branches and arbitrator feedback."""
         act = action if isinstance(action, ScanAction) else ScanAction(frequency_bin=int(action))
@@ -181,7 +182,7 @@ class LSTMHybridScheduler(BaseScheduler):
         self.context_aware.update_policy(observation, act, reward, next_observation, done)
 
         # 2. Update LSTM-DDQN Replay Buffer & Gradient Step (self-gates on train_mode)
-        self.lstm_ddqn.update_policy(observation, act, reward, next_observation, done)
+        self.lstm_ddqn.update_policy(observation, act, reward, next_observation, done, regime_id=regime_id)
 
         # 3. Update Arbitrator Feedback
         self.arbitrator.update_feedback(observation, act.frequency_bin, next_observation)

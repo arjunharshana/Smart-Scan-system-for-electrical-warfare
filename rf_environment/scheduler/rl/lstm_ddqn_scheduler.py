@@ -39,6 +39,8 @@ class LSTMDDQNScheduler(BaseScheduler):
         dense_dim: int = 64,
         sequence_length: int = 10,
         burn_in: int = 0,
+        use_stored_hidden: bool = False,
+        regime_balanced_replay: bool = False,
         learning_rate: float = 0.001,
         gamma: float = 0.95,
         replay_capacity: int = 10000,
@@ -65,6 +67,9 @@ class LSTMDDQNScheduler(BaseScheduler):
         self.dense_dim = int(dense_dim)
         self.sequence_length = int(sequence_length)
         self.burn_in = int(burn_in)
+        self.use_stored_hidden = bool(use_stored_hidden)
+        self.regime_balanced_replay = bool(regime_balanced_replay)
+        self.current_regime_id: int | None = None
         self.gamma = float(gamma)
         self.batch_size = int(batch_size)
         self.warmup_steps = int(warmup_steps)
@@ -96,12 +101,16 @@ class LSTMDDQNScheduler(BaseScheduler):
             capacity=replay_capacity,
             sequence_length=self.sequence_length,
             burn_in=self.burn_in,
+            use_stored_hidden=self.use_stored_hidden,
+            regime_balanced=self.regime_balanced_replay,
             seed=buf_seed,
         )
 
         # 4. Hidden & Cell States Lifecycle
         self.h: np.ndarray = np.zeros(self.hidden_dim, dtype=np.float32)
         self.c: np.ndarray = np.zeros(self.hidden_dim, dtype=np.float32)
+        self._prev_h: np.ndarray = np.zeros(self.hidden_dim, dtype=np.float32)
+        self._prev_c: np.ndarray = np.zeros(self.hidden_dim, dtype=np.float32)
 
         # Step caching to prevent multiple advancements on the same observation
         self._last_obs_timestamp: float | None = None
@@ -140,12 +149,30 @@ class LSTMDDQNScheduler(BaseScheduler):
             expected_bands_hz=self.bands_hz,
         )
 
+        arch = ckpt_data["metadata"].get("architecture", {})
+        ckpt_hidden = arch.get("hidden_dim")
+        ckpt_dense = arch.get("dense_dim")
+        if ckpt_hidden is not None and ckpt_hidden != self.hidden_dim:
+            self.hidden_dim = int(ckpt_hidden)
+            if ckpt_dense is not None:
+                self.dense_dim = int(ckpt_dense)
+            self.online_net = LSTMQNetwork(
+                input_dim=self.encoder.feature_dim,
+                output_dim=self.num_bins,
+                hidden_dim=self.hidden_dim,
+                dense_dim=self.dense_dim,
+            )
+            self.target_net = self.online_net.clone()
+
         self.online_net.load_weights_dict(ckpt_data["online_weights"])
         self.target_net.load_weights_dict(ckpt_data["target_weights"])
 
         # Reset recurrent memory to clean zeros
         self.h = np.zeros(self.hidden_dim, dtype=np.float32)
         self.c = np.zeros(self.hidden_dim, dtype=np.float32)
+        self._prev_h = np.zeros(self.hidden_dim, dtype=np.float32)
+        self._prev_c = np.zeros(self.hidden_dim, dtype=np.float32)
+
 
         # Production frozen inference invariants
         self.eval()
@@ -195,6 +222,8 @@ class LSTMDDQNScheduler(BaseScheduler):
             return np.copy(self._last_q_values)
 
         state_vec = self.encoder.encode(observation)
+        self._prev_h = np.copy(self.h)
+        self._prev_c = np.copy(self.c)
         q_val, self.h, self.c = self.online_net.step(state_vec, self.h, self.c)
 
         self._last_obs_timestamp = observation.timestamp
@@ -238,6 +267,7 @@ class LSTMDDQNScheduler(BaseScheduler):
         reward: float,
         next_observation: SchedulerObservation,
         done: bool,
+        regime_id: int | None = None,
     ) -> None:
         """Stores transition and executes Recurrent Double DQN parameter updates."""
         if not self.train_mode:
@@ -247,7 +277,20 @@ class LSTMDDQNScheduler(BaseScheduler):
         next_state = self.encoder.encode(next_observation)
         action_idx = action.frequency_bin if isinstance(action, ScanAction) else int(action)
 
-        self.replay_buffer.push(state, action_idx, reward, next_state, done)
+        h_to_store = np.copy(self._prev_h) if self.use_stored_hidden else None
+        c_to_store = np.copy(self._prev_c) if self.use_stored_hidden else None
+        r_id = regime_id if regime_id is not None else getattr(self, "current_regime_id", None)
+
+        self.replay_buffer.push(
+            state,
+            action_idx,
+            reward,
+            next_state,
+            done,
+            h=h_to_store,
+            c=c_to_store,
+            regime_id=r_id,
+        )
 
         # Train once warmup threshold is met and valid contiguous sequences exist
         if len(self.replay_buffer) >= self.warmup_steps:
@@ -259,14 +302,33 @@ class LSTMDDQNScheduler(BaseScheduler):
 
     def _train_step(self) -> float:
         """Samples contiguous sequence minibatch and applies Recurrent Double DQN update."""
-        b_states, b_actions, b_rewards, b_next_states, b_dones = self.replay_buffer.sample(self.batch_size)
+        sample_out = self.replay_buffer.sample(self.batch_size, return_hidden=True)
+        b_states, b_actions, b_rewards, b_next_states, b_dones, b_h0, b_c0 = sample_out
+
+        if self.use_stored_hidden and b_h0 is not None and b_c0 is not None:
+            h_init_states = b_h0
+            c_init_states = b_c0
+            # Advance initial hidden state by 1 step for next_states sequence
+            _, h_next_online, c_next_online = self.online_net.step(b_states[:, 0, :], b_h0, b_c0)
+            _, h_next_target, c_next_target = self.target_net.step(b_states[:, 0, :], b_h0, b_c0)
+        else:
+            h_init_states = None
+            c_init_states = None
+            h_next_online = None
+            c_next_online = None
+            h_next_target = None
+            c_next_target = None
 
         # 1. Double DQN Next Action Selection (Online Network)
-        next_q_online, _, _ = self.online_net.forward_sequence(b_next_states)  # [B, L, N]
+        next_q_online, _, _ = self.online_net.forward_sequence(
+            b_next_states, h_0=h_next_online, c_0=c_next_online
+        )  # [B, L, N]
         best_next_actions = np.argmax(next_q_online, axis=2)                   # [B, L]
 
         # 2. Target Network Evaluation at a*
-        next_q_target, _, _ = self.target_net.forward_sequence(b_next_states)  # [B, L, N]
+        next_q_target, _, _ = self.target_net.forward_sequence(
+            b_next_states, h_0=h_next_target, c_0=c_next_target
+        )  # [B, L, N]
         target_next_q = np.take_along_axis(
             next_q_target, best_next_actions[:, :, np.newaxis], axis=2
         ).squeeze(2)  # [B, L]
@@ -276,7 +338,12 @@ class LSTMDDQNScheduler(BaseScheduler):
 
         # 4. Backpropagation Through Time on Online Network
         loss = self.online_net.train_step(
-            b_states, b_actions, targets, burn_in=self.burn_in
+            b_states,
+            b_actions,
+            targets,
+            h_0=h_init_states,
+            c_0=c_init_states,
+            burn_in=self.burn_in,
         )
 
         self.train_step_count += 1
@@ -292,6 +359,8 @@ class LSTMDDQNScheduler(BaseScheduler):
         super().reset()
         self.h = np.zeros(self.hidden_dim, dtype=np.float32)
         self.c = np.zeros(self.hidden_dim, dtype=np.float32)
+        self._prev_h = np.zeros(self.hidden_dim, dtype=np.float32)
+        self._prev_c = np.zeros(self.hidden_dim, dtype=np.float32)
         self.epsilon = self.epsilon_start if self.train_mode else 0.0
         self._last_obs_timestamp = None
         self._last_q_values = np.zeros(self.num_bins, dtype=np.float32)

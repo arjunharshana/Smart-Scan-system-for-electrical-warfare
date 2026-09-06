@@ -189,3 +189,12 @@ class MLPQNetwork:
         )
         cloned.copy_from(self)
         return cloned
+
+    def load_weights_dict(self, weights: dict[str, np.ndarray]) -> None:
+        """Loads weights and biases directly from a dictionary."""
+        self.w1 = np.array(weights["w1"], dtype=np.float32, copy=True)
+        self.b1 = np.array(weights["b1"], dtype=np.float32, copy=True)
+        self.w2 = np.array(weights["w2"], dtype=np.float32, copy=True)
+        self.b2 = np.array(weights["b2"], dtype=np.float32, copy=True)
+        self.w3 = np.array(weights["w3"], dtype=np.float32, copy=True)
+        self.b3 = np.array(weights["b3"], dtype=np.float32, copy=True)

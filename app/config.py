@@ -15,7 +15,8 @@ DEFAULT_LOG_LEVEL = os.environ.get("LOG_LEVEL", "info")
 DEFAULT_SCENARIO_NAME = os.environ.get("DEFAULT_SCENARIO", "deterministic_hopping.yaml")
 DEFAULT_SCENARIO_PATH = PROJECT_ROOT / "rf_environment" / "scenarios" / DEFAULT_SCENARIO_NAME
 
-# Tactical Scheduler version: V4.1 is frozen production tactical scheduler
-DEFAULT_SCHEDULER = os.environ.get("DEFAULT_SCHEDULER", "hybrid_v41")
+# Tactical Scheduler version: V4.0 Hybrid is frozen production tactical scheduler (Benchmark Winner: 35.19% IR)
+DEFAULT_SCHEDULER = os.environ.get("DEFAULT_SCHEDULER", "hybrid_v4")
+DEFAULT_V40_CHECKPOINT = PROJECT_ROOT / "models" / "v4_0" / "production_checkpoint.npz"
 DEFAULT_V41_CHECKPOINT = PROJECT_ROOT / "models" / "v4_1" / "production_checkpoint.npz"
-APP_VERSION = "4.1"
+APP_VERSION = "4.0"

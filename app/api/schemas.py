@@ -6,8 +6,8 @@ from pydantic import BaseModel, Field
 
 class HealthResponse(BaseModel):
     status: str = "ok"
-    scheduler: str = "V4.1"
-    version: str = "4.1"
+    scheduler: str = "V4.0"
+    version: str = "4.0"
     device: str = "cpu"
     timestamp: float
 
@@ -21,7 +21,7 @@ class SimulationStatusResponse(BaseModel):
     scheduler_type: str
     speed: str
     seed: int
-    version: str = "4.1"
+    version: str = "4.0"
 
 
 class SimulationControlRequest(BaseModel):

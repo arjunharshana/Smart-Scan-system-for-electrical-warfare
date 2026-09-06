@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 import numpy as np
 
@@ -42,6 +43,8 @@ class DDQNScheduler(BaseScheduler):
         hidden_dimension: int = 64,
         encoder: ObservationEncoder | None = None,
         seed: int | None = None,
+        checkpoint_path: str | Path | None = None,
+        require_checkpoint: bool = False,
     ) -> None:
         super().__init__(bands_hz)
         self.num_bins = len(self.bands_hz)
@@ -87,6 +90,93 @@ class DDQNScheduler(BaseScheduler):
         self.train_step_count: int = 0
         self.last_loss: float = 0.0
         self.losses: list[float] = []
+
+        # Checkpoint state
+        self.checkpoint_path: str | None = None
+        self.checkpoint_sha256: str | None = None
+        self.is_pretrained: bool = False
+
+        if checkpoint_path is not None:
+            self.load_checkpoint(checkpoint_path)
+        elif require_checkpoint:
+            raise FileNotFoundError(
+                "V4.0 CHECKPOINT NOT FOUND — INFERENCE UNAVAILABLE\n"
+                "Checkpoint path was not provided and require_checkpoint=True.\n"
+                "Refusing to start with random/untrained weights."
+            )
+
+    def save_checkpoint(self, path: str | Path, metadata: dict[str, Any] | None = None) -> Path:
+        """Serializes current model parameters into a versioned .npz checkpoint."""
+        from rf_environment.scheduler.rl.checkpoint_v40 import save_v40_checkpoint
+
+        saved = save_v40_checkpoint(self, path, metadata=metadata)
+        self.checkpoint_path = str(saved)
+        return saved
+
+    def load_checkpoint(self, path: str | Path) -> dict[str, Any]:
+        """Loads weights from a validated checkpoint and freezes inference."""
+        from rf_environment.scheduler.rl.checkpoint_v40 import load_v40_checkpoint
+
+        ckpt_data = load_v40_checkpoint(
+            path=path,
+            expected_input_dim=self.encoder.feature_dim,
+            expected_output_dim=self.num_bins,
+            expected_bands_hz=self.bands_hz,
+        )
+
+        arch = ckpt_data["metadata"].get("architecture", {})
+        ckpt_hidden = arch.get("hidden_dim")
+        if ckpt_hidden is not None and ckpt_hidden != self.hidden_dimension:
+            self.hidden_dimension = int(ckpt_hidden)
+            self.online_net = MLPQNetwork(
+                input_dim=self.encoder.feature_dim,
+                output_dim=self.num_bins,
+                hidden_dim=self.hidden_dimension,
+                learning_rate=self.learning_rate,
+            )
+            self.target_net = self.online_net.clone()
+
+        self.online_net.load_weights_dict(ckpt_data["online_weights"])
+        self.target_net.load_weights_dict(ckpt_data["target_weights"])
+
+        # Production frozen inference invariants
+        self.eval()
+        self.epsilon = 0.0
+
+        self.checkpoint_path = str(ckpt_data["path"])
+        self.checkpoint_sha256 = str(ckpt_data["weights_sha256"])
+        self.is_pretrained = True
+        return ckpt_data
+
+    @classmethod
+    def from_checkpoint(
+        cls,
+        path: str | Path,
+        bands_hz: list[float] | None = None,
+        seed: int = 0,
+        **kwargs: Any,
+    ) -> DDQNScheduler:
+        """Constructs a DDQNScheduler directly from a saved checkpoint."""
+        from rf_environment.scheduler.rl.checkpoint_v40 import load_v40_checkpoint
+
+        ckpt = load_v40_checkpoint(path)
+        meta = ckpt["metadata"]
+        saved_bands = [float(b) for b in meta.get("bands_hz", [])]
+        resolved_bands = bands_hz or saved_bands
+        if not resolved_bands:
+            raise ValueError("No frequency bands available in checkpoint or arguments.")
+
+        arch = meta.get("architecture", {})
+        hidden_dim = arch.get("hidden_dim", 64)
+
+        scheduler = cls(
+            bands_hz=resolved_bands,
+            hidden_dimension=hidden_dim,
+            seed=seed,
+            checkpoint_path=path,
+            **kwargs,
+        )
+        return scheduler
 
     def get_q_values(self, observation: SchedulerObservation) -> np.ndarray:
         """Evaluates and returns raw Q-values for all frequency bins from online network."""
@@ -176,4 +266,4 @@ class DDQNScheduler(BaseScheduler):
 
     def reset(self) -> None:
         super().reset()
-        self.epsilon = self.epsilon_start
+        self.epsilon = self.epsilon_start if self.train_mode else 0.0

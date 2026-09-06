@@ -15,9 +15,12 @@ from rf_environment.scheduler.sequential_scheduler import SequentialScheduler
 from rf_environment.scheduler.sliding_window_ucb import SlidingWindowUCBScheduler
 from rf_environment.scheduler.thompson_sampling import ThompsonSamplingScheduler
 from rf_environment.scheduler.ucb1 import UCB1Scheduler
+from rf_environment.scheduler.whittle.scheduler import WhittleScheduler
+from rf_environment.scheduler.belief.scheduler import V5BeliefScheduler
 
 
 SCHEDULER_METADATA = {
+
     "sequential": {
         "name": "Sequential",
         "category": "baseline",
@@ -78,7 +81,18 @@ SCHEDULER_METADATA = {
         "category": "hybrid",
         "description": "V4.1 Hybrid scheduler arbitrating between Context-Aware online adaptation and LSTM-DDQN temporal memory.",
     },
+    "whittle_style": {
+        "name": "Whittle-Style Heuristic",
+        "category": "bandit",
+        "description": "Partially observable restless bandit index policy balancing belief, recency, uncertainty, dwell, and periodicity.",
+    },
+    "v5_belief": {
+        "name": "V5.0 Augmented Belief-State",
+        "category": "bayesian_pomdp",
+        "description": "Exact recursive Bayesian belief state over (F, tau, D) with semi-Markov dwell progression and zero offline training.",
+    },
 }
+
 
 
 def default_scan_bands(min_hz: float, max_hz: float, bandwidth_hz: float) -> list[float]:
@@ -117,15 +131,36 @@ def create_scheduler(
     if key in {"rl", "rl_scheduler"}:
         return RLScheduler(bands_hz, allow_fallback_policy=True, seed=seed)
     if key in {"ddqn", "double_dqn"}:
-        return DDQNScheduler(bands_hz, seed=seed)
+        cfg = {}
+        if config:
+            cfg.update(config)
+        cfg.update(kwargs)
+        ckpt_path = cfg.pop("checkpoint_path", None)
+        req_ckpt = cfg.pop("require_checkpoint", False)
+        clean_cfg = {k: v for k, v in cfg.items() if k not in {"type", "bands_hz"}}
+        return DDQNScheduler(
+            bands_hz,
+            seed=seed,
+            checkpoint_path=ckpt_path,
+            require_checkpoint=req_ckpt,
+            **clean_cfg,
+        )
     if key in {"hybrid", "hybrid_v4", "hybrid_meta"}:
-        cfg = config or kwargs
+        cfg = {}
+        if config:
+            cfg.update(config)
+        cfg.update(kwargs)
+        ddqn_cfg = cfg.get("ddqn") or {}
+        ckpt_path = cfg.get("checkpoint_path") or ddqn_cfg.get("checkpoint_path")
+        req_ckpt = cfg.get("require_checkpoint", False) or ddqn_cfg.get("require_checkpoint", False)
         return HybridScheduler(
             bands_hz,
             ca_config=cfg.get("context_aware"),
             ddqn_config=cfg.get("ddqn"),
             arbitrator_config=cfg.get("arbitrator"),
             seed=seed,
+            checkpoint_path=ckpt_path,
+            require_checkpoint=req_ckpt,
         )
     if key in {"lstm_ddqn", "drqn", "lstm_dqn"}:
         raw_cfg = {}
@@ -151,4 +186,11 @@ def create_scheduler(
             checkpoint_path=ckpt_path,
             require_checkpoint=req_ckpt,
         )
+    if key in {"whittle", "whittle_style", "whittle_index"}:
+        cfg = config or kwargs
+        return WhittleScheduler(bands_hz, config=cfg, seed=seed)
+    if key in {"v5", "v5_belief", "belief_pomdp", "augmented_belief", "belief"}:
+        cfg = config or kwargs
+        return V5BeliefScheduler(bands_hz, config=cfg, seed=seed)
     raise ValueError(f"Unknown scheduler: {name}. Available: {list(SCHEDULER_METADATA.keys())}")
+

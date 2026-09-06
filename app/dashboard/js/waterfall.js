@@ -23,13 +23,18 @@ class SpectrumWaterfallRenderer {
   }
 
   resizeCanvas() {
+    if (!this.canvas) return;
     const rect = this.canvas.getBoundingClientRect();
+    const w = Math.round(rect.width || this.canvas.clientWidth || this.canvas.offsetWidth || (this.canvas.parentElement ? this.canvas.parentElement.clientWidth : 1200) || 1200);
+    const h = Math.round(rect.height || this.canvas.clientHeight || this.canvas.offsetHeight || 300);
     const dpr = window.devicePixelRatio || 1;
-    this.canvas.width = rect.width * dpr;
-    this.canvas.height = rect.height * dpr;
+
+    this.canvas.width = Math.round(w * dpr);
+    this.canvas.height = Math.round(h * dpr);
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
-    this.width = rect.width;
-    this.height = rect.height;
+    this.width = w;
+    this.height = h;
     this.draw();
   }
 
@@ -70,11 +75,16 @@ class SpectrumWaterfallRenderer {
     const padLeft = 60;
     const padRight = 30;
     const w = this.width - padLeft - padRight;
-    if (total <= 1) return padLeft + w;
-    return padLeft + (index / (total - 1)) * w;
+    if (total <= 1) return padLeft + 20;
+    const span = Math.max(total - 1, 25);
+    return padLeft + (index / span) * w;
   }
 
   draw() {
+    if (!this.width || !this.height || this.width < 50 || this.height < 50) {
+      this.resizeCanvas();
+    }
+
     const ctx = this.ctx;
     const w = this.width;
     const h = this.height;
@@ -106,17 +116,26 @@ class SpectrumWaterfallRenderer {
 
     if (this.events.length === 0) {
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#334155';
+      ctx.fillStyle = '#64748b';
       ctx.font = '13px "SF Mono", monospace';
-      ctx.fillText('WAITING FOR SCAN STREAM...', w / 2, h / 2);
+      ctx.fillText('STANDBY — CLICK ▶ START MISSION OR ⏭ STEP TO SCAN', w / 2, h / 2);
       return;
     }
 
     const n = this.events.length;
+    const latestX = this.stepToX(n - 1, n);
+
+    // Subtle sweep head scanline
+    ctx.strokeStyle = 'rgba(0, 229, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(latestX, 10);
+    ctx.lineTo(latestX, h - 20);
+    ctx.stroke();
 
     // 3. Draw Scan Trajectory Line (Cyan)
     ctx.beginPath();
-    ctx.strokeStyle = 'rgba(0, 229, 255, 0.4)';
+    ctx.strokeStyle = 'rgba(0, 229, 255, 0.5)';
     ctx.lineWidth = 2;
     for (let i = 0; i < n; i++) {
       const ev = this.events[i];
@@ -159,7 +178,6 @@ class SpectrumWaterfallRenderer {
         ctx.strokeStyle = '#ffab00';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
-        // Draw small crosshair reticle
         ctx.moveTo(x - 5, y);
         ctx.lineTo(x + 5, y);
         ctx.moveTo(x, y - 5);
@@ -196,13 +214,14 @@ class SpectrumWaterfallRenderer {
     }
 
     // 7. Time axis labels at bottom
-    ctx.textAlign = 'center';
+    ctx.textAlign = 'left';
     ctx.fillStyle = '#475569';
     ctx.font = '10px "SF Mono", monospace';
     const firstStep = this.events[0].step;
     const lastStep = this.events[n - 1].step;
     ctx.fillText(`t = ${firstStep}`, 60, h - 6);
-    ctx.fillText(`t = ${lastStep} (Latest)`, w - 30, h - 6);
+    ctx.textAlign = 'right';
+    ctx.fillText(`t = ${lastStep} (Latest)`, latestX, h - 6);
   }
 }
 

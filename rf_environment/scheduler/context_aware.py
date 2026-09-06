@@ -151,7 +151,9 @@ class ContextAwareScheduler(BaseScheduler):
         chosen_bin = int(max(range(n), key=lambda j: scores[j] + jitter[j]))
 
         self.last_selected_bin = chosen_bin
+        self.last_scores = scores
         self.last_selected = self.bands_hz[chosen_bin]
+
         self.last_explanation = {
             "action_mhz": self.last_selected / 1e6,
             "reason": (

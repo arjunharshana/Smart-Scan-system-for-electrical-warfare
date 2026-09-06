@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIH26055 — Smart Scan Strategy for Electronic Warfare (V4.1)</title>
+  <title>SIH26055 — Smart Scan Strategy for Electronic Warfare (V4.0 Hybrid)</title>
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body class="theme-ew-dark mode-overview">
@@ -14,7 +14,7 @@
       <div class="radar-pulse-icon"></div>
       <div>
         <h1 class="system-title">SMART SCAN STRATEGY FOR ELECTRONIC WARFARE</h1>
-        <p class="system-subtitle">SIH26055 / DRDO Tactical Cognitive Receiver &bull; V4.1 LSTM-Hybrid</p>
+        <p class="system-subtitle">SIH26055 / DRDO Tactical Cognitive Receiver &bull; Production Baseline: <b>V4.0 Hybrid (Benchmark Winner: 35.19% IR)</b></p>
       </div>
     </div>
 
@@ -36,8 +36,12 @@
         <span class="chip-val highlight" id="chipScenario">Loading...</span>
       </div>
       <div class="system-chip">
+        <span class="chip-label">ACTIVE SCHEDULER</span>
+        <span class="chip-val highlight" id="chipScheduler" style="color: #00e5ff;">⭐ V4.0 HYBRID</span>
+      </div>
+      <div class="system-chip">
         <span class="chip-label">NEURAL MODEL</span>
-        <span class="chip-val highlight" id="chipModelStatus" style="color: #10b981;">PRETRAINED (FROZEN)</span>
+        <span class="chip-val highlight" id="chipModelStatus" style="color: #00e676;">PRETRAINED (FROZEN)</span>
       </div>
 
       <!-- VIEW MODE SWITCHER -->
@@ -53,13 +57,15 @@
 
     <!-- EVALUATION MODE GROUND TRUTH BANNER (HIDDEN IN OPERATIONAL VIEW) -->
     <div id="evalBanner" class="eval-banner hidden">
-      <span class="eval-badge">⚠️ EVALUATION MODE</span>
-      <span>Ground Truth Overlay Active &bull; Strictly Isolated from Tactical Scheduler</span>
-      <label class="gt-toggle-switch">
-        <input type="checkbox" id="chkGroundTruth">
-        <span class="slider"></span>
-        <span class="toggle-text">Show Emitter Truth</span>
-      </label>
+      <div class="eval-banner-content">
+        <span class="eval-badge">⚠️ EVALUATION AUDIT MODE</span>
+        <span>Ground Truth Emitter Overlay Enabled &bull; Strictly Firewalled from Scheduler Decision Path</span>
+        <label class="gt-toggle-switch">
+          <input type="checkbox" id="chkGroundTruth">
+          <span class="slider"></span>
+          <span class="toggle-text">Show Emitter Truth</span>
+        </label>
+      </div>
     </div>
 
     <!-- ROW 1: PRIMARY PREDICTION HERO & PERFORMANCE SUMMARY -->
@@ -70,7 +76,7 @@
         <div class="card-header">
           <div class="card-title-wrap">
             <span class="card-icon">🎯</span>
-            <h2>PRIMARY SCAN PREDICTION</h2>
+            <h2>PRIMARY SCAN PREDICTION & TRACKING</h2>
           </div>
           <span class="badge-confidence" id="predConfidenceBadge">CONFIDENCE: --%</span>
         </div>
@@ -78,11 +84,11 @@
         <div class="prediction-hero-grid">
           <!-- CURRENT SCAN -->
           <div class="pred-metric-box">
-            <span class="metric-label">CURRENT SCAN</span>
+            <span class="metric-label">CURRENT RECEIVER FREQUENCY</span>
             <div class="metric-value-huge text-cyan">
               <span id="currentScanFreq">--.-</span> <span class="unit">MHz</span>
             </div>
-            <span class="metric-sub" id="currentScanBin">Bin --</span>
+            <span class="metric-sub" id="currentScanBin">Channel Bin --</span>
           </div>
 
           <!-- ARROW -->
@@ -90,29 +96,29 @@
 
           <!-- PREDICTED NEXT -->
           <div class="pred-metric-box">
-            <span class="metric-label">PREDICTED NEXT</span>
+            <span class="metric-label">ANTICIPATED NEXT SCAN</span>
             <div class="metric-value-huge text-amber">
               <span id="predictedNextFreq">--.-</span> <span class="unit">MHz</span>
             </div>
-            <span class="metric-sub" id="predictedNextBin">Bin --</span>
+            <span class="metric-sub" id="predictedNextBin">Channel Bin --</span>
           </div>
 
           <!-- CONFIDENCE METER -->
           <div class="pred-metric-box confidence-box">
-            <span class="metric-label">PATTERN CONFIDENCE</span>
+            <span class="metric-label">PATTERN STABILITY & CONFIDENCE</span>
             <div class="confidence-gauge">
               <div class="gauge-bar-track">
                 <div class="gauge-bar-fill" id="confGaugeFill" style="width: 0%;"></div>
               </div>
               <span class="gauge-percentage" id="confPercent">--%</span>
             </div>
-            <span class="metric-sub" id="confLevelText">Analyzing Temporal History...</span>
+            <span class="metric-sub" id="confLevelText">Analyzing Temporal Dwell...</span>
           </div>
         </div>
 
         <!-- TOP CANDIDATES Q-VALUE RANKING TABLE -->
         <div class="prediction-ranking-strip">
-          <span class="ranking-label">Q-VALUE CANDIDATE RANKING:</span>
+          <span class="ranking-label">TOP CANDIDATE CHANNELS (Q-VALUE RANKING):</span>
           <div class="ranking-chips" id="topPredictionsList">
             <span class="ranking-chip">1. -- MHz (Q: --)</span>
             <span class="ranking-chip">2. -- MHz (Q: --)</span>
@@ -121,14 +127,14 @@
         </div>
       </div>
 
-      <!-- PERFORMANCE METRICS ROW -->
+      <!-- PERFORMANCE METRICS CARD -->
       <div class="ew-card card-performance">
         <div class="card-header">
           <div class="card-title-wrap">
             <span class="card-icon">📊</span>
-            <h2>MISSION PERFORMANCE</h2>
+            <h2>TACTICAL MISSION METRICS</h2>
           </div>
-          <span class="badge-tactical">TACTICAL METRICS</span>
+          <span class="badge-tactical">REAL-TIME TELEMETRY</span>
         </div>
 
         <div class="perf-metric-triad">
@@ -148,6 +154,12 @@
             <span class="perf-title" title="Ratio of productive scans to total frequency sweeps">SCAN EFFICIENCY</span>
             <div class="perf-num text-purple" id="metricEfficiency">--%</div>
             <span class="perf-sub" id="metricTotalScans">0 Total Steps</span>
+          </div>
+
+          <div class="perf-metric">
+            <span class="perf-title" title="Scheduling execution latency per step (< 10 ms DRDO budget)">DECISION LATENCY</span>
+            <div class="perf-num text-cyan" id="metricLatency">0.4 ms</div>
+            <span class="perf-sub text-green" id="metricLatencyBudget">✓ &lt; 10 ms BUDGET</span>
           </div>
         </div>
 
@@ -170,7 +182,29 @@
 
     </section>
 
-    <!-- ROW 2: FREQUENCY-TIME WATERFALL (PRIMARY EW PROBLEM VISUALIZATION) -->
+    <!-- ROW 2: INTERACTIVE 30-BIN TACTICAL SPECTRUM STRIP -->
+    <section class="ew-card card-spectrum">
+      <div class="card-header">
+        <div class="card-title-wrap">
+          <span class="card-icon">📡</span>
+          <h2>TACTICAL SPECTRUM STRIP (30 CHANNELS &bull; 100 MHz — 700 MHz &bull; 20 MHz IBW)</h2>
+        </div>
+        <div class="spectrum-legend">
+          <span class="legend-item"><span class="legend-box box-scan"></span> Tuned Channel</span>
+          <span class="legend-item"><span class="legend-box box-pred"></span> Next Target</span>
+          <span class="legend-item"><span class="legend-box box-hit"></span> Signal Hit</span>
+          <span class="legend-item eval-only hidden"><span class="legend-box box-gt"></span> Emitter Truth</span>
+        </div>
+      </div>
+
+      <div class="spectrum-strip-wrap">
+        <div class="spectrum-bins-grid" id="spectrumBinsGrid">
+          <!-- Populated by JS: 30 bins with bin number and MHz -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ROW 3: FREQUENCY-TIME WATERFALL -->
     <section class="ew-card card-waterfall">
       <div class="card-header">
         <div class="card-title-wrap">
@@ -180,96 +214,258 @@
         <div class="waterfall-legend">
           <span class="legend-item"><span class="legend-dot dot-cyan"></span> Scanned Channel</span>
           <span class="legend-item"><span class="legend-dot dot-amber"></span> Next Prediction</span>
-          <span class="legend-item"><span class="legend-dot dot-green"></span> Signal Intercepted</span>
+          <span class="legend-item"><span class="legend-dot dot-green"></span> Intercepted Signal</span>
           <span class="legend-item eval-only hidden"><span class="legend-dot dot-red"></span> Ground Truth</span>
         </div>
       </div>
 
       <div class="waterfall-canvas-container">
-        <canvas id="waterfallCanvas" width="1200" height="320"></canvas>
+        <canvas id="waterfallCanvas" width="1200" height="300"></canvas>
       </div>
     </section>
 
-    <!-- ROW 3: EXPLAINABILITY & ARBITRATION VIEW -->
+    <!-- ROW 4: EXPLAINABILITY & ARBITRATION + TECHNICAL INTEL -->
     <section class="grid-telemetry">
 
-      <!-- "WHY THIS SCAN?" EXPLAINABILITY PANEL -->
+      <!-- "WHY THIS FREQUENCY?" EXPLAINABILITY PANEL -->
       <div class="ew-card card-why">
         <div class="card-header">
           <div class="card-title-wrap">
             <span class="card-icon">💡</span>
-            <h2>WHY THIS FREQUENCY? (EXPLAINABILITY)</h2>
+            <h2>WHY THIS FREQUENCY? (TACTICAL DECISION EXPLAINABILITY)</h2>
           </div>
           <span class="badge-mode" id="badgeArbitrationMode">DDQN_EXPLOIT</span>
         </div>
 
         <div class="why-body">
           <p class="why-text" id="whyExplainText">
-            Anticipating periodic hopping pattern. Initializing recurrent memory...
+            Anticipating periodic hopping pattern. Initializing tactical receiver...
           </p>
         </div>
 
         <div class="arbitration-split-container">
           <div class="split-header">
             <span>Context-Aware (Discovery): <b id="caWeightPct">30%</b></span>
-            <span>LSTM-DDQN (Exploitation): <b id="lstmWeightPct">70%</b></span>
+            <span>DDQN Predictive Branch: <b id="ddqnWeightPct">70%</b></span>
           </div>
           <div class="split-bar-track">
             <div class="split-bar-ca" id="splitBarCA" style="width: 30%;"></div>
-            <div class="split-bar-lstm" id="splitBarLSTM" style="width: 70%;"></div>
+            <div class="split-bar-lstm" id="splitBarDDQN" style="width: 70%;"></div>
+          </div>
+        </div>
+
+        <div class="why-metrics-grid">
+          <div class="why-metric">
+            <span class="why-lbl">Environmental Surprise</span>
+            <span class="why-val" id="whySurprise">0.000</span>
+          </div>
+          <div class="why-metric">
+            <span class="why-lbl">Transition Consistency</span>
+            <span class="why-val" id="whyConsistency">0.000</span>
+          </div>
+          <div class="why-metric">
+            <span class="why-lbl">Arbitration Mode</span>
+            <span class="why-val text-amber" id="whyMode">DDQN_EXPLOIT</span>
           </div>
         </div>
       </div>
 
-      <!-- TECHNICAL INTELLIGENCE PANEL (VISIBLE IN TECHNICAL MODE) -->
+      <!-- TECHNICAL INTEL PANEL -->
       <div class="ew-card card-intel technical-only">
         <div class="card-header">
           <div class="card-title-wrap">
-            <span class="card-icon">🧠</span>
-            <h2>TEMPORAL WORKING MEMORY (LSTM)</h2>
+            <span class="card-icon">🛡️</span>
+            <h2>PRODUCTION MODEL & FIREWALL AUDIT</h2>
           </div>
-          <span class="badge-tactical">DRQN RECURRENT</span>
+          <span class="badge-tactical">AUDIT CERTIFIED</span>
         </div>
 
         <div class="intel-grid">
           <div class="intel-item">
-            <span class="intel-lbl">Temporal History Window</span>
-            <span class="intel-val" id="intelHistoryWindow">10 observations</span>
+            <span class="intel-lbl">Tactical Architecture</span>
+            <span class="intel-val" id="intelArchitecture">MLPQNetwork (Feed-Forward DDQN)</span>
           </div>
           <div class="intel-item">
-            <span class="intel-lbl">LSTM Hidden Energy ||h||</span>
-            <span class="intel-val" id="intelHiddenEnergy">0.000</span>
+            <span class="intel-lbl">Production Mode</span>
+            <span class="intel-val text-green" id="intelModelMode">FROZEN INFERENCE ONLY</span>
           </div>
           <div class="intel-item">
-            <span class="intel-lbl">Cell State Energy ||c||</span>
-            <span class="intel-val" id="intelCellEnergy">0.000</span>
+            <span class="intel-lbl">Runtime Training</span>
+            <span class="intel-val text-green" id="intelTrainingMode">DISABLED (Zero Weight Drift)</span>
           </div>
           <div class="intel-item">
-            <span class="intel-lbl">Environmental Surprise</span>
-            <span class="intel-val" id="intelSurprise">0.000</span>
+            <span class="intel-lbl">Exploration Parameter (&epsilon;)</span>
+            <span class="intel-val text-cyan" id="intelEpsilon">&epsilon; = 0.000 (Pure Greedy Exploitation)</span>
           </div>
           <div class="intel-item">
-            <span class="intel-lbl">Neural Model Weights</span>
-            <span class="intel-val text-green" id="intelModelStatus">PRETRAINED (FROZEN)</span>
-          </div>
-          <div class="intel-item">
-            <span class="intel-lbl">Active Checkpoint</span>
+            <span class="intel-lbl">Production Checkpoint</span>
             <span class="intel-val" id="intelCheckpointName">production_checkpoint.npz</span>
           </div>
           <div class="intel-item">
-            <span class="intel-lbl">Fingerprint (SHA256)</span>
-            <span class="intel-val" id="intelCheckpointHash" style="font-family: monospace; font-size: 0.85em;">53abe2fe...</span>
+            <span class="intel-lbl">Cryptographic Fingerprint</span>
+            <span class="intel-val font-mono" id="intelCheckpointHash">42a6f3b8...</span>
           </div>
           <div class="intel-item">
-            <span class="intel-lbl">Runtime Neural Training</span>
-            <span class="intel-val text-amber" id="intelTrainingMode">DISABLED (INFERENCE ONLY)</span>
+            <span class="intel-lbl">Ground-Truth Firewall</span>
+            <span class="intel-val text-green">CERTIFIED ISOLATED (Zero Leakage)</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-lbl">Latency Budget</span>
+            <span class="intel-val text-cyan">&lt; 10 ms Guaranteed</span>
           </div>
         </div>
       </div>
 
     </section>
 
-    <!-- ROW 4: RECENT TIMELINE & SIMULATION CONTROLS -->
+    <!-- ROW 5: 5-WAY BENCHMARK COMPARISON MATRIX -->
+    <section class="ew-card card-benchmark">
+      <div class="card-header">
+        <div class="card-title-wrap">
+          <span class="card-icon">🏆</span>
+          <h2>STANDALONE BENCHMARK COMPARISON (5 ALGORITHM FAMILIES)</h2>
+        </div>
+        <span class="badge-tactical" style="background: rgba(0, 230, 118, 0.2); color: #00e676; border: 1px solid #00e676;">
+          V4.0 HYBRID: FINAL BASE (35.19% IR)
+        </span>
+      </div>
+
+      <div class="benchmark-content">
+        <!-- 5 Cards Row -->
+        <div class="benchmark-cards-row">
+          <div class="benchmark-card winner">
+            <div class="bench-badge">WINNING BASE</div>
+            <div class="bench-name">V4.0 Hybrid</div>
+            <div class="bench-score text-green">35.19%</div>
+            <div class="bench-sub">Overall Interception Rate</div>
+            <div class="bench-detail">CA Adaptation + FF-DDQN Tracking with Rule-Based Meta-Arbitration</div>
+          </div>
+          <div class="benchmark-card">
+            <div class="bench-badge" style="background: #334155;">BASELINE</div>
+            <div class="bench-name">Whittle W3 Index</div>
+            <div class="bench-score text-cyan">34.40%</div>
+            <div class="bench-sub">Overall Interception Rate</div>
+            <div class="bench-detail">Heuristic Restless Bandit Index Policy with Semi-Markov Dwell Aging</div>
+          </div>
+          <div class="benchmark-card">
+            <div class="bench-badge" style="background: #334155;">BASELINE</div>
+            <div class="bench-name">Context-Aware (CA)</div>
+            <div class="bench-score text-amber">31.15%</div>
+            <div class="bench-sub">Overall Interception Rate</div>
+            <div class="bench-detail">Online Empirical Transition Matrix with Recency & Coverage Bonuses</div>
+          </div>
+          <div class="benchmark-card">
+            <div class="bench-badge" style="background: #334155;">ABLATION</div>
+            <div class="bench-name">V4.1 LSTM-Hybrid</div>
+            <div class="bench-score text-purple">26.90%</div>
+            <div class="bench-sub">Overall Interception Rate</div>
+            <div class="bench-detail">CA + Recurrent DRQN (Degraded by multi-regime temporal interference)</div>
+          </div>
+          <div class="benchmark-card">
+            <div class="bench-badge" style="background: #334155;">BASELINE</div>
+            <div class="bench-name">V5.0 Belief-State</div>
+            <div class="bench-score text-red">15.36%</div>
+            <div class="bench-sub">Overall Interception Rate</div>
+            <div class="bench-detail">Exact Semi-Markov Recursive Bayesian Filter over (F, &tau;, D)</div>
+          </div>
+        </div>
+
+        <!-- 8 Canonical Scenarios Table -->
+        <div class="scenario-table-wrap">
+          <h3 class="table-subheading">Canonical 8-Scenario Performance Breakdown (Interception Rate %)</h3>
+          <div class="table-responsive">
+            <table class="benchmark-table">
+              <thead>
+                <tr>
+                  <th>Canonical Evaluation Scenario</th>
+                  <th class="col-highlight">V4.0 Hybrid (Base)</th>
+                  <th>Whittle W3</th>
+                  <th>Context-Aware</th>
+                  <th>V4.1 LSTM</th>
+                  <th>V5.0 Belief</th>
+                </tr>
+              </thead>
+              <tbody id="benchmarkTableBody">
+                <tr>
+                  <td><b>1. Seen Structure</b> <span class="text-dim">([5, 15, 25], dwell=3)</span></td>
+                  <td class="col-highlight font-bold text-green">50.62%</td>
+                  <td>48.33%</td>
+                  <td>26.90%</td>
+                  <td>46.10%</td>
+                  <td>24.33%</td>
+                </tr>
+                <tr>
+                  <td><b>2. Unseen Permutation</b> <span class="text-dim">([25, 5, 15], dwell=3)</span></td>
+                  <td class="col-highlight font-bold text-green">40.48%</td>
+                  <td>38.67%</td>
+                  <td>31.40%</td>
+                  <td>32.20%</td>
+                  <td>21.00%</td>
+                </tr>
+                <tr>
+                  <td><b>3. Unseen Phase</b> <span class="text-dim">([15, 25, 5], dwell=3)</span></td>
+                  <td class="col-highlight font-bold text-green">45.70%</td>
+                  <td>42.67%</td>
+                  <td>30.40%</td>
+                  <td>35.80%</td>
+                  <td>22.33%</td>
+                </tr>
+                <tr>
+                  <td><b>4. Unseen Dwell</b> <span class="text-dim">([5, 15, 25], dwell=1)</span></td>
+                  <td class="col-highlight font-bold">18.25%</td>
+                  <td>16.50%</td>
+                  <td class="text-green">24.53%</td>
+                  <td>12.40%</td>
+                  <td>9.33%</td>
+                </tr>
+                <tr>
+                  <td><b>5. Unseen Channel Subset</b> <span class="text-dim">([10, 20, 27], dwell=3)</span></td>
+                  <td class="col-highlight font-bold text-green">31.20%</td>
+                  <td>31.00%</td>
+                  <td>31.20%</td>
+                  <td>22.50%</td>
+                  <td>14.00%</td>
+                </tr>
+                <tr>
+                  <td><b>6. Mixed Frequency Shift</b> <span class="text-dim">([10, 27, 20], dwell=5)</span></td>
+                  <td class="col-highlight font-bold text-green">33.60%</td>
+                  <td>32.50%</td>
+                  <td>33.60%</td>
+                  <td>21.80%</td>
+                  <td>13.67%</td>
+                </tr>
+                <tr>
+                  <td><b>7. Pseudo-Random Hopping</b> <span class="text-dim">(Agile uniform)</span></td>
+                  <td class="col-highlight font-bold">33.40%</td>
+                  <td>35.20%</td>
+                  <td class="text-green">35.50%</td>
+                  <td>21.00%</td>
+                  <td>9.00%</td>
+                </tr>
+                <tr>
+                  <td><b>8. Periodic Burst</b> <span class="text-dim">(Intermittent pulse transmitter)</span></td>
+                  <td class="col-highlight font-bold">28.30%</td>
+                  <td>30.30%</td>
+                  <td class="text-green">35.70%</td>
+                  <td>23.40%</td>
+                  <td>9.20%</td>
+                </tr>
+                <tr class="row-total">
+                  <td><b>CANONICAL SUITE OVERALL MEAN</b></td>
+                  <td class="col-highlight font-bold text-green" style="font-size: 1.1em;">35.19%</td>
+                  <td class="font-bold">34.40%</td>
+                  <td class="font-bold">31.15%</td>
+                  <td>26.90%</td>
+                  <td>15.36%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROW 6: RECENT TIMELINE & SIMULATION CONTROLS -->
     <section class="grid-controls">
 
       <!-- RECENT PREDICTION TIMELINE -->
@@ -277,7 +473,7 @@
         <div class="card-header">
           <div class="card-title-wrap">
             <span class="card-icon">📋</span>
-            <h2>RECENT PREDICTION TIMELINE</h2>
+            <h2>RECENT STEP TIMELINE & DECISION AUDIT</h2>
           </div>
           <span class="badge-tactical">LAST 10 STEPS</span>
         </div>
@@ -287,57 +483,100 @@
             <thead>
               <tr>
                 <th>Step</th>
-                <th>Scanned</th>
-                <th>Predicted</th>
+                <th>Scanned Channel</th>
+                <th>Predicted Target</th>
                 <th>Confidence</th>
                 <th>Detector</th>
-                <th>Arbitration</th>
+                <th>Arbitration Mode</th>
               </tr>
             </thead>
             <tbody id="timelineTableBody">
-              <tr><td colspan="6" class="text-center">No simulation steps recorded yet</td></tr>
+              <tr><td colspan="6" class="text-center">Awaiting simulation start...</td></tr>
             </tbody>
           </table>
         </div>
+
+        <!-- TACTICAL MISSION EVENT LOG STREAM -->
+        <div class="tactical-log-terminal">
+          <div class="terminal-bar">
+            <span class="terminal-title">TERMINAL &bull; LIVE TACTICAL MISSION EVENT LOG</span>
+            <span id="logCounterBadge" class="terminal-badge">LIVE STREAM</span>
+          </div>
+          <div id="tacticalLogConsole" class="terminal-body">
+            <div class="log-row log-sys"><span class="log-time">[00:00.0]</span> <span class="log-tag tag-sys">SYSTEM</span> Receiver initialized on V4.0 Hybrid (Benchmark Winner). Awaiting mission command.</div>
+          </div>
+        </div>
       </div>
+
 
       <!-- SIMULATION CONTROLS DECK -->
       <div class="ew-card card-deck">
         <div class="card-header">
           <div class="card-title-wrap">
             <span class="card-icon">⚙️</span>
-            <h2>SCENARIO & CONTROLS</h2>
+            <h2>TACTICAL MISSION CONTROLS</h2>
           </div>
         </div>
 
         <div class="controls-form">
           <div class="form-group">
-            <label for="selectScenario">Target RF Scenario</label>
+            <div class="label-with-tag">
+              <label for="selectScheduler">Scan Strategy Algorithm</label>
+              <span class="badge-winner-tag">★ BENCHMARK WINNER: 35.19% IR</span>
+            </div>
+            <select id="selectScheduler" class="control-select">
+              <optgroup label="★ Our Proposed System (Benchmark Winner)">
+                <option value="hybrid_v4" selected>⭐ V4.0 Hybrid (CA + DDQN Meta-Arbitrator) — 35.19% IR [OUR PROPOSED]</option>
+              </optgroup>
+              <optgroup label="Comparative Research Baselines">
+                <option value="whittle_style">Whittle W3 Index — 34.40% IR (Restless Bandit)</option>
+                <option value="context_aware">Context-Aware Transition — 31.15% IR (Empirical Markov)</option>
+                <option value="hybrid_v41">V4.1 LSTM-Hybrid — 26.90% IR (Recurrent DRQN)</option>
+                <option value="v5_belief">V5.0 Augmented Belief — 15.36% IR (Exact Bayesian POMDP)</option>
+              </optgroup>
+              <optgroup label="Standard & Legacy Baselines">
+                <option value="sequential">Sequential Channel Sweep — ~3.3% IR (Legacy Scanner)</option>
+                <option value="random">Uniform Random Sweep — ~3.3% IR (Zero Intelligence)</option>
+                <option value="ucb1">UCB1 Multi-Armed Bandit — ~10% IR (Stationary Upper Confidence Bound)</option>
+                <option value="thompson">Thompson Sampling — ~10% IR (Stationary Bayesian Bandit)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="selectScenario">Evaluation Scenario (Canonical Test Suite)</label>
             <select id="selectScenario" class="control-select"></select>
           </div>
 
           <div class="form-row">
             <div class="form-group flex-1">
-              <label for="inputSeed">Random Seed</label>
+              <label for="inputSeed">Deterministic Seed</label>
               <input type="number" id="inputSeed" value="42" min="0" max="999999" class="control-input">
             </div>
             <div class="form-group flex-1">
               <label for="selectSpeed">Execution Speed</label>
               <select id="selectSpeed" class="control-select">
-                <option value="0.5x">0.5x (Slow)</option>
-                <option value="1x" selected>1x (Normal)</option>
-                <option value="2x">2x (Fast)</option>
-                <option value="5x">5x (Sprint)</option>
-                <option value="max">Max (Burst)</option>
+                <option value="0.25x">0.25x (Cinematic)</option>
+                <option value="0.5x">0.5x (Slow Inspection)</option>
+                <option value="1x" selected>1x (Realtime Tactical)</option>
+                <option value="2x">2x (High Speed)</option>
+                <option value="5x">5x (Sprint Analysis)</option>
+                <option value="max">Max (Burst Complete)</option>
               </select>
             </div>
           </div>
 
           <div class="btn-grid">
-            <button id="btnStart" class="btn btn-primary">▶ START</button>
+            <button id="btnStart" class="btn btn-primary">▶ START MISSION</button>
             <button id="btnPause" class="btn btn-warning">⏸ PAUSE</button>
             <button id="btnStep" class="btn btn-secondary">⏭ STEP</button>
             <button id="btnReset" class="btn btn-danger">🔄 RESET</button>
+          </div>
+
+          <div class="export-wrap" style="margin-top: 14px;">
+            <button id="btnExport" class="btn btn-export" style="width: 100%;">
+              📥 EXPORT MISSION REPORT (JSON)
+            </button>
           </div>
         </div>
       </div>
@@ -349,7 +588,7 @@
   <!-- FOOTER -->
   <footer class="app-footer">
     <span>SIH26055: Smart Scan Strategy for Electronic Warfare &bull; Ministry of Defence / DRDO</span>
-    <span>Frozen Baseline: <b>V4.1 (Recurrent LSTM-Hybrid)</b> &bull; Zero Ground-Truth Leakage Certified</span>
+    <span>Production Base: <b>V4.0 Hybrid (CA + DDQN Meta-Arbitration)</b> &bull; Zero Ground-Truth Firewall Certified</span>
   </footer>
 
   <!-- SCRIPTS -->

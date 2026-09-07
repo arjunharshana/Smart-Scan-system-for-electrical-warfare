@@ -462,6 +462,7 @@ class SimulationService:
                 "status_label": "SIGNAL DETECTED" if detected else "NO SIGNAL",
                 "receiver_bandwidth_mhz": round(rx.instantaneous_bandwidth_hz / 1e6, 1),
                 "sensitivity_dbm": rx.sensitivity_dbm,
+                "pfa": float(snap.probability_of_false_alarm or 0.0),
             },
             "performance": {
                 "interception_ratio_pct": interception_ratio,
@@ -471,6 +472,9 @@ class SimulationService:
                 "intercepted_opportunities": opp_summary.get("opportunities_covered", 0),
                 "total_detections": snap.hits,
                 "total_scans": snap.total_scans,
+                "prediction_accuracy": float(snap.prediction_accuracy or 0.0),
+                "average_intercept_time": float(snap.average_intercept_time or 0.0),
+                "average_reward": float(snap.average_reward or 0.0),
             },
             "arbitration": {
                 "mode": arb_mode,

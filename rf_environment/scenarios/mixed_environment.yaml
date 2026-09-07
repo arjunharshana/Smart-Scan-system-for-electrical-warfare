@@ -1,5 +1,5 @@
 simulation:
-  total_time_steps: 800
+  total_time_steps: 500
   time_step_ms: 10
   seed: 42
 
